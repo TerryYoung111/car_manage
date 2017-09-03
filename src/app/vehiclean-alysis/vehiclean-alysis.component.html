@@ -1,0 +1,82 @@
+<div class="alysis">
+  <div class="alysis-content">
+    <div class="title">生产用车月度展示</div>
+    <div class="search">
+      <ul>
+        <li>
+          <select class="" [(ngModel)]="group_id" (ngModelChange)="getCarlist($event)">
+            <option *ngFor="let group of grouplist" [value]="group.group_id">{{group.group_name}}</option>
+          </select>
+        </li>
+        <li>
+          <select class="" [(ngModel)]="car_id" (ngModelChange)="car_id = $event">
+            <option *ngFor="let car of carlist" [value]="car.car_id">{{car.plate_num}}</option>
+          </select>
+        </li>
+        <li>
+          <p-calendar [(ngModel)]="startDate" [locale]="cn" [showIcon]="true" placeholder="开始"
+          [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
+          <!-- <i class="fa fa-calendar"></i> -->
+        </li>
+        <li>
+          <p-calendar [(ngModel)]="endDate" [locale]="cn" [showIcon]="true" placeholder="结束"
+          [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
+        </li>
+        <li (click)="searchAnalysis()"><a href="javascript:;">搜&nbsp;索</a></li>
+      </ul>
+    </div>
+    <div class="pagination">
+      <ul>
+        <li><a href="javascript:;"><i class="fa fa-angle-left"></i></a></li>
+        <li (click)="leftPage()"><a href="javascript:;" [class.active]="isActive == 'left'">上一页</a></li>
+        <li (click)="rightPage()"><a href="javascript:;" [class.active]="isActive == 'right'">下一页</a></li>
+        <li><a href="javascript:;"><i class="fa fa-angle-right"></i></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="alysis-table">
+
+  <table cellspacing="0" *ngIf="dateArr">
+    <thead>
+      <tr>
+        <td rowspan="2">车辆情况</td>
+        <td rowspan="2">用车计划</td>
+        <td *ngFor="let day of dateArr">{{day.day}}</td>
+      </tr>
+      <tr>
+        <td *ngFor="let day of dateArr">{{day.week}}</td>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let caruse of analysislist">
+        <tr>
+          <td rowspan="3">
+            <span style="color:#000">{{caruse.value.group_name}}</span>
+            <span style="color:#000">{{caruse.value.plate_num}}</span>
+          </td>
+          <td><span class="formal">正式</span></td>
+          <td *ngFor="let day of dateArr">
+            <i *ngIf="caruse.value.use_info.normal[day.date]; else elseContain">{{caruse.value.use_info.normal[day.date]}}</i>
+            <ng-template #elseContain>0</ng-template>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="temporary">临时</span></td>
+          <td *ngFor="let day of dateArr">
+            <i *ngIf="caruse.value.use_info.temp[day.date]; else elseContain">{{caruse.value.use_info.temp[day.date]}}</i>
+            <ng-template #elseContain>0</ng-template>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="urgent">紧急</span></td>
+          <td *ngFor="let day of dateArr">
+            <i *ngIf="caruse.value.use_info.critical[day.date];else elseContain">{{caruse.value.use_info.critical[day.date]}}</i>
+            <ng-template #elseContain>0</ng-template>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

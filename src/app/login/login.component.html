@@ -1,0 +1,30 @@
+<!-- <p>
+  login works!
+</p>
+<button><a href="javascript:;" (click)="login()">登录</a></button>
+<button><a href="javascript:;" (click)="mainPage()">内容页</a></button> -->
+
+<div class="login">
+    <div class="login-title">
+      <a>
+        <img src="./assets/images/logo.png" alt="">
+        <span>成都供电段综合系统</span>
+      </a>
+
+    </div>
+    <form class="login-form">
+      <div>
+        <div>用户登录</div>
+        <div class="form-input">
+            <i class="user-icon"></i>
+            <input type="text" placeholder="身份证：" name="idCard" [(ngModel)]="idCard">
+        </div>
+        <div class="login-button">
+          <button (click)="loginGet()"><a href="javascript:;">登&nbsp;&nbsp;录</a></button>
+        </div>
+      </div>
+    </form>
+    <footer>
+      <small>copy&copy;2016-2020版权所有：成都铁路局成都铁路段&nbsp;&nbsp;&nbsp;&nbsp;技术出品：接触网技术科（信息）</small>
+    </footer>
+</div>

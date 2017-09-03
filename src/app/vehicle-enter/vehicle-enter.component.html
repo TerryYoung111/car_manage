@@ -1,0 +1,53 @@
+<p class="content-right-title">
+  车辆录入
+</p>
+<form class="cars-enter" #carsForm = "ngForm">
+  <div class="input-box">
+    <p>
+      <label for="">车辆品牌</label>
+      <input type="text" name="brand" [(ngModel)]="carsform.brand">
+    </p>
+    <p>
+      <label for="">车牌号</label>
+      <input type="text" name="plate_num" [(ngModel)] = "carsform.plate_num">
+    </p>
+    <p>
+      <label for="">所属部门</label>
+      <select class="" name="department" [(ngModel)]="carsform.group_id" (ngModelChange)="carsform.group_id = $event">
+        <option *ngFor="let group of add_condition.group" [value]="group.group_id">{{group.group_name}}</option>
+      </select>
+    </p>
+  </div>
+  <div class="input-box">
+    <p>
+      <label for="">驾驶员</label>
+      <select class="" name="driver" [(ngModel)]="carsform.driver" (ngModelChange)="carsform.driver = $event">
+        <option *ngFor="let driver of add_condition.driver" [value]="driver.user_id">{{driver.name}}</option>
+      </select>
+    </p>
+    <p>
+      <label for="">负责人</label>
+      <select class="" name="incharge" [(ngModel)]="carsform.incharge" (ngModelChange)="carsform.incharge = $event">
+        <option *ngFor="let incharge of add_condition.incharge" [value]="incharge.user_id">{{incharge.name}}</option>
+      </select>
+    </p>
+    <p>
+      <label for="">车辆管理员</label>
+      <select class="" name="manager" [(ngModel)]="carsform.manager" (ngModelChange)="carsform.manager = $event">
+        <option *ngFor="let manager of add_condition.manager" [value]="manager.user_id">{{manager.name}}</option>
+      </select>
+    </p>
+  </div>
+  <div class="input-box">
+    <p>
+      <label for="">车辆状态</label>
+      <select class="" name="car_status" [(ngModel)]="carsform.car_status" (ngModelChange)="carsform.car_status = $event">
+        <option *ngFor="let car_status of add_condition.car_status" [value]="car_status.id">{{car_status.name}}</option>
+      </select>
+    </p>
+  </div>
+  <p class="btn-box">
+    <button type="button" name="button" (click)="addCars(carsForm)"><a href="javascript:;">确&nbsp;&nbsp;认</a></button>
+    <button type="button" name="button"><a href="javascript:;" class="cancel">取&nbsp;&nbsp;消</a></button>
+  </p>
+</form>

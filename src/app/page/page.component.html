@@ -1,0 +1,47 @@
+<div class="headers">
+		<div class="header-left">
+			<a routerLink="../home"><img src="./assets/images/logo.png"></a>
+			<span>生产用车监督管理系统</span>
+		</div>
+		<ul class="header-middle">
+			<li [class.active]="routerActive == 'applyCar'">
+				<a routerLink="./applyCar" (click)="routerActive = 'applyCar'">
+					<img src="./assets/images/Equip.png">
+					<p><a>申请用车</a></p>
+				</a>
+			</li>
+			<li [class.active]="routerActive == 'vehicleReview'">
+				<a routerLink="./vehicleReview" (click)="routerActive = 'vehicleReview'">
+					<img src="./assets/images/Repair.png">
+					<p><a>车辆审核</a></p>
+				</a>
+			</li>
+			<li [class.active]="routerActive == 'vehicleManage'">
+				<a routerLink="./vehicleManage" (click)="routerActive = 'vehicleManage'">
+					<img src="./assets/images/Apply.png">
+					<p><a>车辆管理</a></p>
+				</a>
+			</li>
+			<li [class.active]="routerActive == 'vehicleanAlysis'">
+				<a routerLink="./vehicleanAlysis" (click)="routerActive = 'vehicleanAlysis'">
+					<img src="./assets/images/Analysis.png">
+					<p><a>车辆分析</a></p>
+				</a>
+			</li>
+		</ul>
+		<ul class="header-right">
+			<li>
+				<p>{{userInfo.name}}：欢迎您</p>
+				<p>{{mowTime}}</p>
+			</li>
+			<li (click)="logout()">
+				<a href="javascript:;"><img src="./assets/images/btn_quit.png">退出</a>
+			</li>
+		</ul>
+	</div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+  <footer>
+    <small>copy&copy;2016-2020版权所有：成都铁路局成都铁路段&nbsp;&nbsp;&nbsp;&nbsp;技术出品：接触网技术科（信息）</small>
+  </footer>

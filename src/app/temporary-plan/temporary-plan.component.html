@@ -1,0 +1,246 @@
+<p class="content-right-title">
+  临时用车计划
+</p>
+<div class="content-taps">
+  <ul class="taps-title">
+    <li><a href="javascript:;" [class.active]="isActive == 0" (click)="toggleStatus(0)">待审核项目</a></li>
+    <li><a href="javascript:;" [class.active]="isActive == 1" (click)="toggleStatus(1)">审核完成待出发</a></li>
+    <li><a href="javascript:;" [class.active]="isActive == 2" (click)="toggleStatus(2)">行驶中</a></li>
+    <li><a href="javascript:;" [class.active]="isActive == 3" (click)="toggleStatus(3)">用车历史记录</a></li>
+    <div class="table-btn">
+      <button (click)="showAdd()"><a href="javascript:;" class="active">
+        <i class="fa fa-plus"></i>
+        填写申请表
+      </a></button>
+    </div>
+  </ul>
+</div>
+<div class="table-box">
+  <p-dataTable [value]="applylist">
+    <p-column header="所属部门">
+      <ng-template let-data="rowData" pTemplate="body">
+        <ng-container *ngFor="let cars of carsCanapply">
+          <span *ngIf="data.car_id == cars.car_id">{{cars.group_name}}</span>
+        </ng-container>
+      </ng-template>
+    </p-column>
+      <p-column field="car_id" header="车牌号">
+        <ng-template let-data="rowData" pTemplate="body">
+          <ng-container *ngFor="let cars of carsCanapply">
+            <span *ngIf="data.car_id == cars.car_id">{{cars.plate_num}}</span>
+          </ng-container>
+        </ng-template>
+      </p-column>
+      <p-column header="品牌">
+        <ng-template let-data="rowData" pTemplate="body">
+          <ng-container *ngFor="let cars of carsCanapply">
+            <span *ngIf="data.car_id == cars.car_id">{{cars.brand}}</span>
+          </ng-container>
+        </ng-template>
+      </p-column>
+      <p-column field="application_user_name" header="申请人"></p-column>
+      <p-column header="驾驶员">
+        <ng-template let-data="rowData" pTemplate="body">
+          <ng-container *ngFor="let cars of carsCanapply">
+            <span *ngIf="data.car_id == cars.car_id">{{cars.drive_user_name}}</span>
+          </ng-container>
+        </ng-template>
+      </p-column>
+      <p-column header="运行区段">
+        <ng-template let-data="rowData" pTemplate="body">
+          {{data.start_city}} - {{data.end_city}}
+        </ng-template>
+      </p-column>
+      <p-column field="use_for" header="用车原因"></p-column>
+      <p-column field="application_status_txt" header="状态"></p-column>
+      <p-column header="评分表">
+        <ng-template let-data="rowData" pTemplate="body">
+            <button type="button" pButton label="派车单" (click)="applicationDetail(data.car_application_id)"></button>
+        </ng-template>
+      </p-column>
+  </p-dataTable>
+  <div class="table-pagination" *ngIf="total_page">
+    <ul>
+      <li (click)="getPageDataLeft()"><a href="javascript:;"><i class="fa fa-angle-left"></i></a></li>
+
+      <ng-container *ngIf="total_page<6">
+        <li *ngFor="let i of pageArr" (click)="getPageData(i)"><a href="javascript:;" [class.active]="cur_page == i">{{i}}</a></li>
+      </ng-container>
+
+      <ng-container *ngIf="total_page>=6">
+        <li (click)="getPageData(1)"><a href="javascript:;"  [class.active]="cur_page == 1">1</a></li>
+
+        <li *ngIf="cur_page <= 3" (click)="getPageData(2)"><a href="javascript:;"  [class.active]="cur_page == 2">2</a></li>
+        <li *ngIf="cur_page > 3" class="ellipses"><a href="javascript:;">···</a></li>
+
+        <li *ngIf="cur_page<=3" (click)="getPageData(3)"><a href="javascript:;"  [class.active]="cur_page == 3">3</a></li>
+        <li *ngIf="cur_page>3 && cur_page<total_page-2" (click)="getPageData(cur_page)"><a href="javascript:;"  [class.active]="cur_page == cur_page">{{cur_page}}</a></li>
+        <li *ngIf="cur_page>=total_page-2" (click)="getPageData(total_page-2)"><a href="javascript:;"  [class.active]="cur_page == total_page-2">{{total_page-2}}</a></li>
+
+        <li *ngIf="cur_page>=total_page-2" (click)="getPageData(total_page-1)"><a href="javascript:;"  [class.active]="cur_page == total_page-1">{{total_page-1}}</a></li>
+        <li *ngIf="cur_page < total_page-2" class="ellipses"><a href="javascript:;">···</a></li>
+
+        <li (click)="getPageData(total_page)"><a href="javascript:;"  [class.active]="cur_page == total_page">{{total_page}}</a></li>
+      </ng-container>
+
+      <li (click)="getPageDataRight()"><a href="javascript:;"><i class="fa fa-angle-right"></i></a></li>
+    </ul>
+  </div>
+</div>
+<!-- 申请表（填写）弹出框 -->
+<p-dialog header="添加派车单" [(visible)]="addDisplay" modal="modal" width="550" [closable]="false">
+  <form>
+    <div class="input-box">
+      <p>
+        <label for="">申请部门</label>
+        <select class="" name="department" [(ngModel)]="group" (ngModelChange)="getApplyuserlist($event)">
+          <option *ngFor="let group of applyGroup" [value]="group">{{group}}</option>
+        </select>
+      </p>
+      <p>
+        <label for="">申请人</label>
+        <select class="" name="application_user_id" [(ngModel)]="applyform.application_user_id" (ngModelChange)="applyform.application_user_id=$event">
+          <option *ngFor="let applyuser of applyUsers" [value]="applyuser.user_id">{{applyuser.name}}</option>
+        </select>
+      </p>
+    </div>
+    <div class="input-box">
+      <p>
+        <label for="">车辆</label>
+        <select class="" name="car" [(ngModel)]="applyform.car_id" (ngModelChange)="applyform.car_id = $event">
+          <option *ngFor="let car of carsCanapply" [value]="car.car_id">{{car.plate_num}}</option>
+        </select>
+      </p>
+      <p>
+        <label for="">车辆品牌</label>
+        <select class="" disabled="disabled">
+          <option *ngFor="let car of carsCanapply" value="applyform.car_id">
+            {{car.brand}}
+          </option>
+        </select>
+      </p>
+    </div>
+
+    <div class="input-box">
+      <p>
+        <label for="">出发城市</label>
+        <input type="text" name="start_city" [(ngModel)]="applyform.start_city">
+      </p>
+      <p>
+        <label for="">目的城市</label>
+        <input type="text" name="end_city" [(ngModel)]="applyform.end_city">
+      </p>
+    </div>
+    <div class="input-box">
+      <p>
+        <label for="">出车时间</label>
+        <p-calendar [showTime]="true" [(ngModel)]="applyform.startDate" name="startDate" [locale]="cn" [showIcon]="true" placeholder="出发"
+        [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
+      </p>
+      <p>
+        <label for="">收车时间</label>
+        <p-calendar [showTime]="true" [(ngModel)]="applyform.callbackDate" name="callbackDate" [locale]="cn" [showIcon]="true" placeholder="收车"
+        [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
+      </p>
+    </div>
+    <div class="input-box">
+      <!-- <p>
+        <label for="">安全监督员</label>
+        <input type="text" name="" value="">
+      </p> -->
+      <p>
+        <label for="">审核人</label>
+        <select name="check_user_id" [(ngModel)]="applyform.check_user_id" (ngModelChange)="applyform.check_user_id = $event">
+          <option *ngFor="let check of check_level" [value]="check.user_id">
+            {{check.name}}
+          </option>
+        </select>
+      </p>
+    </div>
+
+    <div class="input-box">
+      <p class="text-area">
+        <label for="">车辆用途</label>
+        <textarea name="apply_for" [(ngModel)]="applyform.apply_for"></textarea>
+      </p>
+    </div>
+  </form>
+        <p-footer>
+            <button type="button" pButton (click)="submitApply()" label="提交"></button>
+            <button type="button" pButton (click)="addDisplay=false" label="取消"></button>
+        </p-footer>
+</p-dialog>
+<!-- 计划详情表 -->
+<div class="plan-detail-dialog">
+  <p-dialog [(visible)]="planDisplay" modal="modal" width="550" [closable]="false">
+    <p-header>
+      <div class="plan-detail-dialog-title">
+        <button><a href="javascript:;">打&nbsp;&nbsp;印</a></button>
+      </div>
+      </p-header>
+    <form>
+      <div class="input-box">
+        <p>
+          <label for="">申请部门:</label>
+          <span>{{detailform.application_group_name}}</span>
+        </p>
+        <p>
+          <label for="">申请人:</label>
+          <span>{{detailform.application_user_name}}</span>
+        </p>
+      </div>
+      <div class="input-box">
+        <p>
+          <label for="">车牌号:</label>
+          <ng-container *ngFor="let cars of carsCanapply">
+            <span *ngIf="detailform.car_id == cars.car_id">{{cars.plate_num}}</span>
+          </ng-container>
+        </p>
+        <p>
+          <label for="">车辆品牌:</label>
+          <ng-container *ngFor="let cars of carsCanapply">
+            <span *ngIf="detailform.car_id == cars.car_id">{{cars.brand}}</span>
+          </ng-container>
+        </p>
+      </div>
+      <div class="input-box">
+        <p>
+          <label for="">出车时间:</label>
+          <span>{{detailform.start_time}}</span>
+        </p>
+        <p>
+          <label for="">收车时间:</label>
+          <span>{{detailform.end_time}}</span>
+        </p>
+      </div>
+      <div class="input-box">
+        <p>
+          <label for="">安全监督员:</label>
+          <ng-container *ngFor="let cars of carsCanapply">
+            <span *ngIf="detailform.car_id == cars.car_id">{{cars.manage_user_name}}</span>
+          </ng-container>
+        </p>
+        <p>
+          <label for="">车辆检查:</label>
+          <span>{{detailform.application_status_txt}}</span>
+        </p>
+      </div>
+      <div class="input-box">
+        <p class="text-area">
+          <label for="">车辆用途:</label>
+          <span  style="display:inline-block;width:80%">{{detailform.use_for}}</span>
+        </p>
+      </div>
+      <div class="input-box">
+        <p class="text-area">
+          <label for="">审核人:</label>
+          <span>{{detailform.check_info[1].check_user_name}}</span>
+        </p>
+      </div>
+    </form>
+          <p-footer>
+              <button type="button" pButton (click)="planDisplay=false" label="确定"></button>
+              <button type="button" pButton (click)="planDisplay=false" label="取消"></button>
+          </p-footer>
+  </p-dialog>
+</div>

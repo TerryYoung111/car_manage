@@ -1,0 +1,36 @@
+.cars-enter{
+  margin-top: 10px;
+  border-top: 1px solid #979797;
+  padding: 20px 10px 0 10px;
+  overflow: hidden;
+}
+.input-box{
+  margin: 10px 0;
+  overflow: hidden;
+}
+.input-box p{
+  float: left;
+  width: 30%;
+}
+.input-box p label{
+  display: inline-block;
+  width: 30%;
+}
+.input-box input,
+.input-box select{
+  width: 55%;
+  padding: 5px;
+  background: #f2f2f2;
+  border: 1px solid #cacaca;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 6px #ccc;
+}
+.input-box select{
+  width: 59%;
+}
+.btn-box{
+  margin-top: 30px;
+}
+.btn-box button{
+  margin-right: 50px;
+}

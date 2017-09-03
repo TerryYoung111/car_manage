@@ -1,0 +1,28 @@
+<div class="headers">
+		<div class="header-left">
+			<a href=""><img src="./assets/images/logo.png"></a>
+			<span>成都供电段综合系统</span>
+		</div>
+		<ul class="header-right">
+			<li>
+				<p>{{userInfo.name}}：欢迎您</p>
+				<p>{{mowTime}}</p>
+			</li>
+			<li (click)="logout()">
+				<a href="javascript:;"><img src="./assets/images/btn_quit.png">退出</a>
+			</li>
+		</ul>
+	</div>
+  <div class="content">
+    <div class="content-module">
+      <div><a routerLink="/page/applyCar" style="background-color:#5a8fd0">申请用车</a></div>
+      <div><a routerLink="/page/vehicleReview" style="background-color:#e0b502">车辆审核</a></div>
+    </div>
+    <div class="content-module">
+      <div><a routerLink="/page/vehicleManage" style="background-color:#6ad05a">车辆管理</a></div>
+      <div><a routerLink="/page/vehicleanAlysis" style="background-color:#5697f5">车辆分析</a></div>
+    </div>
+  </div>
+  <footer>
+    <small>copy&copy;2016-2020版权所有：成都铁路局成都铁路段&nbsp;&nbsp;&nbsp;&nbsp;技术出品：接触网技术科（信息）</small>
+  </footer>

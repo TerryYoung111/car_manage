@@ -1,0 +1,14 @@
+<ul class="content-left">
+  <li class="part_1 part" [class.active]="menuActive == 'formalPlan'">
+    <p class="part-title" (click)="menuActive = 'formalPlan'"><a routerLink="./formalPlan">正式用车计划</a></p>
+  </li>
+  <li class="part_2 part" [class.active]="menuActive == 'temporaryPlan'">
+    <p class="part-title" (click)="menuActive = 'temporaryPlan'"><a routerLink="./temporaryPlan">临时用车计划</a></p>
+  </li>
+  <li class="part_2 part" [class.active]="menuActive == 'urgentPlan'">
+    <p class="part-title" (click)="menuActive = 'urgentPlan'"><a routerLink="./urgentPlan">紧急用车</a></p>
+  </li>
+</ul>
+<div class="content-right">
+  <router-outlet></router-outlet>
+</div>

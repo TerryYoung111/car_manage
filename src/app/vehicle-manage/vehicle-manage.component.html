@@ -1,0 +1,11 @@
+<ul class="content-left">
+  <li class="part_1 part" [class.active]="menuActive == 'carsManage'">
+    <p class="part-title" (click)="menuActive = 'carsManage'"><a routerLink="./carsManage">车辆管理</a></p>
+  </li>
+  <li class="part_1 part" [class.active]="menuActive == 'vehicleEnter'">
+    <p (click)="menuActive = 'vehicleEnter'" class="part-title"><a routerLink="./vehicleEnter">录入车辆</a></p>
+  </li>
+</ul>
+<div class="content-right">
+  <router-outlet></router-outlet>
+</div>
