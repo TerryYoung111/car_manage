@@ -28,7 +28,6 @@ export class Tools{
 
   //时间字符串-精确到秒
   getStrTime(date){
-    console.log(date)
     let year,month,day,hour,min,sec;
     year = date.getFullYear();
     // month = date.getMonth()+1;

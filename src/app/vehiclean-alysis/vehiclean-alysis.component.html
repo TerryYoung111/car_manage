@@ -27,10 +27,10 @@
     </div>
     <div class="pagination">
       <ul>
-        <li><a href="javascript:;"><i class="fa fa-angle-left"></i></a></li>
+        <li (click)="cheangePage(1)"><a href="javascript:;"><i class="fa fa-angle-left"></i></a></li>
         <li (click)="leftPage()"><a href="javascript:;" [class.active]="isActive == 'left'">上一页</a></li>
         <li (click)="rightPage()"><a href="javascript:;" [class.active]="isActive == 'right'">下一页</a></li>
-        <li><a href="javascript:;"><i class="fa fa-angle-right"></i></a></li>
+        <li (click)="cheangePage(total_page)"><a href="javascript:;"><i class="fa fa-angle-right"></i></a></li>
       </ul>
     </div>
   </div>
@@ -59,21 +59,21 @@
           <td><span class="formal">正式</span></td>
           <td *ngFor="let day of dateArr">
             <i *ngIf="caruse.value.use_info.normal[day.date]; else elseContain">{{caruse.value.use_info.normal[day.date]}}</i>
-            <ng-template #elseContain>0</ng-template>
+            <ng-template #elseContain></ng-template>
           </td>
         </tr>
         <tr>
           <td><span class="temporary">临时</span></td>
           <td *ngFor="let day of dateArr">
             <i *ngIf="caruse.value.use_info.temp[day.date]; else elseContain">{{caruse.value.use_info.temp[day.date]}}</i>
-            <ng-template #elseContain>0</ng-template>
+            <ng-template #elseContain></ng-template>
           </td>
         </tr>
         <tr>
           <td><span class="urgent">紧急</span></td>
           <td *ngFor="let day of dateArr">
             <i *ngIf="caruse.value.use_info.critical[day.date];else elseContain">{{caruse.value.use_info.critical[day.date]}}</i>
-            <ng-template #elseContain>0</ng-template>
+            <ng-template #elseContain></ng-template>
           </td>
         </tr>
       </ng-container>

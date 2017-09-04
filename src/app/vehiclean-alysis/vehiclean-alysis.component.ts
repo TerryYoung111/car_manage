@@ -9,8 +9,8 @@ import { Tools } from '../common/common';
 })
 export class VehicleanAlysisComponent implements OnInit {
   public cn:any;
-  startDate:Date;
-  endDate:Date;
+  startDate:Date = new Date();
+  endDate:Date = new Date();
   dateArr:any[];
   analysislist:any[];
   grouplist:any[];
@@ -26,7 +26,7 @@ export class VehicleanAlysisComponent implements OnInit {
   //搜索条件
   getCondition(){
     this.dataService.analysisCondition(false).then(res => {
-      console.log('搜索条件',res);
+      // console.log('搜索条件',res);
       if (res.code == 0) {
           this.grouplist = res.data;
       }else{
@@ -36,8 +36,9 @@ export class VehicleanAlysisComponent implements OnInit {
   }
   //车辆选择
   getCarlist(group_id){
+    this.car_id = null;
     this.dataService.analysisCondition(group_id).then(res => {
-      console.log('车辆列表',res);
+      // console.log('车辆列表',res);
       if (res.code == 0) {
           this.carlist = res.data;
       }else{
@@ -52,7 +53,6 @@ export class VehicleanAlysisComponent implements OnInit {
       if (res.code == 0) {
           this.getDay();
           this.analysislist = this.tools.mapObj(res.data.car_use_list);
-          console.log(this.analysislist);
           this.cur_page = res.data.cur_page;
           this.total_page = res.data.total_page;
       }else{
@@ -77,18 +77,25 @@ export class VehicleanAlysisComponent implements OnInit {
       this.cur_page++;
       this.isActive = 'right';
       this.searchAnalysis();
-      console.log(this.cur_page)
     }
+  }
+  cheangePage(num){
+    this.cur_page = num;
+    this.searchAnalysis();
+  }
+  deepCopy(source) {
+    var result={};
+    for (var key in source) {
+         result[key] = typeof source[key]==='object'? this.deepCopy(source[key]): source[key];
+      }
+      return result;
   }
   // 获取时间区间每一天
   getDay(){
-    const startDate = this.startDate,endTime = this.endDate;
-    let startTime = startDate;
-    console.log(startTime,endTime);
+    let startTime = new Date(this.startDate);
+    let endTime = new Date(this.endDate);
     let dateArr = [];
     while((endTime.getTime()-startTime.getTime())>=0){
-      console.log(this.startDate);
-      // console.log(endTime.getTime()-startTime.getTime());
       let obj = {};
       let year = startTime.getFullYear();
       let month = (startTime.getMonth()+1).toString().length==1?"0"+(startTime.getMonth()+1).toString():startTime.getMonth()+1;
@@ -110,9 +117,6 @@ export class VehicleanAlysisComponent implements OnInit {
       obj=null;
       startTime.setDate(startTime.getDate()+1);
     }
-    startTime = startDate;
-    console.log(dateArr);
     this.dateArr = dateArr;
-    console.log(this.dateArr);
   }
 }

@@ -27,7 +27,7 @@ export class PageComponent implements OnInit {
   // 获取登录信息
   getLogininfo(){
     this.dataService.getLogininfo().then(res => {
-      console.log("登录信息",res);
+      // console.log("登录信息",res);
       if (res.code == 0) {
           this.getUserInfo(res.data.user_id);
           this.getPrivilege(res.data.user_id);
@@ -38,7 +38,7 @@ export class PageComponent implements OnInit {
   }
   getUserInfo(user_id){
     this.dataService.getUserInfo(user_id).then(res => {
-      console.log('用户信息',res)
+      // console.log('用户信息',res)
       if (res.code == 0) {
         this.userInfo = res.data;
       }else{
@@ -48,7 +48,7 @@ export class PageComponent implements OnInit {
   }
   getPrivilege(user_id){
     this.dataService.getPrivilege(user_id).then(res => {
-      console.log("权限",res);
+      // console.log("权限",res);
       if (res.code == 0) {
           this.privilegeInfo = res.data;
       }else{
@@ -58,7 +58,7 @@ export class PageComponent implements OnInit {
   }
   logout(){
     this.dataService.logout().then(res => {
-      console.log(res);
+      // console.log(res);
       if (res.code == 0) {
           this.router.navigateByUrl('login');
       }else{

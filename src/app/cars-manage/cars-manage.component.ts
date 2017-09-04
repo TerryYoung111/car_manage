@@ -50,7 +50,7 @@ export class CarsManageComponent implements OnInit {
   // 录入车辆筛选条件
   getAddcondition(){
     this.dataService.getAddcondition().then(res => {
-      console.log("录入条件",res);
+      // console.log("录入条件",res);
       if (res.code == 0) {
           this.add_condition = res.data;
       }else{
@@ -73,7 +73,7 @@ export class CarsManageComponent implements OnInit {
           this.select_groupid = this.group[0].value.group_id;
           this.select_brand = this.searchcondition.brand[0];
           this.selecte_status = this.searchcondition.car_status[0].id;
-          console.log(this.group)
+          // console.log(this.group)
       }else{
         alert(res.message);
       }
@@ -92,7 +92,7 @@ export class CarsManageComponent implements OnInit {
       status:this.selecte_status
     };
     this.dataService.getCars(options).then(res => {
-      console.log('车辆列表',res);
+      // console.log('车辆列表',res);
       if (res.code == 0) {
           this.car_list = res.data.car_list;
           this.cur_page = res.data.cur_page;
@@ -136,7 +136,7 @@ export class CarsManageComponent implements OnInit {
   }
   edit(data){
     this.carsDisplay = true;
-    console.log(data);
+    // console.log(data);
     this.editcars = {
       car_id:data.car_id,
       group:data.group_id,
@@ -150,10 +150,10 @@ export class CarsManageComponent implements OnInit {
   }
   sureEdit(){
     this.dataService.modifyCar(this.editcars).then(res => {
-      console.log("修改结果",res);
+      // console.log("修改结果",res);
       if (res.code == 0) {
           this.getCarsList();
-          alert('修改成功')
+          // alert('修改成功')
           this.carsDisplay = false;
       }else{
         alert(res.message);

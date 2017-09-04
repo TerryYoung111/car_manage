@@ -23,7 +23,7 @@ export class DataServiceService {
   }
   //登录
   loginGet(id_number){
-    console.log(this.headers)
+    // console.log(this.headers)
     let url = `${this.ip}/web_car/index.php/car/login/loginbyidcard?id_card=${id_number}`;
     return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
@@ -178,7 +178,7 @@ export class DataServiceService {
 
   //车辆分析筛选条件
   analysisCondition(group_id){
-    console.log(group_id)
+    // console.log(group_id)
     let param,url;
     group_id !==false ? param = `?group_id=${group_id}` : param = '';
     url = `${this.ip}/web_car/index.php/car/caranalysis/carcondition${param}`;
@@ -191,7 +191,7 @@ export class DataServiceService {
     let group,car,url;
     group_id ? group = `&group_id=${group_id}` : ' ';
     car_id ? car = `&car_id=${car_id}` : ' ';
-    url = `${this.ip}/web_car/index.php/car/caranalysis/search?start_time=${start_time}&end_time=${end_time}&page=${page}&page_size=100${group}${car}`;
+    url = `${this.ip}/web_car/index.php/car/caranalysis/search?start_time=${start_time}&end_time=${end_time}&page=${page}&page_size=5${group}${car}`;
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})

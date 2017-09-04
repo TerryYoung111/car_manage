@@ -36,7 +36,7 @@ export class VehicleEnterComponent implements OnInit {
   // 录入车辆筛选条件
   getAddcondition(){
     this.dataService.getAddcondition().then(res => {
-      console.log(res);
+      // console.log(res);
       if (res.code == 0) {
           this.add_condition = res.data;
       }else{
@@ -45,10 +45,10 @@ export class VehicleEnterComponent implements OnInit {
     })
   }
   addCars(carsForm:NgForm){
-    console.log(this.carsform);
-    console.log(carsForm);
+    // console.log(this.carsform);
+    // console.log(carsForm);
     this.dataService.addCar(this.carsform).then(res => {
-      console.log(res);
+      // console.log(res);
       if (res.code == 0) {
           alert('车辆录入成功！');
       }else{
