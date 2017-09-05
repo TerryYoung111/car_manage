@@ -28,16 +28,16 @@ export class Tools{
 
   //时间字符串-精确到秒
   getStrTime(date){
-    let year,month,day,hour,min,sec;
-    year = date.getFullYear();
-    // month = date.getMonth()+1;
-    // day = date.getDate();
-    month = (date.getMonth()+1).toString().length == 1 ? `0${(date.getMonth()+1).toString()}` : (date.getMonth()+1).toString();
-    day = (date.getDate()+1).toString().length == 1 ? `0${date.getDate().toString()}` : date.getDate().toString();
-    date.getHours()<10 ? hour = `0${date.getHours()}` : hour = date.getHours();
-    date.getMinutes()<10 ? min = `0${date.getMinutes()}` : min = date.getMinutes();
-    date.getSeconds()<10 ? sec = `0${date.getMinutes()}` : sec = date.getMinutes();
-    return `${year}-${month}-${day} ${hour}:${min}:${sec}`;
+    if (date) {
+      let year,month,day,hour,min,sec;
+      year = date.getFullYear();
+      month = (date.getMonth()+1).toString().length == 1 ? `0${(date.getMonth()+1).toString()}` : (date.getMonth()+1).toString();
+      day = (date.getDate()+1).toString().length == 1 ? `0${date.getDate().toString()}` : date.getDate().toString();
+      date.getHours()<10 ? hour = `0${date.getHours()}` : hour = date.getHours();
+      date.getMinutes()<10 ? min = `0${date.getMinutes()}` : min = date.getMinutes();
+      date.getSeconds()<10 ? sec = `0${date.getMinutes()}` : sec = date.getMinutes();
+      return `${year}-${month}-${day} ${hour}:${min}:${sec}`;
+    }
   }
 
 

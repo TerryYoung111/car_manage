@@ -408,7 +408,7 @@ footer{
 .ui-datatable .ui-datatable-thead>tr>th{
   padding: 18px 0 !important;
   font-size: 18px;
-  color: #e0b502;
+  color: #444;
 }
 .ui-datatable .ui-datatable-data>tr>td{
   padding: 7px 0 !important;

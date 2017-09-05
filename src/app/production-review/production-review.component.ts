@@ -44,7 +44,6 @@ export class ProductionReviewComponent implements OnInit {
       // console.log('审核列表',res);
       if (res.code == 0) {
         this.checklist = res.data.check_list;
-
         this.checklist.map((value,index)=>{
           this.dataService.applicationDetail(value.car_application_id).then(data => {
             for (let key in data.data) {
@@ -52,7 +51,7 @@ export class ProductionReviewComponent implements OnInit {
             }
           })
         });
-        // console.log(this.checklist)
+        console.log(this.checklist)
         this.cur_page = res.data.cur_page;
         this.total_num = res.data.total_num;
         this.total_page = res.data.total_page;

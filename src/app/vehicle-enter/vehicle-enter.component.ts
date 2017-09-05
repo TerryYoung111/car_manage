@@ -29,7 +29,7 @@ export class VehicleEnterComponent implements OnInit {
       incharge:"",
       manager:"",
       driver:'',
-      car_status:"",
+      car_status:""
     };
 
   }
@@ -45,16 +45,50 @@ export class VehicleEnterComponent implements OnInit {
     })
   }
   addCars(carsForm:NgForm){
-    // console.log(this.carsform);
-    // console.log(carsForm);
-    this.dataService.addCar(this.carsform).then(res => {
-      // console.log(res);
-      if (res.code == 0) {
-          alert('车辆录入成功！');
-      }else{
-        alert(res.message);
-      }
-    })
-
+    let errorStr = "";
+    let flag = true;
+    for (let key in carsForm.controls) {
+      console.log(key)
+        if (!carsForm.controls[key].value) {
+            flag = false;
+            switch(key){
+              case 'brand' : errorStr+="车辆品牌 ";
+              break;
+              case 'plate_num' : errorStr+="车牌号 ";
+              break;
+              case 'department' : errorStr+="所属部门 ";
+              break;
+              case 'driver' : errorStr+="驾驶员 ";
+              break;
+              case 'incharge' : errorStr+="负责人 ";
+              break;
+              case 'manager' : errorStr+="管理员 ";
+              break;
+              case 'car_status' : errorStr+="车辆状态 ";
+              break;
+            }
+        }
+    }
+    if (flag) {
+      this.dataService.addCar(this.carsform).then(res => {
+        // console.log(res);
+        if (res.code == 0) {
+            alert('车辆录入成功！');
+            this.carsform = {
+              brand:"",
+              plate_num:"",
+              group_id:"",
+              incharge:"",
+              manager:"",
+              driver:'',
+              car_status:""
+            }
+        }else{
+          alert(res.message);
+        }
+      })
+    }else{
+      alert(errorStr+"不能为空！")
+    }
   }
 }

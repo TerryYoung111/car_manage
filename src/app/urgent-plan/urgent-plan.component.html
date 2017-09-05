@@ -89,7 +89,7 @@
 </div>
 <!-- 申请表（填写）弹出框 -->
 <p-dialog header="添加派车单" [(visible)]="addDisplay" modal="modal" width="550" [closable]="false">
-  <form>
+  <form #addForm="ngForm">
     <div class="input-box">
       <p>
         <label for="">申请部门</label>
@@ -166,7 +166,7 @@
     </div>
   </form>
         <p-footer>
-            <button type="button" pButton (click)="submitApply()" label="提交"></button>
+            <button type="button" pButton (click)="submitApply(addForm)" label="提交"></button>
             <button type="button" pButton (click)="addDisplay=false" label="取消"></button>
         </p-footer>
 </p-dialog>

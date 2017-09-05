@@ -91,7 +91,7 @@
 </div>
 <!-- 申请表（填写）弹出框 -->
 <p-dialog header="添加派车单" [(visible)]="addDisplay" modal="modal" width="550" [closable]="false">
-  <form>
+  <form #addForm="ngForm">
     <div class="input-box">
       <p>
         <label for="">申请部门</label>
@@ -146,10 +146,6 @@
       </p>
     </div>
     <div class="input-box">
-      <!-- <p>
-        <label for="">安全监督员</label>
-        <input type="text" name="" value="">
-      </p> -->
       <p>
         <label for="">审核人</label>
         <select name="check_user_id" [(ngModel)]="applyform.check_user_id" (ngModelChange)="applyform.check_user_id = $event">
@@ -168,7 +164,7 @@
     </div>
   </form>
         <p-footer>
-            <button type="button" pButton (click)="submitApply()" label="提交"></button>
+            <button type="button" pButton (click)="submitApply(addForm)" label="提交"></button>
             <button type="button" pButton (click)="addDisplay=false" label="取消"></button>
         </p-footer>
 </p-dialog>

@@ -1,4 +1,5 @@
 import { Component, OnInit,Input } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { DataServiceService } from'../data-service.service';
 import { Http, Headers} from '@angular/http';
 import { Tools } from '../common/common';
@@ -140,20 +141,59 @@ export class FormalPlanComponent implements OnInit {
   }
 
   //提交申请
-  submitApply(){
-    // console.log(this.applyform);
-    let startDate,callbackDate;
-    startDate = this.tools.getStrTime(this.applyform.startDate);
-    callbackDate = this.tools.getStrTime(this.applyform.callbackDate);
-    this.dataService.addApplication(this.applyform,startDate,callbackDate,0).then(res => {
-      // console.log(res);
-      if (res.code == 0) {
-        this.getApplicationList(this.isActive);
+  submitApply(addform:NgForm){
+    let errorStr = "";
+    let flag = true;
+    for (let key in addform.controls) {
+        if (!addform.controls[key].value) {
+            flag = false;
+            switch(key){
+              case 'department' : errorStr+="申请部门 ";
+              break;
+              case 'application_user_id' : errorStr+="申请人 ";
+              break;
+              case 'car' : errorStr+="车辆 ";
+              break;
+              case 'start_city' : errorStr+="出发城市 ";
+              break;
+              case 'end_city' : errorStr+="目的城市 ";
+              break;
+              case 'startDate' : errorStr+="出发时间 ";
+              break;
+              case 'callbackDate' : errorStr+="收车时间 ";
+              break;
+              case 'check_user_id' : errorStr+="审核人 ";
+              break;
+              case 'apply_for' : errorStr+="车辆用途";
+              break;
+            }
+        }
+    }
+    if (flag) {
+      let startDate,callbackDate;
+      startDate = this.tools.getStrTime(this.applyform.startDate);
+      callbackDate = this.tools.getStrTime(this.applyform.callbackDate);
+      this.dataService.addApplication(this.applyform,startDate,callbackDate,0).then(res => {
+        if (res.code == 0) {
+          this.getApplicationList(this.isActive);
           this.addDisplay = false;
-      }else{
-        alert(res.message);
-      }
-    })
+          this.applyform = {
+            application_user_id:"",
+            car_id:'',
+            start_city:'',
+            end_city:'',
+            startDate:'',
+            callbackDate:'',
+            apply_for:'',
+            check_user_id:''
+          }
+        }else{
+          alert(res.message);
+        }
+      })
+    }else{
+      alert(errorStr+"不能为空")
+    }
   }
 
   //获取申请用车计划表
