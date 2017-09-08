@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ConfirmationService } from 'primeng/primeng';
 import { DataServiceService } from'../data-service.service';
 import { Http, Headers} from '@angular/http';
 import { Tools } from '../common/common';
@@ -7,7 +8,8 @@ import { Tools } from '../common/common';
 @Component({
   selector: 'app-urgent-plan',
   templateUrl: './urgent-plan.component.html',
-  styleUrls: ['./urgent-plan.component.css']
+  styleUrls: ['./urgent-plan.component.css'],
+  providers: [ConfirmationService]
 })
 export class UrgentPlanComponent implements OnInit {
   applylist: any[];
@@ -23,9 +25,13 @@ export class UrgentPlanComponent implements OnInit {
   applyUsers:any[];
   carsCanapply:any[];
   applyform:any;
-  constructor(private dataService: DataServiceService, private http: Http,private tools:Tools) { }
+  minDate:Date;
+  maxDate:Date;
+  constructor(private dataService: DataServiceService,private confirmationService:ConfirmationService, private http: Http,private tools:Tools) { }
 
   ngOnInit() {
+    this.minDate = new Date();
+    this.maxDate = new Date();
     this.cn = this.dataService.dataFormat;
     this.add_condition = {
       car_status:[],
@@ -41,8 +47,7 @@ export class UrgentPlanComponent implements OnInit {
       end_city:'',
       startDate:'',
       callbackDate:'',
-      apply_for:'',
-      check_user_id:''
+      apply_for:''
     }
     this.detailform = {
       application_user_id:"",
@@ -172,30 +177,51 @@ export class UrgentPlanComponent implements OnInit {
       let startDate,callbackDate;
       startDate = this.tools.getStrTime(this.applyform.startDate);
       callbackDate = this.tools.getStrTime(this.applyform.callbackDate);
-      this.dataService.addApplication(this.applyform,startDate,callbackDate,2).then(res => {
-        // console.log(res);
-        if (res.code == 0) {
-            this.getApplicationList(this.isActive);
-            this.addDisplay =false;
-            this.applyform = {
-              application_user_id:"",
-              car_id:'',
-              start_city:'',
-              end_city:'',
-              startDate:'',
-              callbackDate:'',
-              apply_for:'',
-              check_user_id:''
-            }
-        }else{
-          alert(res.message);
-        }
-      })
+      if (this.applyform.startDate < this.applyform.callbackDate) {
+        this.dataService.addApplication(this.applyform,startDate,callbackDate,2).then(res => {
+          // console.log(res);
+          if (res.code == 0) {
+              this.getApplicationList(this.isActive);
+              this.addDisplay =false;
+              this.applyform = {
+                application_user_id:"",
+                car_id:'',
+                start_city:'',
+                end_city:'',
+                startDate:'',
+                callbackDate:'',
+                apply_for:'',
+                check_user_id:''
+              }
+          }else{
+            alert(res.message);
+          }
+        })
+      }else{
+        alert("出发时间不能大于收车时间！")
+      }
     }else{
       alert(errorStr+"不能为空！");
     }
   }
-
+  //收车
+  callbackcar(data){
+    console.log(data);
+    this.confirmationService.confirm({
+        message: `确定${this.tools.getStrDate(false)}收车？`,
+        header: '提示',
+        accept: () => {
+          this.dataService.modifyCarStatus(data.car_application_id,3).then(res => {
+            console.log(res);
+            if (res.code == 0) {
+                this.getApplicationList(this.isActive);
+            }else{
+              alert(res.message);
+            }
+          })
+        }
+    })
+  }
   //获取申请用车计划表
   getApplicationList(status){
     this.dataService.applicationList(2,status,this.cur_page,10).then(res => {

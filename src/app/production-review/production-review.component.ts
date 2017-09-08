@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { ConfirmationService } from 'primeng/primeng';
 import { DataServiceService } from '../data-service.service';
 import { Tools } from '../common/common';
@@ -9,15 +9,18 @@ import { Tools } from '../common/common';
   providers: [DataServiceService,ConfirmationService,Tools]
 })
 export class ProductionReviewComponent implements OnInit {
+  @Input() type;
   isActive:number = 0;
   checkDisplay:boolean = false;
-  checklist:any[];
+  checklist:any[]=[];
   carsCanapply:any[];
   application_list:any[] = [];
   select_check_user:number;
+  today:string;
   constructor(private dataService:DataServiceService , private confirmationService:ConfirmationService , private tools:Tools) { }
 
   ngOnInit() {
+    this.today = this.tools.getStrDate(false);
     this.getCarsCanapply();
     // this.getCheckuser();
     this.getCheckList(this.isActive);
@@ -26,6 +29,7 @@ export class ProductionReviewComponent implements OnInit {
 
   toogleStatus(value){
     this.isActive = value;
+
     this.getCheckList(value);
   }
   //可申请车辆
@@ -39,19 +43,27 @@ export class ProductionReviewComponent implements OnInit {
       }
     })
   }
+  getCheck(type){
+    this.type = type;
+    this.getCheckList(this.isActive);
+  }
   getCheckList(status){
-    this.dataService.getCheckList(status,this.cur_page,10).then(res => {
+    this.dataService.getCheckList(this.type,status,this.cur_page,10).then(res => {
       // console.log('审核列表',res);
       if (res.code == 0) {
         this.checklist = res.data.check_list;
+        console.log(res.data.check_list);
+        let applylist = [];
         this.checklist.map((value,index)=>{
-          this.dataService.applicationDetail(value.car_application_id).then(data => {
-            for (let key in data.data) {
-                value[key] = data.data[key];
-            }
-          })
+            this.dataService.applicationDetail(value.car_application_id).then(data => {
+              for (let key in data.data) {
+                  value[key] = data.data[key];
+              }
+
+            })
         });
-        console.log(this.checklist)
+
+        // console.log(this.checklist)
         this.cur_page = res.data.cur_page;
         this.total_num = res.data.total_num;
         this.total_page = res.data.total_page;
@@ -59,8 +71,26 @@ export class ProductionReviewComponent implements OnInit {
       }
 
     })
-  }
 
+  }
+  setoff(data){
+    console.log(data);
+    this.confirmationService.confirm({
+        message: '是否确定派车？',
+        header: '提示',
+        accept: () => {
+          this.dataService.modifyCarStatus(data.car_application_id,2).then(res => {
+            console.log(res);
+            if (res.code == 0) {
+                this.getCheckList(this.isActive);
+            }else{
+              alert(res.message);
+            }
+          })
+        }
+    })
+
+  }
   //页码生成
   cur_page:number = 1;
   total_num:number;
@@ -125,7 +155,7 @@ export class ProductionReviewComponent implements OnInit {
       if (res.code == 0) {
           this.check_level = this.checkLevelMap(res.data,parseInt(check_level_number)+1);
           if (this.check_level) {
-            this.select_check_user = this.check_level[0].user_id;
+            // this.select_check_user = this.check_level[0].user_id;
           }
           // console.log(this.check_level)
       }else{

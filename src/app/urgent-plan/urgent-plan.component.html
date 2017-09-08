@@ -53,11 +53,20 @@
       </p-column>
       <p-column field="use_for" header="用车原因"></p-column>
       <p-column field="application_status_txt" header="状态"></p-column>
-      <p-column header="评分表">
-        <ng-template let-data="rowData" pTemplate="body">
-            <button type="button" pButton label="派车单" (click)="applicationDetail(data.car_application_id)"></button>
-        </ng-template>
-      </p-column>
+      <ng-container *ngIf="isActive != 2">
+        <p-column header="评分表">
+          <ng-template let-data="rowData" pTemplate="body">
+              <button type="button" pButton label="派车单" (click)="applicationDetail(data.car_application_id)"></button>
+          </ng-template>
+        </p-column>
+      </ng-container>
+      <ng-container *ngIf="isActive == 2">
+        <p-column header="评分表">
+          <ng-template let-data="rowData" pTemplate="body">
+              <button type="button" pButton label="收车" (click)="callbackcar(data)"></button>
+          </ng-template>
+        </p-column>
+      </ng-container>
   </p-dataTable>
   <div class="table-pagination" *ngIf="total_page">
     <ul>
@@ -134,20 +143,16 @@
     <div class="input-box">
       <p>
         <label for="">出车时间</label>
-        <p-calendar [showTime]="true" [(ngModel)]="applyform.startDate" name="startDate" [locale]="cn" [showIcon]="true" placeholder="出发"
+        <p-calendar [showTime]="true" [minDate]="minDate" [maxDate]="maxDate" [(ngModel)]="applyform.startDate" name="startDate" [locale]="cn" [showIcon]="true" placeholder="出发"
         [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
       </p>
       <p>
         <label for="">收车时间</label>
-        <p-calendar [showTime]="true" [(ngModel)]="applyform.callbackDate" name="callbackDate" [locale]="cn" [showIcon]="true" placeholder="收车"
+        <p-calendar [showTime]="true" [minDate]="minDate" [(ngModel)]="applyform.callbackDate" name="callbackDate" [locale]="cn" [showIcon]="true" placeholder="收车"
         [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
       </p>
     </div>
-    <div class="input-box">
-      <!-- <p>
-        <label for="">安全监督员</label>
-        <input type="text" name="" value="">
-      </p> -->
+    <!-- <div class="input-box">
       <p>
         <label for="">审核人</label>
         <select name="check_user_id" [(ngModel)]="applyform.check_user_id" (ngModelChange)="applyform.check_user_id = $event">
@@ -156,7 +161,7 @@
           </option>
         </select>
       </p>
-    </div>
+    </div> -->
 
     <div class="input-box">
       <p class="text-area">
@@ -231,12 +236,12 @@
             <span  style="display:inline-block;width:80%">{{detailform.use_for}}</span>
           </p>
         </div>
-        <div class="input-box">
+        <!-- <div class="input-box">
           <p class="text-area">
             <label for="">审核人:</label>
             <span>{{detailform.check_info[4].check_user_name}}</span>
           </p>
-        </div>
+        </div> -->
       </form>
           <p-footer>
               <button type="button" pButton (click)="planDisplay=false" label="确定"></button>

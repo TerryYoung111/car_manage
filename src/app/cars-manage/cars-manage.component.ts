@@ -45,7 +45,7 @@ export class CarsManageComponent implements OnInit {
     }
     this.getAddcondition();
     this.getSearchcondition();
-    // this.getCarsList();
+    this.getCarsList();
   }
   // 录入车辆筛选条件
   getAddcondition(){
@@ -61,18 +61,21 @@ export class CarsManageComponent implements OnInit {
   // 获取搜索级联条件
   group:any[];
   search_name:string;
-  select_groupid:number;
-  select_brand:string;
-  selecte_status:number;
+  select_groupid:number = -1;
+  select_brand:string = "null";
+  selecte_status:number = -1;
   getSearchcondition(){
     this.dataService.getSearchcondition().then(res => {
       console.log(res);
       if (res.code == 0) {
           this.searchcondition = res.data;
           this.group = this.tools.mapObj(res.data.group);
-          this.select_groupid = this.group[0].value.group_id;
-          this.select_brand = this.searchcondition.brand[0];
-          this.selecte_status = this.searchcondition.car_status[0].id;
+          // this.select_groupid = this.group[0].value.group_id;
+          this.select_groupid = -1;
+          // this.select_brand = this.searchcondition.brand[0];
+          this.select_brand = "null";
+          // this.selecte_status = this.searchcondition.car_status[0].id;
+          this.selecte_status = -1;
           // console.log(this.group)
       }else{
         alert(res.message);
@@ -80,7 +83,22 @@ export class CarsManageComponent implements OnInit {
 
     })
   }
-
+  selectGroup(event){
+    this.cur_page = 1;
+    this.select_groupid = event;
+  }
+  selectCar(event){
+    this.cur_page = 1;
+    this.select_brand = event;
+  }
+  selectStatus(event){
+    this.cur_page = 1;
+    this.selecte_status = event;
+  }
+  buttonSearch(){
+    this.cur_page = 1;
+    this.getCarsList();
+  }
   // 搜索车辆列表
   getCarsList(){
     let options = {
@@ -141,10 +159,10 @@ export class CarsManageComponent implements OnInit {
       car_id:data.car_id,
       group:data.group_id,
       plate_num:data.plate_num,
-      incharge:data.incharge_user_id,
-      manager:data.manage_user_id,
+      incharge:data.incharge_user_name,
+      manager:data.manage_user_name,
       brand:data.brand,
-      driver:data.drive_user_id,
+      driver:data.drive_user_name,
       car_status:data.car_status
     }
   }

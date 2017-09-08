@@ -15,12 +15,6 @@ export class DataServiceService {
             monthNamesShort: [ "1", "2", "3", "4", "5", "6","7", "8", "9", "10", "11", "12" ]
         };
   constructor(private http:Http) { }
-  test(){
-    let url = "http://127.0.0.1:8888";
-    return this.http.get(url).toPromise()
-    .then(res => <DefaultData> res.json())
-    .then(data => {return data});
-  }
   //登录
   loginGet(id_number){
     // console.log(this.headers)
@@ -68,7 +62,7 @@ export class DataServiceService {
 
   //录入车辆
   addCar(obj){
-    let url = `${this.ip}/web_car/index.php/car/carmanager/add?car_status=${obj.car_status}&group_id=${obj.group_id}&brand=${obj.brand}&plate_num=${obj.plate_num}&incharge_user_id=${obj.incharge}&manage_user_id=${obj.manager}&drive_user_id=7`;
+    let url = `${this.ip}/web_car/index.php/car/carmanager/add?car_status=${obj.car_status}&group_id=${obj.group_id}&brand=${obj.brand}&plate_num=${obj.plate_num}&incharge_user_name=${obj.incharge}&manage_user_name=${obj.manager}&drive_user_name=${obj.driver}`;
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -76,7 +70,7 @@ export class DataServiceService {
 
   //修改车辆信息
   modifyCar(obj){
-    let url = `${this.ip}/web_car/index.php/car/carmanager/modify?car_id=${obj.car_id}&car_status=${obj.car_status}&drive_user_id=${obj.driver}&incharge_user_id=${obj.incharge}&manage_user_id=${obj.manager}`;
+    let url = `${this.ip}/web_car/index.php/car/carmanager/modify?car_id=${obj.car_id}&car_status=${obj.car_status}&drive_user_name=${obj.driver}&incharge_user_name=${obj.incharge}&manage_user_name=${obj.manager}`;
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -99,7 +93,12 @@ export class DataServiceService {
   }
   // 搜索车辆列表
   getCars(obj){
-    let url = `${this.ip}/web_car/index.php/car/carmanager/search?name=${obj.name}&page_size=${obj.page_size}&page=${obj.page}&group_id=${obj.group_id}&brand=${obj.brand}&car_status=${obj.status}`;
+    let group_id,brand,status;
+    obj.group_id == -1 ? group_id=" " : group_id=`&group_id=${obj.group_id}`;
+    obj.brand === "null" ? brand=" " : brand=`&brand=${obj.brand}`;
+    obj.status == -1 ? status=" " : status=`&status=${obj.status}`;
+
+    let url = `${this.ip}/web_car/index.php/car/carmanager/search?name=${obj.name}&page_size=${obj.page_size}&page=${obj.page}${group_id}${brand}${status}`;
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -135,7 +134,13 @@ export class DataServiceService {
   }
   // 车辆申请接口
   addApplication(form,startDate,callbackDate,type){
-    let url = `${this.ip}/web_car/index.php/car/carapplication/add?application_user_id=${form.application_user_id}&car_id=${form.car_id}&application_type=${type}&start_time=${startDate}&end_time=${callbackDate}&start_city=${form.start_city}&end_city=${form.end_city}&use_for=${form.apply_for}&check_user_id=${form.check_user_id}`;
+    let url;
+    if (form.check_user_id) {
+        url = `${this.ip}/web_car/index.php/car/carapplication/add?application_user_id=${form.application_user_id}&car_id=${form.car_id}&application_type=${type}&start_time=${startDate}&end_time=${callbackDate}&start_city=${form.start_city}&end_city=${form.end_city}&use_for=${form.apply_for}&check_user_id=${form.check_user_id}`;
+    }else{
+      url = `${this.ip}/web_car/index.php/car/carapplication/add?application_user_id=${form.application_user_id}&car_id=${form.car_id}&application_type=${type}&start_time=${startDate}&end_time=${callbackDate}&start_city=${form.start_city}&end_city=${form.end_city}&use_for=${form.apply_for}&check_user_id=1`;
+    }
+    console.log(url)
     return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -155,10 +160,15 @@ export class DataServiceService {
     .then(res => <DefaultData> res.json())
     .then(data => {return data});
   }
-
+  modifyCarStatus(car_id,status){
+    let url = `${this.ip}/web_car/index.php/car/carapplication/modify?id=${car_id}&status=${status}`;
+    return this.http.get(url).toPromise()
+    .then(res => <DefaultData> res.json())
+    .then(data => {return data})
+  }
   //获取审核列表
-  getCheckList(status,page,page_size){
-    let url = `${this.ip}/web_car/index.php/car/carcheck/lists?page=${page}&page_size=${page_size}&status=${status}`;
+  getCheckList(type,status,page,page_size){
+    let url = `${this.ip}/web_car/index.php/car/carcheck/lists?page=${page}&page_size=${page_size}&application_type=${type}&status=${status}`;
     return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -169,7 +179,7 @@ export class DataServiceService {
     if (check_user_id) {
         url = `${this.ip}/web_car/index.php/car/carcheck/modify?id=${id}&status=${status}&check_user_id=${check_user_id}`;
     }else{
-      url = `${this.ip}/web_car/index.php/car/carcheck/modify?id=${id}&status=${status}`;
+      url = `${this.ip}/web_car/index.php/car/carcheck/modify?id=${id}&status=${status}&check_user_id=0`;
     }
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())

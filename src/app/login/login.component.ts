@@ -24,8 +24,4 @@ export class LoginComponent implements OnInit {
       }
     })
   }
-
-  mainPage(){
-    this.router.navigateByUrl('/page');
-  }
 }

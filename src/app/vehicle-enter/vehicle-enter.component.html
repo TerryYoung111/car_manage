@@ -21,21 +21,24 @@
   <div class="input-box">
     <p>
       <label for="">驾驶员</label>
-      <select class="" name="driver" [(ngModel)]="carsform.driver" (ngModelChange)="carsform.driver = $event">
+      <!-- <select class="" name="driver" [(ngModel)]="carsform.driver" (ngModelChange)="carsform.driver = $event">
         <option *ngFor="let driver of add_condition.driver" [value]="driver.user_id">{{driver.name}}</option>
-      </select>
+      </select> -->
+      <input type="text" name="" value="" name="driver" [(ngModel)]="carsform.driver">
     </p>
     <p>
       <label for="">负责人</label>
-      <select class="" name="incharge" [(ngModel)]="carsform.incharge" (ngModelChange)="carsform.incharge = $event">
+      <!-- <select class="" name="incharge" [(ngModel)]="carsform.incharge" (ngModelChange)="carsform.incharge = $event">
         <option *ngFor="let incharge of add_condition.incharge" [value]="incharge.user_id">{{incharge.name}}</option>
-      </select>
+      </select> -->
+      <input type="text" name="incharge" [(ngModel)]="carsform.incharge">
     </p>
     <p>
       <label for="">车辆管理员</label>
-      <select class="" name="manager" [(ngModel)]="carsform.manager" (ngModelChange)="carsform.manager = $event">
+      <!-- <select class="" name="manager" [(ngModel)]="carsform.manager" (ngModelChange)="carsform.manager = $event">
         <option *ngFor="let manager of add_condition.manager" [value]="manager.user_id">{{manager.name}}</option>
-      </select>
+      </select> -->
+      <input type="text" name="manager" [(ngModel)]="carsform.manager">
     </p>
   </div>
   <div class="input-box">

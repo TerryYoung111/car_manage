@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   userInfo:any;
   mowTime:string;
   privilegeInfo:any;
+  id_card:string;
   constructor(private router:Router, private dataService:DataServiceService, private tools:Tools) { }
 
   ngOnInit() {
@@ -36,9 +37,10 @@ export class HomeComponent implements OnInit {
   }
   getUserInfo(user_id){
     this.dataService.getUserInfo(user_id).then(res => {
-      // console.log('用户信息',res)
+      console.log('用户信息',res)
       if (res.code == 0) {
         this.userInfo = res.data;
+        this.id_card = res.data.idCard;
       }else{
         alert(res.message);
       }

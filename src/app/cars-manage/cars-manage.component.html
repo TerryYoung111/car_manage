@@ -5,23 +5,26 @@
 <div class="content-taps search">
   <ul class="taps-title">
     <li>
-      <select placholder="所属部门" class="" name="" [(ngModel)]="select_groupid" (ngModelChange)="select_groupid = $event">
+      <select placholder="所属部门" class="" name="" [(ngModel)]="select_groupid" (ngModelChange)="selectGroup($event)">
+        <option [value]= -1>所有车间</option>
         <option *ngFor="let item of group" [value]="item.value.group_id">{{item.value.department_name}}</option>
       </select>
     </li>
     <li>
-      <select placholder="车辆品牌" class="" name="" [(ngModel)]="select_brand" (ngModelChange)="select_brand = $event">
+      <select placholder="车辆品牌" class="" name="" [(ngModel)]="select_brand" (ngModelChange)="selectCar($event)">
+        <option [value]= "null">所有品牌</option>
         <option *ngFor="let brand of searchcondition.brand" [value]="brand">{{brand}}</option>
       </select>
     </li>
     <li><input type="text" placeholder="姓名" [(ngModel)]="search_name"></li>
     <li>
-      <select placholder="车辆状态" class="" name="" [(ngModel)]="selecte_status" (ngModelChange)="selecte_status = $event">
+      <select placholder="车辆状态" class="" name="" [(ngModel)]="selecte_status" (ngModelChange)="selectStatus($event)">
+        <option [value]= -1>所有状态</option>
         <option *ngFor="let status of searchcondition.car_status" [value]="status.id">{{status.name}}</option>
       </select>
     </li>
     <li class="table-btn">
-      <button (click)="getCarsList()"><a href="javascript:;" class="active">
+      <button (click)="buttonSearch()"><a href="javascript:;" class="active">
         搜&nbsp;索
       </a></button>
     </li>
@@ -38,26 +41,26 @@
       </p-column>
       <p-column field="plate_num" header="车牌号"></p-column>
       <p-column field="brand" header="品牌"></p-column>
-      <p-column field="incharge_user_id" header="负责人">
-        <ng-template let-data="rowData" pTemplate="body">
+      <p-column field="incharge_user_name" header="负责人">
+        <!-- <ng-template let-data="rowData" pTemplate="body">
             <ng-container *ngFor="let incharge of add_condition.incharge">
               <span *ngIf="data.incharge_user_id == incharge.user_id">{{incharge.name}}</span>
             </ng-container>
-        </ng-template>
+        </ng-template> -->
       </p-column>
-      <p-column field="drive_user_id" header="驾驶员">
-        <ng-template let-data="rowData" pTemplate="body">
+      <p-column field="drive_user_name" header="驾驶员">
+        <!-- <ng-template let-data="rowData" pTemplate="body">
             <ng-container *ngFor="let driver of add_condition.driver">
               <span *ngIf="data.drive_user_id == driver.user_id">{{driver.name}}</span>
             </ng-container>
-        </ng-template>
+        </ng-template> -->
       </p-column>
-      <p-column field="manage_user_id" header="管理车辆人">
-        <ng-template let-data="rowData" pTemplate="body">
+      <p-column field="manage_user_name" header="管理车辆人">
+        <!-- <ng-template let-data="rowData" pTemplate="body">
             <ng-container *ngFor="let manager of add_condition.manager">
               <span *ngIf="data.manage_user_id == manager.user_id">{{manager.name}}</span>
             </ng-container>
-        </ng-template>
+        </ng-template> -->
       </p-column>
       <p-column field="car_status_txt" header="车辆状态"></p-column>
       <p-column header="操作">
@@ -119,23 +122,26 @@
     <div class="input-box">
       <p>
         <label for="">车辆管理员</label>
-        <select class="" name="manager" [(ngModel)]="editcars.manager" (ngModelChange)="editcars.manager = $event">
+        <!-- <select class="" name="manager" [(ngModel)]="editcars.manager" (ngModelChange)="editcars.manager = $event">
           <option *ngFor="let manager of add_condition.manager" [value]="manager.user_id">{{manager.name}}</option>
-        </select>
+        </select> -->
+        <input type="text" name="manager" [(ngModel)]="editcars.manager">
       </p>
       <p>
         <label for="">负责人</label>
-        <select class="" name="incharge" [(ngModel)]="editcars.incharge" (ngModelChange)="editcars.incharge = $event">
+        <!-- <select class="" name="incharge" [(ngModel)]="editcars.incharge" (ngModelChange)="editcars.incharge = $event">
           <option *ngFor="let incharge of add_condition.incharge" [value]="incharge.user_id">{{incharge.name}}</option>
-        </select>
+        </select> -->
+        <input type="text" name="incharge" [(ngModel)]="editcars.incharge">
       </p>
     </div>
     <div class="input-box">
       <p>
         <label for="">驾驶员</label>
-        <select class="" name="driver" [(ngModel)]="editcars.driver" (ngModelChange)="editcars.driver = $event">
+        <!-- <select class="" name="driver" [(ngModel)]="editcars.driver" (ngModelChange)="editcars.driver = $event">
           <option *ngFor="let driver of add_condition.driver" [value]="driver.user_id">{{driver.name}}</option>
-        </select>
+        </select> -->
+        <input type="text" name="driver" [(ngModel)]="editcars.driver">
       </p>
       <p>
         <label for="">车辆状态</label>
