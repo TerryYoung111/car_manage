@@ -29,9 +29,9 @@ button{
 button>a{
   display: inline-block;
   padding: 5px 10px;
-  border: 1px solid #e0b502;
+  border: 1px solid #c39a0c;
   border-radius: 5px;
-  background: #e0b502;
+  background: #c39a0c;
   color: #fff;
 }
 button>a.cancel{
@@ -143,7 +143,7 @@ footer{
 
 /*头部的导航部分*/
 .headers{
-	background: #e0b502 ;
+	background: #c39a0c ;
 	width: 100%;
 	min-width: 1300px;
 	color: #fff;
@@ -287,17 +287,17 @@ footer{
   border-radius: 5px;
 }
 .table-btn>button>a{
-  border: 1px solid #e0b502;
+  border: 1px solid #c39a0c;
   display: inline-block;
   padding: 8px 10px;
   border-radius: 5px;
   background: #fff;
-  color: #e0b502;
+  color: #c39a0c;
 }
 .table-btn>button>a.active{
-  border: 1px solid #e0b502;
+  border: 1px solid #c39a0c;
   color: #fff;
-  background: #e0b502;
+  background: #c39a0c;
 }
 .search{
   margin-bottom: 20px;
@@ -309,19 +309,32 @@ footer{
 .search li:last-child{
   width: 10%;
 }
-.search li input,
+.search li input{
+  width: 80%;
+  height: 46px;
+  padding: 0 5px;
+  margin-top: 5px;
+  border: 1px solid #c39a0c;
+  font-size: 16px;
+  border-radius: 5px;
+}
 .search li select{
   width: 80%;
-  padding: 5px;
+  height: 48px;
+  padding: 0 5px;
   margin-top: 5px;
-  border: 1px solid #e0b502;
+  border: 1px solid #c39a0c;
+  font-size: 16px;
   border-radius: 5px;
 }
 .search .table-btn{
   margin-top: 5px;
 }
 .search .table-btn button a{
-  padding: 5px 14px;
+  height: 46px;
+  line-height: 46px;
+  padding: 0 28px !important;
+  font-size: 16px;
 }
 /*日期选择插件*/
 .search li span.ui-calendar{
@@ -332,6 +345,7 @@ footer{
 }
 .search li span.ui-calendar input{
   width: 100%;
+  height: 48px;
 }
 .input-box p span.ui-calendar input{
   width: 100%;
@@ -342,7 +356,7 @@ footer{
   right: 0px;
   top: 2px;
   background: #f2f2f2 !important;
-  color: #e0b502 !important;
+  color: #c39a0c !important;
   border: none !important;
   box-shadow: inset 0 1px 2px #ccc;
 }
@@ -353,12 +367,13 @@ footer{
 .ui-calendar.ui-calendar-w-btn input{
   border-top-right-radius: 5px !important;
   border-bottom-right-radius: 5px !important;
+  /*padding: 11px 5px;*/
 }
 .ui-widget-content{
   border: none!important;
 }
 .ui-widget-header{
-  background: linear-gradient(to top, #f6f7f9 0%, #e0b502 100%) !important;
+  background: linear-gradient(to top, #f6f7f9 0%, #c39a0c 100%) !important;
   ;
 }
 .ui-datepicker .ui-datepicker-header a{
@@ -368,10 +383,10 @@ footer{
   color: #000 !important;
 }
 .ui-datepicker.ui-widget .ui-datepicker-calendar td a.ui-state-active{
-  background: #e0b502 !important;
+  background: #c39a0c !important;
 }
 .ui-inputtext:hover{
-  border-color: #e0b502 !important;
+  border-color: #c39a0c !important;
 }
 .ui-calendar button{
   height: inherit !important;
@@ -379,12 +394,12 @@ footer{
   right: 0px;
   top: 23px;
   background: #fff !important;
-  color: #e0b502 !important;
+  color: #c39a0c !important;
   border: none !important;
 }
 .ui-inputtext:focus{
   outline: 0 !important;
-  border-color: #e0b502 !important;
+  border-color: #c39a0c !important;
   box-shadow: none !important;
 }
 
@@ -415,8 +430,8 @@ footer{
 }
 .ui-datatable .ui-datatable-data>tr>td button.ui-button{
   border-radius: 15px;
-  background: #e0b502;
-  border: 1px solid #e0b502;
+  background: #c39a0c;
+  border: 1px solid #c39a0c;
 }
 /*弹出框*/
 .ui-widget-header .ui-button:enabled:hover,
@@ -427,8 +442,8 @@ footer{
 .ui-widget.ui-button:focus,
 .ui-button:enabled:hover,
 .ui-button:focus{
-  background: #e0b502 !important;
-  border:1px solid #e0b502 !important;
+  background: #c39a0c !important;
+  border:1px solid #c39a0c !important;
 }
 .production-review .ui-corner-all{
   border-radius: 8px;
@@ -436,7 +451,7 @@ footer{
 .ui-dialog.ui-widget .ui-dialog-titlebar{
     padding: 1em 1.5em;
     text-align: center;
-    color: #e0b502;
+    color: #c39a0c;
     font-size: 20px;
     background: #fff !important;
 }
@@ -463,7 +478,7 @@ footer{
   text-align: center;
   font-size: 24px;
   color: #fff;
-  background: #e0b502 !important;
+  background: #c39a0c !important;
 }
 .ui-dialog .ui-dialog-content{
   overflow: inherit !important;
@@ -485,13 +500,13 @@ footer{
   text-align: center !important;
 }
 .ui-dialog-footer button.ui-button{
-  background: #e0b502;
-  border: 1px solid #e0b502;
+  background: #c39a0c;
+  border: 1px solid #c39a0c;
   border-radius: 5px;
 }
 .ui-dialog-footer button.ui-button:hover{
-  background: #e0b502;
-  border: 1px solid #e0b502;
+  background: #c39a0c;
+  border: 1px solid #c39a0c;
 }
 .ui-dialog-footer button.ui-button:last-child{
   background: #b6b6b6;
@@ -567,14 +582,14 @@ footer{
   text-align: center;
   line-height: 38px;
   border: 1px solid #cccccc;
-  color: #e0b502;
+  color: #c39a0c;
   font-size: 16px;
 }
 .table-pagination ul li.ellipses a{
   border: none;
 }
 .table-pagination ul li a.active{
-  background: #e0b502;
+  background: #c39a0c;
   border-color: #e39624;
   color: #fff;
 }
@@ -582,8 +597,11 @@ footer{
   font-size: 20px;
 }
 .alysis .search li a{
+  display: inline-block;
   background-color: #595853;
-  padding: 5px 20px !important;
+  height: 46px;
+  line-height: 46px;
+  padding: 0px 25px !important;
   color: #fff !important;
   border-radius: 5px;
 }

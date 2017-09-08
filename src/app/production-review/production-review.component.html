@@ -6,6 +6,7 @@
     <ul class="taps-title">
       <li><a href="javascript:;" [class.active]="isActive == 0" (click)="toogleStatus(0)">待审核项目</a></li>
       <li><a href="javascript:;" [class.active]="isActive == 1" (click)="toogleStatus(1)">审核完成待出发</a></li>
+      <!-- <li><a href="javascript:;" [class.active]="isActive == 2" (click)="toogleStatus(2)">行驶中</a></li> -->
     </ul>
   </div>
   <div class="table-box">
@@ -45,11 +46,24 @@
           </ng-template>
         </p-column>
         <p-column field="use_for" header="用车原因"></p-column>
-        <p-column field="check_status_txt" header="状态"></p-column>
+        <p-column field="check_status_txt" header="状态">
+          <ng-template let-data="rowData" pTemplate="body">
+            <span *ngIf="data.cur_check_level == 99">{{data.application_status_txt}}</span>
+            <span *ngIf="data.cur_check_level != 99">{{data.check_status_txt}}</span>
+          </ng-template>
+        </p-column>
         <ng-container *ngIf="isActive == 0">
           <p-column header="操作">
             <ng-template let-data="rowData" pTemplate="body">
                 <button type="button" pButton label="审核" (click)="confirmVerify(data)"></button>
+            </ng-template>
+          </p-column>
+        </ng-container>
+        <ng-container *ngIf="isActive != 0">
+          <p-column header="操作">
+            <ng-template let-data="rowData" pTemplate="body">
+              <button *ngIf="data.cur_check_level == 99 && data.application_status == 1" type="button" pButton label="出发" (click)="setoff(data)"></button>
+              <button [disabled]="data.cur_check_level != 99 || data.application_status != 1" *ngIf="data.cur_check_level != 99 || data.application_status != 1" type="button" pButton label="出发"></button>
             </ng-template>
           </p-column>
         </ng-container>
@@ -82,11 +96,11 @@
       </ul>
     </div>
   </div>
-<!-- <p-confirmDialog width="360" [closable]="false" acceptLabel="确定" rejectLabel="取消"></p-confirmDialog> -->
+<p-confirmDialog width="360" [closable]="false" acceptLabel="确定" rejectLabel="取消"></p-confirmDialog>
 <p-dialog header="审核" [(visible)]="checkDisplay" modal="modal" width="450" [closable]="true">
   <form>
     <div class="input-box">
-      <p *ngIf="check_level_number != 4">
+      <p *ngIf="check_level_number != 2">
         <label for="">下级审核人</label>
         <select class="" name="select_check_user" [(ngModel)]="select_check_user" (ngModelChange)="select_check_user=$event">
           <option *ngFor="let check_user of check_level" [value]="check_user.user_id">{{check_user.name}}</option>

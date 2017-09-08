@@ -18,14 +18,10 @@ export class LoginComponent implements OnInit {
     this.dataService.loginGet(this.idCard).then(res => {
       // console.log(res)
       if (res.code == 0) {
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/page');
       }else{
         alert(res.message)
       }
     })
-  }
-
-  mainPage(){
-    this.router.navigateByUrl('/page');
   }
 }

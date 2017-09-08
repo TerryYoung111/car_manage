@@ -15,8 +15,8 @@ export class VehicleanAlysisComponent implements OnInit {
   analysislist:any[];
   grouplist:any[];
   carlist:any[];
-  group_id:string;
-  car_id:string;
+  group_id:number = 0;
+  car_id:number = 0;
   constructor(private dataService :DataServiceService , private tools:Tools) { }
 
   ngOnInit() {
@@ -45,6 +45,10 @@ export class VehicleanAlysisComponent implements OnInit {
         alert(res.message);
       }
     })
+  }
+  searchAnalysisButton(){
+    this.cur_page = 1;
+    this.searchAnalysis();
   }
   searchAnalysis(){
     let start_time = this.tools.getStrTime(this.startDate);
@@ -83,13 +87,13 @@ export class VehicleanAlysisComponent implements OnInit {
     this.cur_page = num;
     this.searchAnalysis();
   }
-  deepCopy(source) {
-    var result={};
-    for (var key in source) {
-         result[key] = typeof source[key]==='object'? this.deepCopy(source[key]): source[key];
-      }
-      return result;
-  }
+  // deepCopy(source) {
+  //   var result={};
+  //   for (var key in source) {
+  //        result[key] = typeof source[key]==='object'? this.deepCopy(source[key]): source[key];
+  //     }
+  //     return result;
+  // }
   // 获取时间区间每一天
   getDay(){
     let startTime = new Date(this.startDate);

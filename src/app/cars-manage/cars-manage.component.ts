@@ -45,7 +45,7 @@ export class CarsManageComponent implements OnInit {
     }
     this.getAddcondition();
     this.getSearchcondition();
-    // this.getCarsList();
+    this.getCarsList();
   }
   // 录入车辆筛选条件
   getAddcondition(){
@@ -61,18 +61,21 @@ export class CarsManageComponent implements OnInit {
   // 获取搜索级联条件
   group:any[];
   search_name:string;
-  select_groupid:number;
-  select_brand:string;
-  selecte_status:number;
+  select_groupid:number = -1;
+  select_brand:string = "null";
+  selecte_status:number = -1;
   getSearchcondition(){
     this.dataService.getSearchcondition().then(res => {
       console.log(res);
       if (res.code == 0) {
           this.searchcondition = res.data;
           this.group = this.tools.mapObj(res.data.group);
-          this.select_groupid = this.group[0].value.group_id;
-          this.select_brand = this.searchcondition.brand[0];
-          this.selecte_status = this.searchcondition.car_status[0].id;
+          // this.select_groupid = this.group[0].value.group_id;
+          this.select_groupid = -1;
+          // this.select_brand = this.searchcondition.brand[0];
+          this.select_brand = "null";
+          // this.selecte_status = this.searchcondition.car_status[0].id;
+          this.selecte_status = -1;
           // console.log(this.group)
       }else{
         alert(res.message);
@@ -80,9 +83,21 @@ export class CarsManageComponent implements OnInit {
 
     })
   }
-
+  selectGroup(event){
+    this.cur_page = 1;
+    this.select_groupid = event;
+  }
+  selectCar(event){
+    this.cur_page = 1;
+    this.select_brand = event;
+  }
+  selectStatus(event){
+    this.cur_page = 1;
+    this.selecte_status = event;
+  }
   // 搜索车辆列表
   getCarsList(){
+
     let options = {
       name:this.search_name ? this.search_name : "",
       page_size:5,

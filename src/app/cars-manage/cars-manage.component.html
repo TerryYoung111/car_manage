@@ -5,18 +5,21 @@
 <div class="content-taps search">
   <ul class="taps-title">
     <li>
-      <select placholder="所属部门" class="" name="" [(ngModel)]="select_groupid" (ngModelChange)="select_groupid = $event">
+      <select placholder="所属部门" class="" name="" [(ngModel)]="select_groupid" (ngModelChange)="selectGroup($event)">
+        <option [value]= -1>所有</option>
         <option *ngFor="let item of group" [value]="item.value.group_id">{{item.value.department_name}}</option>
       </select>
     </li>
     <li>
-      <select placholder="车辆品牌" class="" name="" [(ngModel)]="select_brand" (ngModelChange)="select_brand = $event">
+      <select placholder="车辆品牌" class="" name="" [(ngModel)]="select_brand" (ngModelChange)="selectCar($event)">
+        <option [value]= "null">所有</option>
         <option *ngFor="let brand of searchcondition.brand" [value]="brand">{{brand}}</option>
       </select>
     </li>
     <li><input type="text" placeholder="姓名" [(ngModel)]="search_name"></li>
     <li>
-      <select placholder="车辆状态" class="" name="" [(ngModel)]="selecte_status" (ngModelChange)="selecte_status = $event">
+      <select placholder="车辆状态" class="" name="" [(ngModel)]="selecte_status" (ngModelChange)="selectStatus($event)">
+        <option [value]= -1>所有</option>
         <option *ngFor="let status of searchcondition.car_status" [value]="status.id">{{status.name}}</option>
       </select>
     </li>

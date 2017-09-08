@@ -5,11 +5,13 @@
       <ul>
         <li>
           <select class="" [(ngModel)]="group_id" (ngModelChange)="getCarlist($event)">
+            <option value=0>所有</option>
             <option *ngFor="let group of grouplist" [value]="group.group_id">{{group.group_name}}</option>
           </select>
         </li>
         <li>
           <select class="" [(ngModel)]="car_id" (ngModelChange)="car_id = $event">
+            <option *ngIf="carlist" value=0>所有</option>
             <option *ngFor="let car of carlist" [value]="car.car_id">{{car.plate_num}}</option>
           </select>
         </li>
@@ -22,7 +24,7 @@
           <p-calendar [(ngModel)]="endDate" [locale]="cn" [showIcon]="true" placeholder="结束"
           [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
         </li>
-        <li (click)="searchAnalysis()"><a href="javascript:;">搜&nbsp;索</a></li>
+        <li (click)="searchAnalysisButton()"><a href="javascript:;">搜&nbsp;索</a></li>
       </ul>
     </div>
     <div class="pagination">

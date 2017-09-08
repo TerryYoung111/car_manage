@@ -55,11 +55,20 @@
       </p-column>
       <p-column field="use_for" header="用车原因"></p-column>
       <p-column field="application_status_txt" header="状态"></p-column>
-      <p-column header="评分表">
-        <ng-template let-data="rowData" pTemplate="body">
-            <button type="button" pButton label="派车单" (click)="applicationDetail(data.car_application_id)"></button>
-        </ng-template>
-      </p-column>
+      <ng-container *ngIf="isActive != 2">
+        <p-column header="评分表">
+          <ng-template let-data="rowData" pTemplate="body">
+              <button type="button" pButton label="派车单" (click)="applicationDetail(data.car_application_id)"></button>
+          </ng-template>
+        </p-column>
+      </ng-container>
+      <ng-container *ngIf="isActive == 2">
+        <p-column header="评分表">
+          <ng-template let-data="rowData" pTemplate="body">
+              <button type="button" pButton label="收车" (click)="callbackcar(data)"></button>
+          </ng-template>
+        </p-column>
+      </ng-container>
   </p-dataTable>
   <div class="table-pagination" *ngIf="total_page">
     <ul>
@@ -116,9 +125,11 @@
       <p>
         <label for="">车辆品牌</label>
         <select class="" disabled="disabled">
-          <option *ngFor="let car of carsCanapply" value="applyform.car_id">
-            {{car.brand}}
-          </option>
+          <ng-container *ngFor="let car of carsCanapply">
+            <option  *ngIf="applyform.car_id == car.car_id">
+              {{car.brand}}
+            </option>
+          </ng-container>
         </select>
       </p>
     </div>
@@ -173,7 +184,7 @@
   <p-dialog [(visible)]="planDisplay" modal="modal" width="550" [closable]="false">
     <p-header>
       <div class="plan-detail-dialog-title">
-        <button><a href="javascript:;">打&nbsp;&nbsp;印</a></button>
+        <button (click)="window.print()"><a href="javascript:;">打&nbsp;&nbsp;印</a></button>
       </div>
       </p-header>
     <form>
@@ -243,3 +254,4 @@
           </p-footer>
   </p-dialog>
 </div>
+<p-confirmDialog width="360" [closable]="false" acceptLabel="确定" rejectLabel="取消"></p-confirmDialog>

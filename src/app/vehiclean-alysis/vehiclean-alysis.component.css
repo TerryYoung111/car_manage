@@ -25,6 +25,9 @@
 .alysis-content div.search{
   width: 60%;
 }
+:host/deep/.ui-calendar.ui-calendar-w-btn input{
+  padding: 11px 5px;
+}
 .alysis-content ul li{
   float: left;
 }
@@ -51,7 +54,7 @@
 .alysis div.search button a{
   background: #49460c;
   border: 1px solid #49460c;
-  padding: 5px 20px;
+  padding: 8px 25px;
 }
 .alysis-table {
     margin-top: 70px;
