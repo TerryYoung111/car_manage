@@ -29,15 +29,9 @@ button{
 button>a{
   display: inline-block;
   padding: 5px 10px;
-<<<<<<< HEAD
   border: 1px solid #3f51b5;
   border-radius: 5px;
   background: #3f51b5;
-=======
-  border: 1px solid #c39a0c;
-  border-radius: 5px;
-  background: #c39a0c;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
   color: #fff;
 }
 button>a.cancel{
@@ -149,11 +143,7 @@ footer{
 
 /*头部的导航部分*/
 .headers{
-<<<<<<< HEAD
 	background: #3f51b5 ;
-=======
-	background: #c39a0c ;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
 	width: 100%;
 	min-width: 1300px;
 	color: #fff;
@@ -298,30 +288,18 @@ footer{
   border-radius: 5px;
 }
 .table-btn>button>a{
-<<<<<<< HEAD
   border: 1px solid #3f51b5;
-=======
-  border: 1px solid #c39a0c;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
   display: inline-block;
   padding: 8px 10px;
   border-radius: 5px;
   background: #fff;
-<<<<<<< HEAD
   color: #3f51b5;
 }
+
 .table-btn>button>a.active{
-  border: 1px solid #031834;
+  border: 1px solid #3f51b5;
   color: #fff;
-  background: #031834;
-=======
-  color: #c39a0c;
-}
-.table-btn>button>a.active{
-  border: 1px solid #c39a0c;
-  color: #fff;
-  background: #c39a0c;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
+  background: #3f51b5;
 }
 .search{
   margin-bottom: 20px;
@@ -338,11 +316,7 @@ footer{
   height: 46px;
   padding: 0 5px;
   margin-top: 5px;
-<<<<<<< HEAD
   border: 1px solid #3f51b5;
-=======
-  border: 1px solid #c39a0c;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
   font-size: 16px;
   border-radius: 5px;
 }
@@ -351,11 +325,7 @@ footer{
   height: 48px;
   padding: 0 5px;
   margin-top: 5px;
-<<<<<<< HEAD
   border: 1px solid #3f51b5;
-=======
-  border: 1px solid #c39a0c;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
   font-size: 16px;
   border-radius: 5px;
 }
@@ -388,11 +358,7 @@ footer{
   right: 0px;
   top: 2px;
   background: #f2f2f2 !important;
-<<<<<<< HEAD
   color: #3f51b5 !important;
-=======
-  color: #c39a0c !important;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
   border: none !important;
   box-shadow: inset 0 1px 2px #ccc;
 }
@@ -409,11 +375,7 @@ footer{
   border: none!important;
 }
 .ui-widget-header{
-<<<<<<< HEAD
   background: linear-gradient(to top, #f6f7f9 0%, #3f51b5 100%) !important;
-=======
-  background: linear-gradient(to top, #f6f7f9 0%, #c39a0c 100%) !important;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
   ;
 }
 .ui-datepicker .ui-datepicker-header a{
@@ -423,17 +385,14 @@ footer{
   color: #000 !important;
 }
 .ui-datepicker.ui-widget .ui-datepicker-calendar td a.ui-state-active{
-<<<<<<< HEAD
   background: #031834 !important;
 }
 .ui-inputtext:hover{
   border-color: #031834 !important;
-=======
   background: #c39a0c !important;
 }
 .ui-inputtext:hover{
   border-color: #c39a0c !important;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
 }
 .ui-calendar button{
   height: inherit !important;
@@ -441,20 +400,12 @@ footer{
   right: 0px;
   top: 23px;
   background: #fff !important;
-<<<<<<< HEAD
   color: #3f51b5 !important;
-=======
-  color: #c39a0c !important;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
   border: none !important;
 }
 .ui-inputtext:focus{
   outline: 0 !important;
-<<<<<<< HEAD
   border-color: #3f51b5 !important;
-=======
-  border-color: #c39a0c !important;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
   box-shadow: none !important;
 }
 
@@ -485,13 +436,8 @@ footer{
 }
 .ui-datatable .ui-datatable-data>tr>td button.ui-button{
   border-radius: 15px;
-<<<<<<< HEAD
   background: #3f51b5;
   border: 1px solid #3f51b5;
-=======
-  background: #c39a0c;
-  border: 1px solid #c39a0c;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
 }
 /*弹出框*/
 .ui-widget-header .ui-button:enabled:hover,
@@ -502,13 +448,8 @@ footer{
 .ui-widget.ui-button:focus,
 .ui-button:enabled:hover,
 .ui-button:focus{
-<<<<<<< HEAD
   background: #3f51b5 !important;
   border:1px solid #3f51b5 !important;
-=======
-  background: #c39a0c !important;
-  border:1px solid #c39a0c !important;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
 }
 .production-review .ui-corner-all{
   border-radius: 8px;
@@ -516,11 +457,7 @@ footer{
 .ui-dialog.ui-widget .ui-dialog-titlebar{
     padding: 1em 1.5em;
     text-align: center;
-<<<<<<< HEAD
     color: #3f51b5;
-=======
-    color: #c39a0c;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
     font-size: 20px;
     background: #fff !important;
 }
@@ -547,11 +484,7 @@ footer{
   text-align: center;
   font-size: 24px;
   color: #fff;
-<<<<<<< HEAD
   background: #3f51b5 !important;
-=======
-  background: #c39a0c !important;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
 }
 .ui-dialog .ui-dialog-content{
   overflow: inherit !important;
@@ -573,7 +506,6 @@ footer{
   text-align: center !important;
 }
 .ui-dialog-footer button.ui-button{
-<<<<<<< HEAD
   background: #3f51b5;
   border: 1px solid #3f51b5;
   border-radius: 5px;
@@ -581,15 +513,11 @@ footer{
 .ui-dialog-footer button.ui-button:hover{
   background: #3f51b5;
   border: 1px solid #3f51b5;
-=======
-  background: #c39a0c;
-  border: 1px solid #c39a0c;
   border-radius: 5px;
 }
 .ui-dialog-footer button.ui-button:hover{
   background: #c39a0c;
   border: 1px solid #c39a0c;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
 }
 .ui-dialog-footer button.ui-button:last-child{
   background: #b6b6b6;
@@ -666,24 +594,17 @@ footer{
   text-align: center;
   line-height: 38px;
   border: 1px solid #cccccc;
-<<<<<<< HEAD
   color: #3f51b5;
-=======
-  color: #c39a0c;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
+
   font-size: 16px;
 }
 .table-pagination ul li.ellipses a{
   border: none;
 }
 .table-pagination ul li a.active{
-<<<<<<< HEAD
+
   background: #031834;
   border-color: #031834;
-=======
-  background: #c39a0c;
-  border-color: #e39624;
->>>>>>> 0654f9fc4b564ab725070c6fcfdecbc47df24b25
   color: #fff;
 }
 .table-pagination ul li a i{
