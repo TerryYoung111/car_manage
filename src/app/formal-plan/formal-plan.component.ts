@@ -1,5 +1,6 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/primeng';
 import { DataServiceService } from'../data-service.service';
 import { Http, Headers} from '@angular/http';
@@ -17,7 +18,8 @@ export class FormalPlanComponent implements OnInit {
   planDisplay: boolean = false;
   isActive: number = 0;
   startDate: Date;
-  callabckDate: Date;
+  endDate: Date;
+  plate_num:string = "";
   add_condition:any;
   group:string;
   applyGroup:any[];
@@ -26,9 +28,13 @@ export class FormalPlanComponent implements OnInit {
   applyform:any;
   detailform:any;
   minDate:Date;
-  constructor(private dataService: DataServiceService,private confirmationService: ConfirmationService,private http: Http,private tools:Tools) { }
+  constructor(private dataService: DataServiceService,private confirmationService: ConfirmationService,
+    private http: Http,private tools:Tools,private router:Router) { }
 
   ngOnInit() {
+    // this.startDate = new Date();
+    // this.endDate = new Date();
+    this.getLogininfo();
     let today = new Date();
     this.minDate = new Date();
     this.minDate.setDate(today.getDate()+1);
@@ -48,7 +54,10 @@ export class FormalPlanComponent implements OnInit {
       startDate:'',
       callbackDate:'',
       apply_for:'',
-      check_user_id:''
+      check_user_id:'',
+      person_num:'',
+      monitor:'',
+      driver_name:''
     }
     this.detailform = {
       application_user_id:"",
@@ -69,12 +78,54 @@ export class FormalPlanComponent implements OnInit {
     // console.log(this.add_condition);
     this.getApplicationList(0);
   }
+  // 获取登录信息
+  getLogininfo(){
+    this.dataService.getLogininfo().then(res => {
+      console.log("登录信息",res);
+      if (res.code == 0) {
+          this.getUserInfo(res.data.user_id);
+          this.getPrivilege(res.data.user_id);
+      }else{
+        this.router.navigateByUrl('login');
+      }
+    })
+  }
+  userInfo:any;
+  apply_group:string;
+  application_user_name:string;
+  id_card:string;
+  privilegeInfo:any;
+  getUserInfo(user_id){
+    this.dataService.getUserInfo(user_id).then(res => {
+      console.log('用户信息',res)
+      if (res.code == 0) {
+        this.userInfo = res.data;
+        this.apply_group = res.data.department;
+        this.applyform.application_user_id = res.data.user_id;
+        this.application_user_name = res.data.name;
+        this.id_card = res.data.idCard;
+      }else{
+        alert(res.message);
+      }
+    })
+  }
+  getPrivilege(user_id){
+    this.dataService.getPrivilege(user_id).then(res => {
+      // console.log("权限",res);
+      if (res.code == 0) {
+          this.privilegeInfo = res.data;
+      }else{
+        alert(res.message);
+      }
+    })
+  }
   showAdd() {
     this.addDisplay = true;
   }
   showPlan() {
     this.planDisplay = true;
   }
+
   // 录入车辆筛选条件
   getAddcondition(){
     this.dataService.getAddcondition().then(res => {
@@ -138,7 +189,7 @@ export class FormalPlanComponent implements OnInit {
     this.dataService.getCarsCanapply().then(res => {
       if (res.code == 0) {
           this.carsCanapply = res.data.car_list;
-          // console.log('可申请车辆',res.data.car_list);
+          console.log('可申请车辆',res.data.car_list);
       }else{
         alert(res.message);
       }
@@ -170,6 +221,12 @@ export class FormalPlanComponent implements OnInit {
               case 'check_user_id' : errorStr+="审核人 ";
               break;
               case 'apply_for' : errorStr+="车辆用途";
+              break;
+              case 'person_num' : errorStr+="人数";
+              break;
+              case 'monitor' : errorStr+="监控人";
+              break;
+              case 'driver_name' : errorStr+="司机";
               break;
             }
         }
@@ -222,9 +279,15 @@ export class FormalPlanComponent implements OnInit {
         }
     })
   }
+  buttonSearch(){
+    this.cur_page = 1;
+    this.getApplicationList(this.isActive);
+  }
   //获取申请用车计划表
   getApplicationList(status){
-    this.dataService.applicationList(0,status,this.cur_page,10).then(res => {
+    let creat_time_st = this.tools.getStrTime(this.startDate) ? this.tools.getStrTime(this.startDate) : "";
+    let creat_time_ed = this.tools.getStrTime(this.endDate) ? this.tools.getStrTime(this.endDate) : "";
+    this.dataService.applicationList(0,status,creat_time_st,creat_time_ed,this.plate_num,this.cur_page,10).then(res => {
       // console.log('申请列表',res);
       if (res.code == 0) {
           this.applylist = res.data.application_list;

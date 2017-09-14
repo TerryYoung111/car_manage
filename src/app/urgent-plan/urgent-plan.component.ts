@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/primeng';
 import { DataServiceService } from'../data-service.service';
 import { Http, Headers} from '@angular/http';
@@ -18,7 +19,8 @@ export class UrgentPlanComponent implements OnInit {
   planDisplay: boolean = false;
   isActive: number = 0;
   startDate: Date;
-  callabckDate: Date;
+  endDate: Date;
+  plate_num:string = "";
   add_condition:any;
   group:string;
   applyGroup:any[];
@@ -27,9 +29,11 @@ export class UrgentPlanComponent implements OnInit {
   applyform:any;
   minDate:Date;
   maxDate:Date;
-  constructor(private dataService: DataServiceService,private confirmationService:ConfirmationService, private http: Http,private tools:Tools) { }
+  constructor(private dataService: DataServiceService,private confirmationService:ConfirmationService,
+     private http: Http,private tools:Tools,private router:Router) { }
 
   ngOnInit() {
+    this.getLogininfo();
     this.minDate = new Date();
     this.maxDate = new Date();
     this.cn = this.dataService.dataFormat;
@@ -47,7 +51,10 @@ export class UrgentPlanComponent implements OnInit {
       end_city:'',
       startDate:'',
       callbackDate:'',
-      apply_for:''
+      apply_for:'',
+      person_num:'',
+      monitor:'',
+      driver_name:''
     }
     this.detailform = {
       application_user_id:"",
@@ -67,6 +74,47 @@ export class UrgentPlanComponent implements OnInit {
     this.getCarsCanapply();
     // console.log(this.add_condition);
     this.getApplicationList(this.isActive);
+  }
+  // 获取登录信息
+  getLogininfo(){
+    this.dataService.getLogininfo().then(res => {
+      console.log("登录信息",res);
+      if (res.code == 0) {
+          this.getUserInfo(res.data.user_id);
+          this.getPrivilege(res.data.user_id);
+      }else{
+        this.router.navigateByUrl('login');
+      }
+    })
+  }
+  userInfo:any;
+  apply_group:string;
+  application_user_name:string;
+  id_card:string;
+  privilegeInfo:any;
+  getUserInfo(user_id){
+    this.dataService.getUserInfo(user_id).then(res => {
+      console.log('用户信息',res)
+      if (res.code == 0) {
+        this.userInfo = res.data;
+        this.apply_group = res.data.department;
+        this.applyform.application_user_id = res.data.user_id;
+        this.application_user_name = res.data.name;
+        this.id_card = res.data.idCard;
+      }else{
+        alert(res.message);
+      }
+    })
+  }
+  getPrivilege(user_id){
+    this.dataService.getPrivilege(user_id).then(res => {
+      // console.log("权限",res);
+      if (res.code == 0) {
+          this.privilegeInfo = res.data;
+      }else{
+        alert(res.message);
+      }
+    })
   }
   showAdd() {
     this.addDisplay = true;
@@ -170,6 +218,10 @@ export class UrgentPlanComponent implements OnInit {
               break;
               case 'apply_for' : errorStr+="车辆用途";
               break;
+              case 'person_num' : errorStr+="人数";
+              break;
+              case 'monitor' : errorStr+="监控人";
+              break;
             }
         }
     }
@@ -222,9 +274,15 @@ export class UrgentPlanComponent implements OnInit {
         }
     })
   }
+  buttonSearch(){
+    this.cur_page = 1;
+    this.getApplicationList(this.isActive);
+  }
   //获取申请用车计划表
   getApplicationList(status){
-    this.dataService.applicationList(2,status,this.cur_page,10).then(res => {
+    let creat_time_st = this.tools.getStrTime(this.startDate);
+    let creat_time_ed = this.tools.getStrTime(this.endDate);
+    this.dataService.applicationList(2,status,creat_time_st,creat_time_ed,this.plate_num,this.cur_page,10).then(res => {
       // console.log('申请列表',res);
       if (res.code == 0) {
           this.applylist = res.data.application_list;

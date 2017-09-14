@@ -4,7 +4,8 @@ import 'rxjs/add/operator/toPromise';
 import { DefaultData } from './data';
 @Injectable()
 export class DataServiceService {
-  ip:string = "http://120.27.100.37";
+  // ip:string = "http://118.190.35.37";
+  ip:string = "";
   headers = new Headers({'Content-Type':'application/x-www-form-urlencoded','withCredentials': true});
   public dataFormat:any = {
             firstDayOfWeek: 0,
@@ -136,9 +137,9 @@ export class DataServiceService {
   addApplication(form,startDate,callbackDate,type){
     let url;
     if (form.check_user_id) {
-        url = `${this.ip}/web_car/index.php/car/carapplication/add?application_user_id=${form.application_user_id}&car_id=${form.car_id}&application_type=${type}&start_time=${startDate}&end_time=${callbackDate}&start_city=${form.start_city}&end_city=${form.end_city}&use_for=${form.apply_for}&check_user_id=${form.check_user_id}`;
+        url = `${this.ip}/web_car/index.php/car/carapplication/add?application_user_id=${form.application_user_id}&car_id=${form.car_id}&application_type=${type}&start_time=${startDate}&end_time=${callbackDate}&start_city=${form.start_city}&end_city=${form.end_city}&use_for=${form.apply_for}&check_user_id=${form.check_user_id}&person_num=${form.person_num}&monitor=${form.monitor}&driver_name=${form.driver_name}`;
     }else{
-      url = `${this.ip}/web_car/index.php/car/carapplication/add?application_user_id=${form.application_user_id}&car_id=${form.car_id}&application_type=${type}&start_time=${startDate}&end_time=${callbackDate}&start_city=${form.start_city}&end_city=${form.end_city}&use_for=${form.apply_for}&check_user_id=1`;
+      url = `${this.ip}/web_car/index.php/car/carapplication/add?application_user_id=${form.application_user_id}&car_id=${form.car_id}&application_type=${type}&start_time=${startDate}&end_time=${callbackDate}&start_city=${form.start_city}&end_city=${form.end_city}&use_for=${form.apply_for}&check_user_id=1&person_num=${form.person_num}&monitor=${form.monitor}&driver_name=${form.driver_name}`;
     }
     console.log(url)
     return this.http.get(url,{withCredentials: true}).toPromise()
@@ -146,8 +147,16 @@ export class DataServiceService {
     .then(data => {return data})
   }
   // 申请列表
-  applicationList(type,status,cur_page,page_size){
-    let param = `type=${type}&status=${status}&page=${cur_page}&page_size=${page_size}`;
+  applicationList(type,status,creat_time_st,creat_time_ed,plate_num,cur_page,page_size){
+    let param = `type=${type}&status=${status}&page=${cur_page}&page_size=${page_size}&creat_time_st=${creat_time_st}&creat_time_ed=${creat_time_ed}&plate_num=${plate_num}`;
+    let url = `${this.ip}/web_car/index.php/car/carapplication/lists?${param}`;
+    return this.http.get(url,{withCredentials: true}).toPromise()
+    .then(res => <DefaultData> res.json())
+    .then(data => {return data})
+  }
+  // 审核完成待出发
+  checkedNosetoff(type,status,cur_page,page_size,creat_time_st,creat_time_ed,plate_num){
+    let param = `type=${type}&status=${status}&page=${cur_page}&page_size=${page_size}&creat_time_st=${creat_time_st}&creat_time_ed=${creat_time_ed}&plate_num=${plate_num}&is_check=1`;
     let url = `${this.ip}/web_car/index.php/car/carapplication/lists?${param}`;
     return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
@@ -167,19 +176,19 @@ export class DataServiceService {
     .then(data => {return data})
   }
   //获取审核列表
-  getCheckList(type,status,page,page_size){
-    let url = `${this.ip}/web_car/index.php/car/carcheck/lists?page=${page}&page_size=${page_size}&application_type=${type}&status=${status}`;
+  getCheckList(type,status,creat_time_st,creat_time_ed,plate_num,page,page_size){
+    let url = `${this.ip}/web_car/index.php/car/carcheck/lists?page=${page}&page_size=${page_size}&application_type=${type}&status=${status}&creat_time_st=${creat_time_st}&creat_time_ed=${creat_time_ed}&plate_num=${plate_num}`;
     return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
   //审核
-  checkApply(id,status,check_user_id){
+  checkApply(id,status,check_user_id,weather){
     let url:string;
     if (check_user_id) {
-        url = `${this.ip}/web_car/index.php/car/carcheck/modify?id=${id}&status=${status}&check_user_id=${check_user_id}`;
+        url = `${this.ip}/web_car/index.php/car/carcheck/modify?id=${id}&status=${status}&check_user_id=${check_user_id}&weather=${weather}`;
     }else{
-      url = `${this.ip}/web_car/index.php/car/carcheck/modify?id=${id}&status=${status}&check_user_id=0`;
+      url = `${this.ip}/web_car/index.php/car/carcheck/modify?id=${id}&status=${status}&check_user_id=0&weather=${weather}`;
     }
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())

@@ -19,6 +19,9 @@ a{
 li{
 	list-style: none;
 }
+input,select{
+  height: 35px;
+}
 input:focus,select:focus,textarea:focus{
   outline: none;
 }
@@ -308,6 +311,7 @@ footer{
   width: 22.5%;
   margin-right: 0;
 }
+
 .search li:last-child{
   width: 10%;
 }
@@ -343,7 +347,7 @@ footer{
   width: 79%;
 }
 .input-box p span.ui-calendar{
-  width: 55% !important;
+  width: 180px !important;
 }
 .search li span.ui-calendar input{
   width: 100%;
@@ -364,7 +368,7 @@ footer{
 }
 .input-box span.ui-calendar button.ui-button:hover{
   background: #f2f2f2 !important;
-  border: none !important;
+  border: #f2f2f2 !important;
 }
 .ui-calendar.ui-calendar-w-btn input{
   border-top-right-radius: 5px !important;
@@ -389,10 +393,7 @@ footer{
 }
 .ui-inputtext:hover{
   border-color: #031834 !important;
-  background: #c39a0c !important;
-}
-.ui-inputtext:hover{
-  border-color: #c39a0c !important;
+  background: #fff !important;
 }
 .ui-calendar button{
   height: inherit !important;
@@ -402,6 +403,11 @@ footer{
   background: #fff !important;
   color: #3f51b5 !important;
   border: none !important;
+}
+.apply-search .ui-calendar button{
+  position: absolute;
+  right: 0px;
+  top: 16px;
 }
 .ui-inputtext:focus{
   outline: 0 !important;
@@ -545,12 +551,11 @@ footer{
 }
 .input-box p label{
   display: inline-block;
-  width: 36%;
+  width: 90px;
 }
 .input-box input,
 .input-box select{
-  width: 55%;
-  padding: 5px;
+  width: 180px;
   background: #f2f2f2;
   border: 1px solid #cacaca;
   border-radius: 5px;
@@ -561,12 +566,13 @@ footer{
   width: 100%;
 }
 .input-box p.text-area label{
-  width: 19%;
+  width: 90px;
   float: left;
 }
 .input-box .text-area textarea{
-  width: 77.5%;
-  max-width: 77.5%;
+  width: 486px;
+  max-width: 486px;
+  margin-left: 5px;
   padding: 5px;
   background: #f2f2f2;
   border: 1px solid #cacaca;
@@ -623,6 +629,13 @@ footer{
   background-color: #fff !important;
   border: none !important;
 }
+.search li .ui-calendar .ui-button:hover{
+  background-color: #fff !important;
+  border: none !important;
+}
+/*.ui-calendar.ui-calendar-w-btn input{
+  padding: 11px 5px !important;
+}*/
 .alysis-table{
   margin-top: 70px;
 }

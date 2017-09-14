@@ -10,6 +10,7 @@ import { Tools } from '../common/common';
 })
 export class ProductionReviewComponent implements OnInit {
   @Input() type;
+  cn:any;
   isActive:number = 0;
   checkDisplay:boolean = false;
   checklist:any[]=[];
@@ -17,9 +18,14 @@ export class ProductionReviewComponent implements OnInit {
   application_list:any[] = [];
   select_check_user:number;
   today:string;
+  startDate:Date;
+  endDate:Date;
+  plate_num:string = "";
+  select_check_weather:string;
   constructor(private dataService:DataServiceService , private confirmationService:ConfirmationService , private tools:Tools) { }
 
   ngOnInit() {
+    this.cn = this.dataService.dataFormat;
     this.today = this.tools.getStrDate(false);
     this.getCarsCanapply();
     // this.getCheckuser();
@@ -29,8 +35,11 @@ export class ProductionReviewComponent implements OnInit {
 
   toogleStatus(value){
     this.isActive = value;
-
-    this.getCheckList(value);
+    if (value == 2) {
+      this.getCheckListNosetoff();
+    }else{
+      this.getCheckList(value);
+    }
   }
   //可申请车辆
   getCarsCanapply(){
@@ -45,10 +54,41 @@ export class ProductionReviewComponent implements OnInit {
   }
   getCheck(type){
     this.type = type;
-    this.getCheckList(this.isActive);
+    if (this.isActive == 2) {
+        this.getCheckListNosetoff();
+    }else{
+      this.getCheckList(this.isActive);
+    }
   }
+  buttonSearch(){
+    this.cur_page = 1;
+    if (this.isActive == 2) {
+        this.getCheckListNosetoff();
+    }else{
+      this.getCheckList(this.isActive);
+    }
+  }
+  //审核完成待出发
+  getCheckListNosetoff(){
+    let creat_time_st = this.tools.getStrTime(this.startDate) ? this.tools.getStrTime(this.startDate) : "";
+    let creat_time_ed = this.tools.getStrTime(this.endDate) ? this.tools.getStrTime(this.endDate) : "";
+    this.dataService.checkedNosetoff(this.type,1,this.cur_page,10,creat_time_st,creat_time_ed,this.plate_num).then(res =>{
+      if (res.code == 0) {
+        this.checklist = res.data.application_list;
+        this.cur_page = res.data.cur_page;
+        this.total_num = res.data.total_num;
+        this.total_page = res.data.total_page;
+        this.getPage(res.data.total_page);
+      }else{
+        alert(res.message);
+      }
+    })
+  }
+  //待审核和审核历史
   getCheckList(status){
-    this.dataService.getCheckList(this.type,status,this.cur_page,10).then(res => {
+    let creat_time_st = this.tools.getStrTime(this.startDate) ? this.tools.getStrTime(this.startDate) : "";
+    let creat_time_ed = this.tools.getStrTime(this.endDate) ? this.tools.getStrTime(this.endDate) : "";
+    this.dataService.getCheckList(this.type,status,creat_time_st,creat_time_ed,this.plate_num,this.cur_page,10).then(res => {
       // console.log('审核列表',res);
       if (res.code == 0) {
         this.checklist = res.data.check_list;
@@ -68,6 +108,8 @@ export class ProductionReviewComponent implements OnInit {
         this.total_num = res.data.total_num;
         this.total_page = res.data.total_page;
         this.getPage(res.data.total_page);
+      }else{
+        alert(res.message);
       }
 
     })
@@ -108,20 +150,32 @@ export class ProductionReviewComponent implements OnInit {
   getPageData(i){
     // console.log(i)
     this.cur_page = i;
-    this.getCheckList(this.isActive);
+    if (this.isActive == 2) {
+        this.getCheckListNosetoff();
+    }else{
+      this.getCheckList(this.isActive);
+    }
   }
   //上一页
   getPageDataLeft(){
     if (this.cur_page>1) {
       this.cur_page--;
-      this.getCheckList(this.isActive);
+      if (this.isActive == 2) {
+          this.getCheckListNosetoff();
+      }else{
+        this.getCheckList(this.isActive);
+      }
     }
   }
   //下一页
   getPageDataRight(){
     if (this.cur_page<this.total_page) {
       this.cur_page++;
-      this.getCheckList(this.isActive);
+      if (this.isActive == 2) {
+          this.getCheckListNosetoff();
+      }else{
+        this.getCheckList(this.isActive);
+      }
     }
   }
   car_check_id:any;
@@ -136,15 +190,21 @@ export class ProductionReviewComponent implements OnInit {
     this.checkDisplay = true;
   }
   submitCheck(status){
-    this.dataService.checkApply(this.car_check_id[this.check_level_number].car_check_id,status,this.select_check_user).then(res => {
-      // console.log(res);
-      if (res.code == 0) {
-          this.getCheckList(this.isActive);
-          this.checkDisplay = false;
-      }else{
-        alert(res.message);
-      }
-    })
+    let weather = this.select_check_weather;
+    if (weather) {
+      this.dataService.checkApply(this.car_check_id[this.check_level_number].car_check_id,status,this.select_check_user,weather).then(res => {
+        // console.log(res);
+        if (res.code == 0) {
+            this.getCheckList(this.isActive);
+            this.checkDisplay = false;
+        }else{
+          alert(res.message);
+        }
+      })
+    }else{
+      alert("请选择天气！")
+    }
+
   }
 
   //等级人员

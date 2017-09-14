@@ -1,6 +1,26 @@
 <p class="content-right-title">
   紧急用车计划
 </p>
+<div class="content-taps search apply-search">
+  <ul class="taps-title">
+    <li>
+      <input type="text" placeholder="车牌号" [(ngModel)]="plate_num">
+    </li>
+    <li>
+      <p-calendar [(ngModel)]="startDate" [locale]="cn" [showIcon]="true" placeholder="开始时间"
+      [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
+    </li>
+    <li>
+      <p-calendar [(ngModel)]="endDate" [locale]="cn" [showIcon]="true" placeholder="结束时间"
+      [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
+    </li>
+    <li class="table-btn">
+      <button (click)="buttonSearch()"><a href="javascript:;" class="active">
+        搜&nbsp;索
+      </a></button>
+    </li>
+  </ul>
+</div>
 <div class="content-taps">
   <ul class="taps-title">
     <li><a href="javascript:;" [class.active]="isActive == 0" (click)="toggleStatus(0)">待审核项目</a></li>
@@ -97,20 +117,22 @@
   </div>
 </div>
 <!-- 申请表（填写）弹出框 -->
-<p-dialog header="添加派车单" [(visible)]="addDisplay" modal="modal" width="550" [closable]="false">
+<p-dialog header="添加派车单" [(visible)]="addDisplay" modal="modal" width="660" height="617" [closable]="false">
   <form #addForm="ngForm">
     <div class="input-box">
       <p>
         <label for="">申请部门</label>
-        <select class="" name="department" [(ngModel)]="group" (ngModelChange)="getApplyuserlist($event)">
+        <!-- <select class="" name="department" [(ngModel)]="group" (ngModelChange)="getApplyuserlist($event)">
           <option *ngFor="let group of applyGroup" [value]="group">{{group}}</option>
-        </select>
+        </select> -->
+        <input type="text" readonly="readonly" value="{{apply_group}}">
       </p>
       <p>
         <label for="">申请人</label>
-        <select class="" name="application_user_id" [(ngModel)]="applyform.application_user_id" (ngModelChange)="applyform.application_user_id=$event">
+        <!-- <select class="" name="application_user_id" [(ngModel)]="applyform.application_user_id" (ngModelChange)="applyform.application_user_id=$event">
           <option *ngFor="let applyuser of applyUsers" [value]="applyuser.user_id">{{applyuser.name}}</option>
-        </select>
+        </select> -->
+        <input type="text" readonly="readonly" value="{{application_user_name}}">
       </p>
     </div>
     <div class="input-box">
@@ -122,10 +144,17 @@
       </p>
       <p>
         <label for="">车辆品牌</label>
-        <select class="" disabled="disabled">
+        <!-- <select class="" disabled="disabled">
           <option *ngFor="let car of carsCanapply" value="applyform.car_id">
             {{car.brand}}
           </option>
+        </select> -->
+        <select class="" disabled="disabled">
+          <ng-container *ngFor="let car of carsCanapply">
+            <option *ngIf="applyform.car_id == car.car_id">
+              {{car.brand}}
+            </option>
+          </ng-container>
         </select>
       </p>
     </div>
@@ -152,17 +181,34 @@
         [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
       </p>
     </div>
-    <!-- <div class="input-box">
-      <p>
+    <div class="input-box">
+      <!-- <p>
         <label for="">审核人</label>
         <select name="check_user_id" [(ngModel)]="applyform.check_user_id" (ngModelChange)="applyform.check_user_id = $event">
           <option *ngFor="let check of check_level" [value]="check.user_id">
             {{check.name}}
           </option>
         </select>
+      </p> -->
+      <p>
+        <label for="">监控人</label>
+        <input type="text" name="monitor" [(ngModel)]="applyform.monitor">
       </p>
-    </div> -->
-
+      <p>
+        <label for="">审核人</label>
+        <input readonly="readonly" type="text">
+      </p>
+    </div>
+    <div class="input-box">
+      <p>
+        <label>司机</label>
+        <input type="text" name="driver_name" [(ngModel)]="applyform.driver_name">
+      </p>
+      <p>
+        <label for="">人数</label>
+        <input type="text" name="person_num" [(ngModel)]="applyform.person_num">
+      </p>
+    </div>
     <div class="input-box">
       <p class="text-area">
         <label for="">车辆用途</label>
@@ -177,7 +223,7 @@
 </p-dialog>
 <!-- 计划详情表 -->
 <div class="plan-detail-dialog">
-  <p-dialog [(visible)]="planDisplay" modal="modal" width="550" [closable]="false">
+  <p-dialog header="派车单" [(visible)]="planDisplay" modal="modal" width="660" height="617" [closable]="false">
     <p-header>
       <div class="plan-detail-dialog-title">
         <button><a href="javascript:;">打&nbsp;&nbsp;印</a></button>
@@ -210,6 +256,16 @@
         </div>
         <div class="input-box">
           <p>
+            <label for="">出发城市:</label>
+            <span>{{detailform.start_city}}</span>
+          </p>
+          <p>
+            <label for="">目的城市:</label>
+            <span>{{detailform.end_city}}</span>
+          </p>
+        </div>
+        <div class="input-box">
+          <p>
             <label for="">出车时间:</label>
             <span>{{detailform.start_time}}</span>
           </p>
@@ -219,15 +275,31 @@
           </p>
         </div>
         <div class="input-box">
-          <p>
+          <!-- <p>
             <label for="">安全监督员:</label>
             <ng-container *ngFor="let cars of carsCanapply">
               <span *ngIf="detailform.car_id == cars.car_id">{{cars.manage_user_name}}</span>
             </ng-container>
+          </p> -->
+          <p>
+            <label for="">监控人:</label>
+            <span>{{detailform.monitor}}</span>
+          </p>
+          <!-- <p>
+            <label for="">审核人:</label>
+            <span></span>
+          </p> -->
+        </div>
+        <div class="input-box">
+          <p>
+            <label for="">司机:</label>
+            <ng-container *ngFor="let car of carsCanapply">
+              <span *ngIf="detailform.car_id == car.car_id">{{car.drive_user_name}}</span>
+            </ng-container>
           </p>
           <p>
-            <label for="">车辆检查:</label>
-            <span>{{detailform.application_status_txt}}</span>
+            <label for="">人数:</label>
+            <span>{{detailform.person_num}}</span>
           </p>
         </div>
         <div class="input-box">
