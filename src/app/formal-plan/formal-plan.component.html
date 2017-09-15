@@ -61,12 +61,12 @@
       <p-column field="application_user_name" header="申请人">
 
       </p-column>
-      <p-column header="驾驶员">
-        <ng-template let-data="rowData" pTemplate="body">
+      <p-column field="driver_name" header="驾驶员">
+        <!-- <ng-template let-data="rowData" pTemplate="body">
           <ng-container *ngFor="let cars of carsCanapply">
             <span *ngIf="data.car_id == cars.car_id">{{cars.drive_user_name}}</span>
           </ng-container>
-        </ng-template>
+        </ng-template> -->
       </p-column>
       <p-column header="运行区段">
         <ng-template let-data="rowData" pTemplate="body">

@@ -4,8 +4,8 @@ import 'rxjs/add/operator/toPromise';
 import { DefaultData } from './data';
 @Injectable()
 export class DataServiceService {
-  // ip:string = "http://118.190.35.37";
-  ip:string = "";
+  ip:string = "http://118.190.35.37";
+  // ip:string = "";
   headers = new Headers({'Content-Type':'application/x-www-form-urlencoded','withCredentials': true});
   public dataFormat:any = {
             firstDayOfWeek: 0,

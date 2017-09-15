@@ -124,7 +124,8 @@ export class ProductionReviewComponent implements OnInit {
           this.dataService.modifyCarStatus(data.car_application_id,2).then(res => {
             console.log(res);
             if (res.code == 0) {
-                this.getCheckList(this.isActive);
+                // this.getCheckList(this.isActive);
+                this.getCheckListNosetoff();
             }else{
               alert(res.message);
             }
@@ -181,12 +182,14 @@ export class ProductionReviewComponent implements OnInit {
   car_check_id:any;
   check_level_number:number;
   confirmVerify(data){ // 审核
-    // console.log(data)
+    console.log(data)
     this.car_check_id = data.check_info;
     // console.log(this.car_check_id)
     this.check_level_number = parseInt(data.check_level);
     // console.log('审核等级',this.check_level_number)
-    this.getCheckuser(data.check_level);
+    if (data.check_level == 1) {
+        this.getCheckuser(data.check_level);
+    }
     this.checkDisplay = true;
   }
   submitCheck(status){
