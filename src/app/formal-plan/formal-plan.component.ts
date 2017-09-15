@@ -1,10 +1,12 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component,ViewChild, OnInit,Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/primeng';
 import { DataServiceService } from'../data-service.service';
 import { Http, Headers} from '@angular/http';
 import { Tools } from '../common/common';
+
+import { ApplicationDetailComponent } from '../application-detail/application-detail.component';
 @Component({
   selector: 'app-formal-plan',
   templateUrl: './formal-plan.component.html',
@@ -26,7 +28,6 @@ export class FormalPlanComponent implements OnInit {
   applyUsers:any[];
   carsCanapply:any[];
   applyform:any;
-  detailform:any;
   minDate:Date;
   constructor(private dataService: DataServiceService,private confirmationService: ConfirmationService,
     private http: Http,private tools:Tools,private router:Router) { }
@@ -34,7 +35,7 @@ export class FormalPlanComponent implements OnInit {
   ngOnInit() {
     // this.startDate = new Date();
     // this.endDate = new Date();
-    this.getLogininfo();
+
     let today = new Date();
     this.minDate = new Date();
     this.minDate.setDate(today.getDate()+1);
@@ -47,7 +48,7 @@ export class FormalPlanComponent implements OnInit {
       manager:[]
     }
     this.applyform = {
-      application_user_id:"",
+      application_user_id:'',
       car_id:'',
       start_city:'',
       end_city:'',
@@ -59,23 +60,10 @@ export class FormalPlanComponent implements OnInit {
       monitor:'',
       driver_name:''
     }
-    this.detailform = {
-      application_user_id:"",
-      car_id:'',
-      start_city:'',
-      end_city:'',
-      startDate:'',
-      callbackDate:'',
-      apply_for:'',
-      check_user_id:'',
-      check_info:{1:{}}
-    }
-    this.getAddcondition();
+    this.getLogininfo();
     this.getCheckuser();
     this.getApplyGroupList();
-    // this.getApplyuserlist();
     this.getCarsCanapply();
-    // console.log(this.add_condition);
     this.getApplicationList(0);
   }
   // 获取登录信息
@@ -120,30 +108,19 @@ export class FormalPlanComponent implements OnInit {
     })
   }
   showAdd() {
+    this.getLogininfo();
+    this.getCheckuser();
     this.addDisplay = true;
-  }
-  showPlan() {
-    this.planDisplay = true;
-  }
 
-  // 录入车辆筛选条件
-  getAddcondition(){
-    this.dataService.getAddcondition().then(res => {
-      // console.log("录入条件",res);
-      if (res.code == 0) {
-          this.add_condition = res.data;
-      }else{
-        alert(res.message);
-      }
-    })
   }
   //等级人员
   check_level:any[];
   getCheckuser(){
-    this.dataService.getCheckuser().then(res => {
+    this.dataService.getCheckuser(this.apply_group).then(res => {
       // console.log('审核等级',res);
       if (res.code == 0) {
           this.check_level = this.checkLevelMap(res.data,1);
+          this.applyform.check_user_id = this.check_level[0].user_id;
       }else{
         alert(res.message)
       }
@@ -295,6 +272,8 @@ export class FormalPlanComponent implements OnInit {
           this.total_num = res.data.total_num;
           this.total_page = res.data.total_page;
           this.getPage(res.data.total_page);
+      }else{
+        alert(res.message);
       }
     })
   }
@@ -314,20 +293,32 @@ export class FormalPlanComponent implements OnInit {
   //页码翻页
   getPageData(i){
     this.cur_page = i;
-    this.getApplicationList(this.isActive);
+    if (this.isActive == -1) {
+        this.refusedApplication();
+    }else{
+      this.getApplicationList(this.isActive);
+    }
   }
   //上一页
   getPageDataLeft(){
     if (this.cur_page>1) {
       this.cur_page--;
-      this.getApplicationList(this.isActive);
+      if (this.isActive == -1) {
+          this.refusedApplication();
+      }else{
+        this.getApplicationList(this.isActive);
+      }
     }
   }
   //下一页
   getPageDataRight(){
     if (this.cur_page<this.total_page) {
       this.cur_page++;
-      this.getApplicationList(this.isActive);
+      if (this.isActive == -1) {
+          this.refusedApplication();
+      }else{
+        this.getApplicationList(this.isActive);
+      }
     }
   }
   //切换状态
@@ -335,18 +326,30 @@ export class FormalPlanComponent implements OnInit {
     this.isActive = status;
     this.getApplicationList(status);
   }
-  //获取申请单详细
-  applicationDetail(car_application_id){
-    this.planDisplay = true;
-    this.dataService.applicationDetail(car_application_id).then(res => {
-      // console.log(res.data);
+  refused(status){
+    this.isActive = status;
+    this.refusedApplication();
+  }
+  refusedApplication(){
+    let creat_time_st = this.tools.getStrTime(this.startDate) ? this.tools.getStrTime(this.startDate) : "";
+    let creat_time_ed = this.tools.getStrTime(this.endDate) ? this.tools.getStrTime(this.endDate) : "";
+    this.dataService.checkedNosetoff(0,-1,this.cur_page,10,creat_time_st,creat_time_ed,this.plate_num).then(res => {
+      console.log(res);
       if (res.code == 0) {
-          this.detailform = res.data;
+        this.applylist = res.data.application_list;
+        this.cur_page = res.data.cur_page;
+        this.total_num = res.data.total_num;
+        this.total_page = res.data.total_page;
+        this.getPage(res.data.total_page);
       }else{
         alert(res.message);
       }
-
     })
+  }
+
+  //获取申请单详细
+  applicationDetail(applicationPrint:ApplicationDetailComponent,car_application_id){
+    applicationPrint.dialog(car_application_id,'formal');
   }
 
 }

@@ -36,7 +36,7 @@ export class ProductionReviewComponent implements OnInit {
   toogleStatus(value){
     this.isActive = value;
     if (value == 2) {
-      this.getCheckListNosetoff();
+      this.getCheckListNosetoff(1);
     }else{
       this.getCheckList(value);
     }
@@ -55,7 +55,7 @@ export class ProductionReviewComponent implements OnInit {
   getCheck(type){
     this.type = type;
     if (this.isActive == 2) {
-        this.getCheckListNosetoff();
+        this.getCheckListNosetoff(1);
     }else{
       this.getCheckList(this.isActive);
     }
@@ -63,16 +63,16 @@ export class ProductionReviewComponent implements OnInit {
   buttonSearch(){
     this.cur_page = 1;
     if (this.isActive == 2) {
-        this.getCheckListNosetoff();
+        this.getCheckListNosetoff(1);
     }else{
       this.getCheckList(this.isActive);
     }
   }
   //审核完成待出发
-  getCheckListNosetoff(){
+  getCheckListNosetoff(status){
     let creat_time_st = this.tools.getStrTime(this.startDate) ? this.tools.getStrTime(this.startDate) : "";
     let creat_time_ed = this.tools.getStrTime(this.endDate) ? this.tools.getStrTime(this.endDate) : "";
-    this.dataService.checkedNosetoff(this.type,1,this.cur_page,10,creat_time_st,creat_time_ed,this.plate_num).then(res =>{
+    this.dataService.checkedNosetoff(this.type,status,this.cur_page,10,creat_time_st,creat_time_ed,this.plate_num).then(res =>{
       if (res.code == 0) {
         this.checklist = res.data.application_list;
         this.cur_page = res.data.cur_page;
@@ -125,7 +125,7 @@ export class ProductionReviewComponent implements OnInit {
             console.log(res);
             if (res.code == 0) {
                 // this.getCheckList(this.isActive);
-                this.getCheckListNosetoff();
+                this.getCheckListNosetoff(1);
             }else{
               alert(res.message);
             }
@@ -152,7 +152,7 @@ export class ProductionReviewComponent implements OnInit {
     // console.log(i)
     this.cur_page = i;
     if (this.isActive == 2) {
-        this.getCheckListNosetoff();
+        this.getCheckListNosetoff(1);
     }else{
       this.getCheckList(this.isActive);
     }
@@ -162,7 +162,7 @@ export class ProductionReviewComponent implements OnInit {
     if (this.cur_page>1) {
       this.cur_page--;
       if (this.isActive == 2) {
-          this.getCheckListNosetoff();
+          this.getCheckListNosetoff(1);
       }else{
         this.getCheckList(this.isActive);
       }
@@ -173,7 +173,7 @@ export class ProductionReviewComponent implements OnInit {
     if (this.cur_page<this.total_page) {
       this.cur_page++;
       if (this.isActive == 2) {
-          this.getCheckListNosetoff();
+          this.getCheckListNosetoff(1);
       }else{
         this.getCheckList(this.isActive);
       }
@@ -193,6 +193,7 @@ export class ProductionReviewComponent implements OnInit {
     this.checkDisplay = true;
   }
   submitCheck(status){
+    console.log(status)
     let weather = this.select_check_weather;
     if (weather) {
       this.dataService.checkApply(this.car_check_id[this.check_level_number].car_check_id,status,this.select_check_user,weather).then(res => {
@@ -213,12 +214,15 @@ export class ProductionReviewComponent implements OnInit {
   //等级人员
   check_level:any[];
   getCheckuser(check_level_number){
+    // let group = "";
     // console.log(check_level_number);
-    this.dataService.getCheckuser().then(res => {
+    this.dataService.getCheckuser(false).then(res => {
       if (res.code == 0) {
           this.check_level = this.checkLevelMap(res.data,parseInt(check_level_number)+1);
           if (this.check_level) {
-            // this.select_check_user = this.check_level[0].user_id;
+            if (check_level_number == 1) {
+                this.select_check_user = this.check_level[0].user_id;
+            }
           }
           // console.log(this.check_level)
       }else{

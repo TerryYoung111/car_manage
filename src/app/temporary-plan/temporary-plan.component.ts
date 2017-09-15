@@ -5,6 +5,8 @@ import { ConfirmationService } from 'primeng/primeng';
 import { DataServiceService } from'../data-service.service';
 import { Http, Headers} from '@angular/http';
 import { Tools } from '../common/common';
+
+import { ApplicationDetailComponent } from '../application-detail/application-detail.component';
 @Component({
   selector: 'app-temporary-plan',
   templateUrl: './temporary-plan.component.html',
@@ -32,7 +34,7 @@ export class TemporaryPlanComponent implements OnInit {
      private http: Http,private tools:Tools,private router:Router) { }
 
   ngOnInit() {
-    this.getLogininfo();
+
     this.minDate = new Date();
     this.maxDate = new Date();
     this.cn = this.dataService.dataFormat;
@@ -56,18 +58,7 @@ export class TemporaryPlanComponent implements OnInit {
       monitor:'',
       driver_name:''
     }
-    this.detailform = {
-      application_user_id:"",
-      car_id:'',
-      start_city:'',
-      end_city:'',
-      startDate:'',
-      callbackDate:'',
-      apply_for:'',
-      check_user_id:'',
-      check_info:{1:{}}
-    }
-    this.getAddcondition();
+    this.getLogininfo();
     this.getCheckuser();
     this.getApplyGroupList();
     // this.getApplyuserlist();
@@ -117,10 +108,9 @@ export class TemporaryPlanComponent implements OnInit {
     })
   }
   showAdd() {
+    this.getLogininfo();
+    this.getCheckuser();
     this.addDisplay = true;
-  }
-  showPlan() {
-    this.planDisplay = true;
   }
   // 录入车辆筛选条件
   getAddcondition(){
@@ -136,10 +126,11 @@ export class TemporaryPlanComponent implements OnInit {
   //等级人员
   check_level:any[];
   getCheckuser(){
-    this.dataService.getCheckuser().then(res => {
+    this.dataService.getCheckuser(this.apply_group).then(res => {
       // console.log('审核等级',res);
       if (res.code == 0) {
           this.check_level = this.checkLevelMap(res.data,1);
+          this.applyform.check_user_id = this.check_level[0].user_id;
       }else{
         alert(res.message)
       }
@@ -331,17 +322,7 @@ export class TemporaryPlanComponent implements OnInit {
     this.getApplicationList(status);
   }
   //获取申请单详细
-  detailform:any;
-  applicationDetail(car_application_id){
-    this.planDisplay = true;
-    this.dataService.applicationDetail(car_application_id).then(res => {
-      // console.log(res.data);
-      if (res.code == 0) {
-          this.detailform = res.data;
-      }else{
-        alert(res.message);
-      }
-
-    })
+  applicationDetail(applicationPrint:ApplicationDetailComponent,car_application_id){
+    applicationPrint.dialog(car_application_id,'temporary');
   }
 }

@@ -22,6 +22,7 @@ import { UrgentPlanComponent } from './urgent-plan/urgent-plan.component';
 import { ProductionReviewComponent } from './production-review/production-review.component';
 import { VehicleEnterComponent } from './vehicle-enter/vehicle-enter.component';
 import { CarsManageComponent } from './cars-manage/cars-manage.component';
+import { ApplicationDetailComponent } from './application-detail/application-detail.component';
 
 const appRoutes:Routes = [
   {path:'',redirectTo:'login',pathMatch:'full'},
@@ -63,7 +64,8 @@ const appRoutes:Routes = [
     UrgentPlanComponent,
     ProductionReviewComponent,
     VehicleEnterComponent,
-    CarsManageComponent
+    CarsManageComponent,
+    ApplicationDetailComponent
   ],
   imports: [
     BrowserModule,

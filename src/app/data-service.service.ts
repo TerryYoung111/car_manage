@@ -106,8 +106,10 @@ export class DataServiceService {
   }
 
   //等级人员接口
-  getCheckuser(){
-    let url = `${this.ip}/web_car/index.php/car/carapplication/checkuserlist`;
+  getCheckuser(group){
+    // let url = `${this.ip}/web_car/index.php/car/carapplication/checkuserlist`;
+    let group_name = group ? group : "";
+    let url = `${this.ip}/web_car/index.php/car/carapplication/checkuserlist?group=${group_name}`;
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -154,7 +156,7 @@ export class DataServiceService {
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
-  // 审核完成待出发
+  // 审核完成待出发&已拒绝审核
   checkedNosetoff(type,status,cur_page,page_size,creat_time_st,creat_time_ed,plate_num){
     let param = `type=${type}&status=${status}&page=${cur_page}&page_size=${page_size}&creat_time_st=${creat_time_st}&creat_time_ed=${creat_time_ed}&plate_num=${plate_num}&is_check=1`;
     let url = `${this.ip}/web_car/index.php/car/carapplication/lists?${param}`;

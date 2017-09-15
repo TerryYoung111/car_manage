@@ -76,7 +76,7 @@
       <ng-container *ngIf="isActive != 2">
         <p-column header="评分表">
           <ng-template let-data="rowData" pTemplate="body">
-              <button type="button" pButton label="派车单" (click)="applicationDetail(data.car_application_id)"></button>
+              <button type="button" pButton label="派车单" (click)="applicationDetail(applicationPrint,data.car_application_id)"></button>
           </ng-template>
         </p-column>
       </ng-container>
@@ -219,7 +219,8 @@
         </p-footer>
 </p-dialog>
 <!-- 计划详情表 -->
-<div class="plan-detail-dialog">
+<app-application-detail #applicationPrint [carsCanapply]="carsCanapply"></app-application-detail>
+<!-- <div class="plan-detail-dialog">
   <p-dialog header="派车单" [(visible)]="planDisplay" modal="modal" width="660" height="617" [closable]="false">
     <p-header>
       <div class="plan-detail-dialog-title">
@@ -272,10 +273,6 @@
         </p>
       </div>
       <div class="input-box">
-        <!-- <p>
-          <label for="">审核:</label>
-          <span>{{detailform.application_status_txt}}</span>
-        </p> -->
         <p>
           <label for="">审核人:</label>
           <span>{{detailform.check_info[1].check_user_name}}</span>
@@ -288,9 +285,6 @@
       <div class="input-box">
         <p>
           <label for="">司机:</label>
-          <!-- <ng-container *ngFor="let car of carsCanapply">
-            <span *ngIf="detailform.car_id == car.car_id">{{car.drive_user_name}}</span>
-          </ng-container> -->
           <span>{{detailform.driver_name}}</span>
         </p>
         <p>
@@ -304,12 +298,11 @@
           <span  style="display:inline-block;width:80%">{{detailform.use_for}}</span>
         </p>
       </div>
-
     </form>
           <p-footer>
               <button type="button" pButton (click)="planDisplay=false" label="确定"></button>
               <button type="button" pButton (click)="planDisplay=false" label="取消"></button>
           </p-footer>
   </p-dialog>
-</div>
+</div> -->
 <p-confirmDialog width="360" [closable]="false" acceptLabel="确定" rejectLabel="取消"></p-confirmDialog>

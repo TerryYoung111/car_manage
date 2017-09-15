@@ -18,15 +18,15 @@
 }
 .input-box input,
 .input-box select{
-  width: 55%;
-  padding: 5px;
+  width: 180px;
+  /*padding: 5px;*/
   background: #f2f2f2;
   border: 1px solid #cacaca;
   border-radius: 5px;
   box-shadow: inset 0 1px 6px #ccc;
 }
 .input-box select{
-  width: 59%;
+  width: 180px;
 }
 .btn-box{
   margin-top: 30px;
