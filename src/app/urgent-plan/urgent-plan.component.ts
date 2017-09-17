@@ -108,6 +108,7 @@ export class UrgentPlanComponent implements OnInit {
   }
   showAdd() {
     this.getLogininfo();
+    this.getCarsCanapply();
     this.addDisplay = true;
   }
   // 录入车辆筛选条件
