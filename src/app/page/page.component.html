@@ -4,26 +4,42 @@
 			<span>生产用车监督管理系统</span>
 		</div>
 		<ul class="header-middle">
-			<li [class.active]="routerActive == 'applyCar'">
-				<a routerLink="./applyCar" (click)="routerActive = 'applyCar'">
-					<img src="./assets/images/Equip.png">
-					<p><a>申请用车</a></p>
-				</a>
-			</li>
-			<li [class.active]="routerActive == 'vehicleReview'">
-				<a routerLink="./vehicleReview" (click)="routerActive = 'vehicleReview'">
-					<img src="./assets/images/Repair.png">
-					<p><a>车辆审核</a></p>
-				</a>
-			</li>
-			<li [class.active]="routerActive == 'vehicleManage'">
-				<a routerLink="./vehicleManage" (click)="routerActive = 'vehicleManage'">
+			<ng-container *ngIf="privilegeInfo.audit.length == 0">
+				<li routerLink="./applyCar" [class.active]="routerActive == 'applyCar'" (click)="routerActive = 'applyCar'">
+					<a href="javascript:;">
+						<img src="./assets/images/Equip.png">
+						<p><a>申请用车</a></p>
+					</a>
+				</li>
+				<li (click)="privilegeAlert('您没有审核权限！')">
+					<a href="javascript:;">
+						<img src="./assets/images/Repair.png">
+						<p><a>车辆审核</a></p>
+					</a>
+				</li>
+			</ng-container>
+			<ng-container *ngIf="privilegeInfo.audit.length != 0">
+				<li (click)="privilegeAlert('您没有用车权限！')">
+					<a href="javascript:;">
+						<img src="./assets/images/Equip.png">
+						<p><a>申请用车</a></p>
+					</a>
+				</li>
+				<li routerLink="./vehicleReview" (click)="routerActive = 'vehicleReview'" [class.active]="routerActive == 'vehicleReview'">
+					<a href="javascript:;">
+						<img src="./assets/images/Repair.png">
+						<p><a>车辆审核</a></p>
+					</a>
+				</li>
+			</ng-container>
+			<li routerLink="./vehicleManage" (click)="routerActive = 'vehicleManage'" [class.active]="routerActive == 'vehicleManage'">
+				<a href="javascript:;">
 					<img src="./assets/images/Apply.png">
 					<p><a>车辆管理</a></p>
 				</a>
 			</li>
-			<li [class.active]="routerActive == 'vehicleanAlysis'">
-				<a routerLink="./vehicleanAlysis" (click)="routerActive = 'vehicleanAlysis'">
+			<li routerLink="./vehicleanAlysis" (click)="routerActive = 'vehicleanAlysis'" [class.active]="routerActive == 'vehicleanAlysis'">
+				<a href="javascript:;">
 					<img src="./assets/images/Analysis.png">
 					<p><a>车辆分析</a></p>
 				</a>

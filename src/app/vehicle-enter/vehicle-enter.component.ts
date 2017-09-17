@@ -29,7 +29,8 @@ export class VehicleEnterComponent implements OnInit {
       incharge:"",
       manager:"",
       driver:'',
-      car_status:""
+      car_status:"",
+      quality_status:""
     };
 
   }
@@ -66,6 +67,8 @@ export class VehicleEnterComponent implements OnInit {
               break;
               case 'car_status' : errorStr+="车辆状态 ";
               break;
+              case 'quality_status' : errorStr+="质量状态";
+              break;
             }
         }
     }
@@ -81,7 +84,8 @@ export class VehicleEnterComponent implements OnInit {
               incharge:"",
               manager:"",
               driver:'',
-              car_status:""
+              car_status:"",
+              quality_status:""
             }
         }else{
           alert(res.message);

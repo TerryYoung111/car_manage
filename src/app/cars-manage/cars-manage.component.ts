@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/primeng';
 import { DataServiceService } from'../data-service.service';
 import { Http,Headers} from '@angular/http';
 import { Tools } from '../common/common';
@@ -7,7 +8,7 @@ import { Tools } from '../common/common';
   selector: 'app-cars-manage',
   templateUrl: './cars-manage.component.html',
   styleUrls: ['./cars-manage.component.css'],
-  providers: [DataServiceService,Tools]
+  providers: [DataServiceService,Tools,ConfirmationService]
 })
 export class CarsManageComponent implements OnInit {
   testData:any[];
@@ -19,7 +20,7 @@ export class CarsManageComponent implements OnInit {
   searchcondition:any;
   add_condition:any;
   editcars:any;
-  constructor(private dataService:DataServiceService,private tools : Tools) { }
+  constructor(private dataService:DataServiceService,private tools : Tools,private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.searchcondition = {
@@ -41,7 +42,8 @@ export class CarsManageComponent implements OnInit {
       manager:'',
       brand:'',
       driver:'',
-      car_status:''
+      car_status:'',
+      quality_status:''
     }
     this.getAddcondition();
     this.getSearchcondition();
@@ -164,7 +166,8 @@ export class CarsManageComponent implements OnInit {
       manager:data.manage_user_name,
       brand:data.brand,
       driver:data.drive_user_name,
-      car_status:data.car_status
+      car_status:data.car_status,
+      quality_status:data.quality_status
     }
   }
   sureEdit(){
@@ -174,6 +177,26 @@ export class CarsManageComponent implements OnInit {
           this.getCarsList();
           // alert('修改成功')
           this.carsDisplay = false;
+      }else{
+        alert(res.message);
+      }
+    })
+  }
+
+  delete(data){
+    this.confirmationService.confirm({
+      message: `确定删除该车辆？`,
+      header: '提示',
+      accept: () => {
+        this.sureDelete(data);
+      }
+    })
+  }
+  sureDelete(data){
+    this.dataService.deleteCar(data.car_id).then(res => {
+      console.log(res);
+      if (res.code == 0) {
+          this.getCarsList();
       }else{
         alert(res.message);
       }

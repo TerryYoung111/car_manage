@@ -7,11 +7,11 @@
       <input type="text" placeholder="车牌号" [(ngModel)]="plate_num">
     </li>
     <li>
-      <p-calendar [(ngModel)]="startDate" [locale]="cn" [showIcon]="true" placeholder="开始时间"
+      <p-calendar [(ngModel)]="startDate" [locale]="cn" [showIcon]="true" placeholder="出发起始时间"
       [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
     </li>
     <li>
-      <p-calendar [(ngModel)]="endDate" [locale]="cn" [showIcon]="true" placeholder="结束时间"
+      <p-calendar [(ngModel)]="endDate" [locale]="cn" [showIcon]="true" placeholder="出发截止时间"
       [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
     </li>
     <li class="table-btn">
@@ -39,21 +39,21 @@
   <p-dataTable [value]="applylist">
     <p-column header="所属部门">
       <ng-template let-data="rowData" pTemplate="body">
-        <ng-container *ngFor="let cars of carsCanapply">
+        <ng-container *ngFor="let cars of carlist">
           <span *ngIf="data.car_id == cars.car_id">{{cars.group_name}}</span>
         </ng-container>
       </ng-template>
     </p-column>
       <p-column field="car_id" header="车牌号">
         <ng-template let-data="rowData" pTemplate="body">
-          <ng-container *ngFor="let cars of carsCanapply">
+          <ng-container *ngFor="let cars of carlist">
             <span *ngIf="data.car_id == cars.car_id">{{cars.plate_num}}</span>
           </ng-container>
         </ng-template>
       </p-column>
       <p-column header="品牌">
         <ng-template let-data="rowData" pTemplate="body">
-          <ng-container *ngFor="let cars of carsCanapply">
+          <ng-container *ngFor="let cars of carlist">
             <span *ngIf="data.car_id == cars.car_id">{{cars.brand}}</span>
           </ng-container>
         </ng-template>
@@ -222,4 +222,4 @@
         </p-footer>
 </p-dialog>
 <!-- 计划详情表 -->
-<app-application-detail #applicationPrint [carsCanapply]="carsCanapply"></app-application-detail>
+<app-application-detail #applicationPrint [carsCanapply]="carlist"></app-application-detail>

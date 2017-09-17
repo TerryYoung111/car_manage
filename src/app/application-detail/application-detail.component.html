@@ -70,9 +70,10 @@
         <p *ngIf="type != 'urgent'">
           <label for="">审核人:</label>
           <span>{{detailform.check_info[1].check_user_name}}</span>
+          <span *ngIf="detailform.check_info[2]">、{{detailform.check_info[2].check_user_name}}</span>
         </p>
       </div>
-      <div class="input-box">
+      <div class="input-box" *ngIf="type != 'urgent'">
         <p>
           <label for="">审核状态:</label>
           <span class="span-box">
@@ -80,10 +81,9 @@
             <span *ngIf="detailform.check_info[2]">{{detailform.check_info[2].check_status_txt}}</span>
           </span>
         </p>
-        <p>
+        <p *ngIf="detailform.check_info[2]">
           <label for="">天气:</label>
-          <span>第一次：{{detailform.check_info[1].weather}}</span>
-          <span *ngIf="detailform.check_info[2]">&nbsp;第二次：{{detailform.check_info[2].weather}}</span>
+          <span>&nbsp;{{detailform.check_info[2].weather}}</span>
         </p>
       </div>
       <div class="input-box">

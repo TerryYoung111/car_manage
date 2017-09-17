@@ -17,13 +17,28 @@ export class PageComponent implements OnInit {
   constructor(private dataService:DataServiceService, private router:Router , private tools:Tools) { }
 
   ngOnInit() {
-    this.routerActive = this.router.url.split('/')[2];
+    this.privilegeInfo = {
+      audit:[]
+    }
     setInterval(() => {
       this.mowTime = this.tools.getStrDate(true);
     }, 800);
     this.userInfo = {name:""};
     this.getLogininfo();
+    this.router.events.subscribe((event)=>{
+      if (event instanceof NavigationEnd) {
+        // console.log(event)
+        // console.log(this.privilegeInfo)
+        // if (this.privilegeInfo.audit.length == 0) {
+        //     // this.router.navigateByUrl("page/applyCar")
+        // }else{
+        //   // this.router.navigateByUrl('page/vehicleReview');
+        // }
+          this.routerActive = event.urlAfterRedirects.split('/')[2];
+      }
+    })
   }
+
   // 获取登录信息
   getLogininfo(){
     this.dataService.getLogininfo().then(res => {
@@ -51,10 +66,19 @@ export class PageComponent implements OnInit {
       // console.log("权限",res);
       if (res.code == 0) {
           this.privilegeInfo = res.data;
+          console.log("权限",this.privilegeInfo);
+          if (this.privilegeInfo.audit.length == 0) {
+              this.router.navigateByUrl('page/applyCar');
+          }else{
+            this.router.navigateByUrl('page/vehicleReview');
+          }
       }else{
         alert(res.message);
       }
     })
+  }
+  privilegeAlert(text){
+    alert(text);
   }
   logout(){
     this.dataService.logout().then(res => {

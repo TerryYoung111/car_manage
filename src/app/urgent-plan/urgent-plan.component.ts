@@ -26,6 +26,7 @@ export class UrgentPlanComponent implements OnInit {
   group:string;
   applyGroup:any[];
   applyUsers:any[];
+  carlist:any[];
   carsCanapply:any[];
   applyform:any;
   minDate:Date;
@@ -60,7 +61,7 @@ export class UrgentPlanComponent implements OnInit {
     this.getLogininfo();
     this.getApplyGroupList();
     // this.getApplyuserlist();
-    this.getCarsCanapply();
+    this.getAllCar();
     // console.log(this.add_condition);
     this.getApplicationList(this.isActive);
   }
@@ -167,6 +168,17 @@ export class UrgentPlanComponent implements OnInit {
       }
     })
   }
+  //所有车辆
+  getAllCar(){
+    this.dataService.getAllCar().then(res => {
+      if (res.code == 0) {
+          this.carlist = res.data.car_list;
+          console.log(this.carlist);
+      }else{
+        alert(res.message);
+      }
+    })
+  }
   //可申请车辆
   getCarsCanapply(){
     this.dataService.getCarsCanapply().then(res => {
@@ -267,8 +279,8 @@ export class UrgentPlanComponent implements OnInit {
   }
   //获取申请用车计划表
   getApplicationList(status){
-    let creat_time_st = this.tools.getStrTime(this.startDate);
-    let creat_time_ed = this.tools.getStrTime(this.endDate);
+    let creat_time_st = this.tools.getStrTime(this.startDate) ? this.tools.getStrTime(this.startDate) : "";
+    let creat_time_ed = this.tools.getStrTime(this.endDate) ? this.tools.getStrTime(this.endDate) : "";
     this.dataService.applicationList(2,status,creat_time_st,creat_time_ed,this.plate_num,this.cur_page,10).then(res => {
       // console.log('申请列表',res);
       if (res.code == 0) {

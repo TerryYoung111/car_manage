@@ -4,8 +4,8 @@ import 'rxjs/add/operator/toPromise';
 import { DefaultData } from './data';
 @Injectable()
 export class DataServiceService {
-  ip:string = "http://118.190.35.37";
-  // ip:string = "";
+  // ip:string = "http://118.190.35.37";
+  ip:string = "";
   headers = new Headers({'Content-Type':'application/x-www-form-urlencoded','withCredentials': true});
   public dataFormat:any = {
             firstDayOfWeek: 0,
@@ -63,7 +63,7 @@ export class DataServiceService {
 
   //录入车辆
   addCar(obj){
-    let url = `${this.ip}/web_car/index.php/car/carmanager/add?car_status=${obj.car_status}&group_id=${obj.group_id}&brand=${obj.brand}&plate_num=${obj.plate_num}&incharge_user_name=${obj.incharge}&manage_user_name=${obj.manager}&drive_user_name=${obj.driver}`;
+    let url = `${this.ip}/web_car/index.php/car/carmanager/add?car_status=${obj.car_status}&quality_status=${obj.quality_status}&group_id=${obj.group_id}&brand=${obj.brand}&plate_num=${obj.plate_num}&incharge_user_name=${obj.incharge}&manage_user_name=${obj.manager}&drive_user_name=${obj.driver}`;
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -71,7 +71,14 @@ export class DataServiceService {
 
   //修改车辆信息
   modifyCar(obj){
-    let url = `${this.ip}/web_car/index.php/car/carmanager/modify?car_id=${obj.car_id}&car_status=${obj.car_status}&drive_user_name=${obj.driver}&incharge_user_name=${obj.incharge}&manage_user_name=${obj.manager}`;
+    let url = `${this.ip}/web_car/index.php/car/carmanager/modify?car_id=${obj.car_id}&car_status=${obj.car_status}&quality_status=${obj.quality_status}&drive_user_name=${obj.driver}&incharge_user_name=${obj.incharge}&manage_user_name=${obj.manager}`;
+    return this.http.get(url).toPromise()
+    .then(res => <DefaultData> res.json())
+    .then(data => {return data})
+  }
+  //删除车辆
+  deleteCar(car_id){
+    let url = `${this.ip}/web_car/index.php/car/carmanager/delete?car_id=${car_id}`;
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -94,12 +101,19 @@ export class DataServiceService {
   }
   // 搜索车辆列表
   getCars(obj){
-    let group_id,brand,status;
+    let group_id,brand,car_status;
     obj.group_id == -1 ? group_id=" " : group_id=`&group_id=${obj.group_id}`;
     obj.brand === "null" ? brand=" " : brand=`&brand=${obj.brand}`;
-    obj.status == -1 ? status=" " : status=`&status=${obj.status}`;
+    obj.status == -1 ? car_status=" " : car_status=`&status=${obj.status}`;
 
-    let url = `${this.ip}/web_car/index.php/car/carmanager/search?name=${obj.name}&page_size=${obj.page_size}&page=${obj.page}${group_id}${brand}${status}`;
+    let url = `${this.ip}/web_car/index.php/car/carmanager/search?name=${obj.name}&page_size=${obj.page_size}&page=${obj.page}${group_id}${brand}${car_status}`;
+    return this.http.get(url).toPromise()
+    .then(res => <DefaultData> res.json())
+    .then(data => {return data})
+  }
+  //所有车辆
+  getAllCar(){
+    let url = `${this.ip}/web_car/index.php/car/carmanager/search?page_size=1000&page=1`
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -130,7 +144,7 @@ export class DataServiceService {
   }
   // 可申请车辆接口
   getCarsCanapply(){
-    let url = `${this.ip}/web_car/index.php/car/carmanager/search?car_status=0&page_size=100`;
+    let url = `${this.ip}/web_car/index.php/car/carmanager/search?&is_deleted=0&car_status=0&page_size=1000`;
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -188,7 +202,7 @@ export class DataServiceService {
   checkApply(id,status,check_user_id,weather){
     let url:string;
     if (check_user_id) {
-        url = `${this.ip}/web_car/index.php/car/carcheck/modify?id=${id}&status=${status}&check_user_id=${check_user_id}&weather=${weather}`;
+        url = `${this.ip}/web_car/index.php/car/carcheck/modify?id=${id}&status=${status}&check_user_id=${check_user_id}&weather=`;
     }else{
       url = `${this.ip}/web_car/index.php/car/carcheck/modify?id=${id}&status=${status}&check_user_id=0&weather=${weather}`;
     }

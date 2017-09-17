@@ -168,9 +168,11 @@ footer{
 	font-size: 20px;
 }
 .header-middle li{
+  width: 80px;
+  height: 90px;
 	float: left;
 	text-align: center;
-	padding: 14px 6px;
+	/*padding: 14px 6px;*/
 	margin-right: 20px;
 	font-size: 16px;
 }
@@ -180,6 +182,14 @@ footer{
 }
 .header-middle li.active{
   background: #031834;
+}
+.header-middle li>a{
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+.header-middle li>a>img{
+  margin-top: 16px;
 }
 .header-right{
 	float: right;
@@ -445,6 +455,10 @@ footer{
   border-radius: 15px;
   background: #3f51b5;
   border: 1px solid #3f51b5;
+  font-size: 14px;
+}
+.ui-datatable .ui-datatable-data>tr>td button.ui-button>span.ui-button-text{
+  padding: .25em .7em !important;
 }
 /*弹出框*/
 .ui-widget-header .ui-button:enabled:hover,

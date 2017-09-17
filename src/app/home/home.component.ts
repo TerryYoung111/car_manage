@@ -56,6 +56,7 @@ export class HomeComponent implements OnInit {
       }
     })
   }
+  
   logout(){
     this.dataService.logout().then(res => {
       // console.log(res);

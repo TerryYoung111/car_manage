@@ -26,6 +26,7 @@ export class TemporaryPlanComponent implements OnInit {
   group:string;
   applyGroup:any[];
   applyUsers:any[];
+  carlist:any[];
   carsCanapply:any[];
   applyform:any;
   minDate:Date;
@@ -62,7 +63,7 @@ export class TemporaryPlanComponent implements OnInit {
     this.getCheckuser();
     this.getApplyGroupList();
     // this.getApplyuserlist();
-    this.getCarsCanapply();
+    this.getAllCar();
     // console.log(this.add_condition);
     this.getApplicationList(0);
   }
@@ -110,6 +111,7 @@ export class TemporaryPlanComponent implements OnInit {
   showAdd() {
     this.getLogininfo();
     this.getCheckuser();
+    this.getCarsCanapply();
     this.addDisplay = true;
   }
   // 录入车辆筛选条件
@@ -129,8 +131,10 @@ export class TemporaryPlanComponent implements OnInit {
     this.dataService.getCheckuser(this.apply_group).then(res => {
       // console.log('审核等级',res);
       if (res.code == 0) {
+        if (res.data[1]) {
           this.check_level = this.checkLevelMap(res.data,1);
           this.applyform.check_user_id = this.check_level[0].user_id;
+        }
       }else{
         alert(res.message)
       }
@@ -166,6 +170,17 @@ export class TemporaryPlanComponent implements OnInit {
       if (res.code == 0) {
         // console.log('可申请人',res.data)
           this.applyUsers = res.data;
+      }else{
+        alert(res.message);
+      }
+    })
+  }
+  //所有车辆
+  getAllCar(){
+    this.dataService.getAllCar().then(res => {
+      if (res.code == 0) {
+          this.carlist = res.data.car_list;
+          console.log(this.carlist);
       }else{
         alert(res.message);
       }
@@ -268,12 +283,16 @@ export class TemporaryPlanComponent implements OnInit {
   }
   buttonSearch(){
     this.cur_page = 1;
-    this.getApplicationList(this.isActive);
+    // if (this.isActive == -1) {
+    //     this.refusedApplication();
+    // }else{
+      this.getApplicationList(this.isActive);
+    // }
   }
   //获取申请用车计划表
   getApplicationList(status){
-    let creat_time_st = this.tools.getStrTime(this.startDate);
-    let creat_time_ed = this.tools.getStrTime(this.endDate);
+    let creat_time_st = this.tools.getStrTime(this.startDate) ? this.tools.getStrTime(this.startDate) : "";
+    let creat_time_ed = this.tools.getStrTime(this.endDate) ? this.tools.getStrTime(this.endDate) : "";
     this.dataService.applicationList(1,status,creat_time_st,creat_time_ed,this.plate_num,this.cur_page,10).then(res => {
       // console.log('申请列表',res);
       if (res.code == 0) {
@@ -301,26 +320,59 @@ export class TemporaryPlanComponent implements OnInit {
   //页码翻页
   getPageData(i){
     this.cur_page = i;
-    this.getApplicationList(this.isActive);
+    // if (this.isActive == -1) {
+    //     this.refusedApplication();
+    // }else{
+      this.getApplicationList(this.isActive);
+    // }
   }
   //上一页
   getPageDataLeft(){
     if (this.cur_page>1) {
       this.cur_page--;
-      this.getApplicationList(this.isActive);
+      // if (this.isActive == -1) {
+      //     this.refusedApplication();
+      // }else{
+        this.getApplicationList(this.isActive);
+      // }
     }
   }
   //下一页
   getPageDataRight(){
     if (this.cur_page<this.total_page) {
       this.cur_page++;
-      this.getApplicationList(this.isActive);
+      // if (this.isActive == -1) {
+      //     this.refusedApplication();
+      // }else{
+        this.getApplicationList(this.isActive);
+      // }
     }
   }
   toggleStatus(status){
     this.isActive = status;
     this.getApplicationList(status);
   }
+  refused(status){
+    this.isActive = status;
+    // this.refusedApplication();
+    this.getApplicationList(status);
+  }
+  // refusedApplication(){
+  //   let creat_time_st = this.tools.getStrTime(this.startDate) ? this.tools.getStrTime(this.startDate) : "";
+  //   let creat_time_ed = this.tools.getStrTime(this.endDate) ? this.tools.getStrTime(this.endDate) : "";
+  //   this.dataService.checkedNosetoff(1,-1,this.cur_page,10,creat_time_st,creat_time_ed,this.plate_num).then(res => {
+  //     console.log(res);
+  //     if (res.code == 0) {
+  //       this.applylist = res.data.application_list;
+  //       this.cur_page = res.data.cur_page;
+  //       this.total_num = res.data.total_num;
+  //       this.total_page = res.data.total_page;
+  //       this.getPage(res.data.total_page);
+  //     }else{
+  //       alert(res.message);
+  //     }
+  //   })
+  // }
   //获取申请单详细
   applicationDetail(applicationPrint:ApplicationDetailComponent,car_application_id){
     applicationPrint.dialog(car_application_id,'temporary');

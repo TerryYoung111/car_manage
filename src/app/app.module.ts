@@ -29,7 +29,7 @@ const appRoutes:Routes = [
   {path:'login',component:LoginComponent},
   {path:'home',component:HomeComponent},
   {path:'page',component:PageComponent,children:[
-    {path: '',redirectTo:"applyCar",pathMatch:"full"},
+    // {path: '',redirectTo:"applyCar",pathMatch:"full"},
     {path:'applyCar',component:ApplyCarComponent,children:[
       {path:'',redirectTo:'formalPlan',pathMatch:'full'},
       {path:'formalPlan',component:FormalPlanComponent},

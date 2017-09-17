@@ -7,11 +7,11 @@
       <input type="text" placeholder="车牌号" [(ngModel)]="plate_num">
     </li>
     <li>
-      <p-calendar [(ngModel)]="startDate" [locale]="cn" [showIcon]="true" placeholder="开始时间"
+      <p-calendar [(ngModel)]="startDate" [locale]="cn" [showIcon]="true" placeholder="出发起始时间"
       [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
     </li>
     <li>
-      <p-calendar [(ngModel)]="endDate" [locale]="cn" [showIcon]="true" placeholder="结束时间"
+      <p-calendar [(ngModel)]="endDate" [locale]="cn" [showIcon]="true" placeholder="出发截止时间"
       [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
     </li>
     <li class="table-btn">
@@ -40,21 +40,21 @@
   <p-dataTable [value]="applylist">
     <p-column header="所属部门">
       <ng-template let-data="rowData" pTemplate="body">
-        <ng-container *ngFor="let cars of carsCanapply">
+        <ng-container *ngFor="let cars of carlist">
           <span *ngIf="data.car_id == cars.car_id">{{cars.group_name}}</span>
         </ng-container>
       </ng-template>
     </p-column>
       <p-column field="car_id" header="车牌号">
         <ng-template let-data="rowData" pTemplate="body">
-          <ng-container *ngFor="let cars of carsCanapply">
+          <ng-container *ngFor="let cars of carlist">
             <span *ngIf="data.car_id == cars.car_id">{{cars.plate_num}}</span>
           </ng-container>
         </ng-template>
       </p-column>
       <p-column header="品牌">
         <ng-template let-data="rowData" pTemplate="body">
-          <ng-container *ngFor="let cars of carsCanapply">
+          <ng-container *ngFor="let cars of carlist">
             <span *ngIf="data.car_id == cars.car_id">{{cars.brand}}</span>
           </ng-container>
         </ng-template>
@@ -213,91 +213,5 @@
         </p-footer>
 </p-dialog>
 <!-- 计划详情表 -->
-<app-application-detail #applicationPrint [carsCanapply]="carsCanapply"></app-application-detail>
-<!-- <div class="plan-detail-dialog">
-  <p-dialog header="派车单" [(visible)]="planDisplay" modal="modal" width="660" height="617" [closable]="false">
-    <p-header>
-      <div class="plan-detail-dialog-title">
-        <button (click)="window.print()"><a href="javascript:;">打&nbsp;&nbsp;印</a></button>
-      </div>
-      </p-header>
-    <form>
-      <div class="input-box">
-        <p>
-          <label for="">申请部门:</label>
-          <span>{{detailform.application_group_name}}</span>
-        </p>
-        <p>
-          <label for="">申请人:</label>
-          <span>{{detailform.application_user_name}}</span>
-        </p>
-      </div>
-      <div class="input-box">
-        <p>
-          <label for="">车牌号:</label>
-          <ng-container *ngFor="let cars of carsCanapply">
-            <span *ngIf="detailform.car_id == cars.car_id">{{cars.plate_num}}</span>
-          </ng-container>
-
-        </p>
-        <p>
-          <label for="">车辆品牌:</label>
-          <ng-container *ngFor="let cars of carsCanapply">
-            <span *ngIf="detailform.car_id == cars.car_id">{{cars.brand}}</span>
-          </ng-container>
-        </p>
-      </div>
-      <div class="input-box">
-        <p>
-          <label for="">出发城市:</label>
-          <span>{{detailform.start_city}}</span>
-        </p>
-        <p>
-          <label for="">目的城市:</label>
-          <span>{{detailform.end_city}}</span>
-        </p>
-      </div>
-      <div class="input-box">
-        <p>
-          <label for="">出车时间:</label>
-          <span>{{detailform.start_time}}</span>
-        </p>
-        <p>
-          <label for="">收车时间:</label>
-          <span>{{detailform.end_time}}</span>
-        </p>
-      </div>
-      <div class="input-box">
-        <p>
-          <label for="">审核人:</label>
-          <span>{{detailform.check_info[1].check_user_name}}</span>
-        </p>
-        <p>
-          <label for="">监控人:</label>
-          <span>{{detailform.monitor}}</span>
-        </p>
-      </div>
-      <div class="input-box">
-        <p>
-          <label for="">司机:</label>
-          <span>{{detailform.driver_name}}</span>
-        </p>
-        <p>
-          <label for="">人数:</label>
-          <span>{{detailform.person_num}}</span>
-        </p>
-      </div>
-      <div class="input-box">
-        <p class="text-area">
-          <label for="">车辆用途:</label>
-          <span  style="display:inline-block;width:80%">{{detailform.use_for}}</span>
-        </p>
-      </div>
-    </form>
-          <p-footer>
-              <button type="button" pButton (click)="planDisplay=false" label="确定"></button>
-              <button type="button" pButton (click)="planDisplay=false" label="取消"></button>
-          </p-footer>
-  </p-dialog>
-</div> -->
+<app-application-detail #applicationPrint [carsCanapply]="carlist"></app-application-detail>
 <p-confirmDialog width="360" [closable]="false" acceptLabel="确定" rejectLabel="取消"></p-confirmDialog>

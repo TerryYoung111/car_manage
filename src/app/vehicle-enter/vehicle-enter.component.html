@@ -48,6 +48,14 @@
         <option *ngFor="let car_status of add_condition.car_status" [value]="car_status.id">{{car_status.name}}</option>
       </select>
     </p>
+    <p>
+      <label for="">质量状态</label>
+      <select class="" name="quality_status" [(ngModel)]="carsform.quality_status" (ngModelChange)="carsform.quality_status = $event">
+        <option value="正常">正常</option>
+        <option value="良好">良好</option>
+        <option value="能使用">能使用</option>
+      </select>
+    </p>
   </div>
   <p class="btn-box">
     <button type="button" name="button" (click)="addCars(carsForm)"><a href="javascript:;">确&nbsp;&nbsp;认</a></button>

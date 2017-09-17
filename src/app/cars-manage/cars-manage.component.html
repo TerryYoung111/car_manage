@@ -31,7 +31,7 @@
   </ul>
 </div>
 <div class="table-box">
-  <p-dataTable [value]="car_list">
+  <p-dataTable [value]="car_list" [responsive]="true">
       <p-column field="group_id" header="所属部门">
         <ng-template let-data="rowData" pTemplate="body">
             <ng-container *ngFor="let item of group">
@@ -63,9 +63,11 @@
         </ng-template> -->
       </p-column>
       <p-column field="car_status_txt" header="车辆状态"></p-column>
+      <p-column field="quality_status" header="质量状态"></p-column>
       <p-column header="操作">
         <ng-template let-data="rowData" pTemplate="body">
             <button type="button" pButton label="修改" (click)="edit(data)"></button>
+            <button type="button" pButton label="删除" (click)="delete(data)"></button>
         </ng-template>
       </p-column>
   </p-dataTable>
@@ -97,7 +99,7 @@
     </ul>
   </div>
 </div>
-<p-dialog header="车辆管理" [(visible)]="carsDisplay" modal="modal" width="550" [closable]="false" [responsive]="true">
+<p-dialog header="车辆管理" [(visible)]="carsDisplay" modal="modal" width="660" [closable]="false" [responsive]="true">
   <form>
     <div class="input-box">
       <p>
@@ -150,10 +152,22 @@
         </select>
       </p>
     </div>
+    <div class="input-box">
+      <p>
+        <label for="">质量状态</label>
+        <select class="" name="quality_status" [(ngModel)]="editcars.quality_status" (ngModelChange)="editcars.quality_status = $event">
+          <option value="正常">正常</option>
+          <option value="良好">良好</option>
+          <option value="能使用">能使用</option>
+        </select>
+      </p>
+    </div>
   </form>
         <p-footer>
             <button type="button" pButton (click)="sureEdit()" label="确定"></button>
             <button type="button" pButton (click)="carsDisplay=false" label="取消"></button>
         </p-footer>
 </p-dialog>
+<!-- 删除 -->
+<p-confirmDialog width="360" [closable]="false" acceptLabel="确定" rejectLabel="取消"></p-confirmDialog>
 </div>

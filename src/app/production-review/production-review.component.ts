@@ -2,6 +2,8 @@ import { Component, OnInit,Input } from '@angular/core';
 import { ConfirmationService } from 'primeng/primeng';
 import { DataServiceService } from '../data-service.service';
 import { Tools } from '../common/common';
+
+import { ApplicationDetailComponent } from '../application-detail/application-detail.component';
 @Component({
   selector: 'app-production-review',
   templateUrl: './production-review.component.html',
@@ -14,7 +16,7 @@ export class ProductionReviewComponent implements OnInit {
   isActive:number = 0;
   checkDisplay:boolean = false;
   checklist:any[]=[];
-  carsCanapply:any[];
+  carlist:any[];
   application_list:any[] = [];
   select_check_user:number;
   today:string;
@@ -27,7 +29,7 @@ export class ProductionReviewComponent implements OnInit {
   ngOnInit() {
     this.cn = this.dataService.dataFormat;
     this.today = this.tools.getStrDate(false);
-    this.getCarsCanapply();
+    this.getAllCar();
     // this.getCheckuser();
     this.getCheckList(this.isActive);
 
@@ -41,17 +43,28 @@ export class ProductionReviewComponent implements OnInit {
       this.getCheckList(value);
     }
   }
-  //可申请车辆
-  getCarsCanapply(){
-    this.dataService.getCarsCanapply().then(res => {
+  //所有车辆
+  getAllCar(){
+    this.dataService.getAllCar().then(res => {
       if (res.code == 0) {
-          this.carsCanapply = res.data.car_list;
-          // console.log('可申请车辆',res.data.car_list);
+          this.carlist = res.data.car_list;
+          console.log(this.carlist);
       }else{
         alert(res.message);
       }
     })
   }
+  //可申请车辆
+  // getCarsCanapply(){
+  //   this.dataService.getCarsCanapply().then(res => {
+  //     if (res.code == 0) {
+  //         this.carsCanapply = res.data.car_list;
+  //         // console.log('可申请车辆',res.data.car_list);
+  //     }else{
+  //       alert(res.message);
+  //     }
+  //   })
+  // }
   getCheck(type){
     this.type = type;
     if (this.isActive == 2) {
@@ -118,7 +131,7 @@ export class ProductionReviewComponent implements OnInit {
   setoff(data){
     console.log(data);
     this.confirmationService.confirm({
-        message: '是否确定派车？',
+        message: `确定${this.tools.getStrDate(false)}派车？`,
         header: '提示',
         accept: () => {
           this.dataService.modifyCarStatus(data.car_application_id,2).then(res => {
@@ -193,11 +206,18 @@ export class ProductionReviewComponent implements OnInit {
     this.checkDisplay = true;
   }
   submitCheck(status){
-    console.log(status)
+    console.log(status);
+    let flag = true;
     let weather = this.select_check_weather;
-    if (weather) {
+    if (this.check_level_number == 2) {
+        if (!weather) {
+            flag = false;
+        }
+    }else{
+        weather = "";
+    }
+    if (flag) {
       this.dataService.checkApply(this.car_check_id[this.check_level_number].car_check_id,status,this.select_check_user,weather).then(res => {
-        // console.log(res);
         if (res.code == 0) {
             this.getCheckList(this.isActive);
             this.checkDisplay = false;
@@ -206,10 +226,12 @@ export class ProductionReviewComponent implements OnInit {
         }
       })
     }else{
-      alert("请选择天气！")
+      alert('天气不能为空！')
     }
 
-  }
+    }
+
+
 
   //等级人员
   check_level:any[];
@@ -244,4 +266,8 @@ export class ProductionReviewComponent implements OnInit {
     }
   }
 
+  //查看详细
+  checkDetail(applicationPrint:ApplicationDetailComponent,data){
+    applicationPrint.dialog(data.car_application_id,'formal');
+  }
 }
