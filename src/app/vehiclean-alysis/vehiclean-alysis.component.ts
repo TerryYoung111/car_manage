@@ -41,6 +41,7 @@ export class VehicleanAlysisComponent implements OnInit {
       // console.log('车辆列表',res);
       if (res.code == 0) {
           this.carlist = res.data;
+          this.car_id = 0;
       }else{
         alert(res.message);
       }

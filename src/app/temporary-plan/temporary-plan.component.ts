@@ -84,11 +84,13 @@ export class TemporaryPlanComponent implements OnInit {
   application_user_name:string;
   id_card:string;
   privilegeInfo:any;
+  group_id:string;
   getUserInfo(user_id){
     this.dataService.getUserInfo(user_id).then(res => {
       console.log('用户信息',res)
       if (res.code == 0) {
         this.userInfo = res.data;
+        this.group_id = res.data.group_id;
         this.apply_group = res.data.department;
         this.applyform.application_user_id = res.data.user_id;
         this.application_user_name = res.data.name;
@@ -188,7 +190,7 @@ export class TemporaryPlanComponent implements OnInit {
   }
   //可申请车辆
   getCarsCanapply(){
-    this.dataService.getCarsCanapply().then(res => {
+    this.dataService.getCarsCanapply(this.group_id).then(res => {
       if (res.code == 0) {
           this.carsCanapply = res.data.car_list;
           // console.log('可申请车辆',res.data.car_list);

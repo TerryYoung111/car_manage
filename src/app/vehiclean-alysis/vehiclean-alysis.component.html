@@ -6,7 +6,7 @@
         <li>
           <select class="" [(ngModel)]="group_id" (ngModelChange)="getCarlist($event)">
             <option value=0>所有车间</option>
-            <option *ngFor="let group of grouplist" [value]="group.group_id">{{group.group_name}}</option>
+            <option *ngFor="let group of grouplist" [value]="group.id">{{group.group_name}}</option>
           </select>
         </li>
         <li>

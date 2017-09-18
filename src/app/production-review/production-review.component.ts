@@ -48,7 +48,7 @@ export class ProductionReviewComponent implements OnInit {
     this.dataService.getAllCar().then(res => {
       if (res.code == 0) {
           this.carlist = res.data.car_list;
-          console.log(this.carlist);
+          console.log("所有车辆",this.carlist);
       }else{
         alert(res.message);
       }

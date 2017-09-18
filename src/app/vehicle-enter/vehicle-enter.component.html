@@ -14,7 +14,7 @@
     <p>
       <label for="">所属部门</label>
       <select class="" name="department" [(ngModel)]="carsform.group_id" (ngModelChange)="carsform.group_id = $event">
-        <option *ngFor="let group of add_condition.group" [value]="group.group_id">{{group.group_name}}</option>
+        <option *ngFor="let group of add_condition.group" [value]="group.id">{{group.group_name}}</option>
       </select>
     </p>
   </div>

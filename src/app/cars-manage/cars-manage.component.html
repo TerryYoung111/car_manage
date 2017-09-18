@@ -5,10 +5,7 @@
 <div class="content-taps search">
   <ul class="taps-title">
     <li>
-      <select placholder="所属部门" class="" name="" [(ngModel)]="select_groupid" (ngModelChange)="selectGroup($event)">
-        <option [value]= -1>所有车间</option>
-        <option *ngFor="let item of group" [value]="item.value.group_id">{{item.value.department_name}}</option>
-      </select>
+      <input type="text" readonly="readonly" name="" value="{{apply_group}}">
     </li>
     <li>
       <select placholder="车辆品牌" class="" name="" [(ngModel)]="select_brand" (ngModelChange)="selectCar($event)">
@@ -32,12 +29,12 @@
 </div>
 <div class="table-box">
   <p-dataTable [value]="car_list" [responsive]="true">
-      <p-column field="group_id" header="所属部门">
-        <ng-template let-data="rowData" pTemplate="body">
-            <ng-container *ngFor="let item of group">
-              <span *ngIf="data.group_id == item.value.group_id">{{item.value.department_name}}</span>
+      <p-column field="group_name" header="所属部门">
+        <!-- <ng-template let-data="rowData" pTemplate="body">
+            <ng-container *ngFor="let item of searchcondition.group">
+              <span *ngIf="data.group_id == item.id">{{item.group_name}}</span>
             </ng-container>
-        </ng-template>
+        </ng-template> -->
       </p-column>
       <p-column field="plate_num" header="车牌号"></p-column>
       <p-column field="brand" header="品牌"></p-column>
@@ -105,7 +102,7 @@
       <p>
         <label for="">所属部门</label>
         <ng-container *ngFor="let department of add_condition.group">
-          <span *ngIf="editcars.group == department.group_id">{{department.group_name}}</span>
+          <span *ngIf="editcars.group == department.id">{{department.group_name}}</span>
         </ng-container>
 
       </p>

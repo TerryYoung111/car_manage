@@ -4,8 +4,8 @@ import 'rxjs/add/operator/toPromise';
 import { DefaultData } from './data';
 @Injectable()
 export class DataServiceService {
-  // ip:string = "http://118.190.35.37";
-  ip:string = "";
+  ip:string = "http://118.190.35.37";
+  // ip:string = "";
   headers = new Headers({'Content-Type':'application/x-www-form-urlencoded','withCredentials': true});
   public dataFormat:any = {
             firstDayOfWeek: 0,
@@ -56,7 +56,7 @@ export class DataServiceService {
   //录入车辆筛选条件(部门、品牌以及状态)
   getAddcondition(){
     let url = `${this.ip}/web_car/index.php/car/carmanager/addcondition`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -64,7 +64,7 @@ export class DataServiceService {
   //录入车辆
   addCar(obj){
     let url = `${this.ip}/web_car/index.php/car/carmanager/add?car_status=${obj.car_status}&quality_status=${obj.quality_status}&group_id=${obj.group_id}&brand=${obj.brand}&plate_num=${obj.plate_num}&incharge_user_name=${obj.incharge}&manage_user_name=${obj.manager}&drive_user_name=${obj.driver}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -95,19 +95,20 @@ export class DataServiceService {
   //获取搜索级联条件
   getSearchcondition(){
     let url = `${this.ip}/web_car/index.php/car/carmanager/searchcondition`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
   // 搜索车辆列表
   getCars(obj){
+    console.log(obj)
     let group_id,brand,car_status;
-    obj.group_id == -1 ? group_id=" " : group_id=`&group_id=${obj.group_id}`;
-    obj.brand === "null" ? brand=" " : brand=`&brand=${obj.brand}`;
-    obj.status == -1 ? car_status=" " : car_status=`&status=${obj.status}`;
+    group_id=`&group_id=${obj.group_id}`;
+    obj.brand === "null" ? brand="" : brand=`&brand=${obj.brand}`;
+    obj.status == -1 ? car_status="" : car_status=`&status=${obj.status}`;
 
-    let url = `${this.ip}/web_car/index.php/car/carmanager/search?name=${obj.name}&page_size=${obj.page_size}&page=${obj.page}${group_id}${brand}${car_status}`;
-    return this.http.get(url).toPromise()
+    let url = `${this.ip}/web_car/index.php/car/carmanager/search?&name=${obj.name}&page_size=${obj.page_size}&page=${obj.page}${group_id}${brand}${car_status}`;
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -124,7 +125,7 @@ export class DataServiceService {
     // let url = `${this.ip}/web_car/index.php/car/carapplication/checkuserlist`;
     let group_name = group ? group : "";
     let url = `${this.ip}/web_car/index.php/car/carapplication/checkuserlist?group=${group_name}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -138,13 +139,13 @@ export class DataServiceService {
   // 可申请人员接口
   getApplyuser(event){
     let url = `${this.ip}/web_car/index.php/car/carapplication/applyuserlist?group=${event}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
   // 可申请车辆接口
-  getCarsCanapply(){
-    let url = `${this.ip}/web_car/index.php/car/carmanager/search?&is_deleted=0&car_status=0&page_size=1000`;
+  getCarsCanapply(group_id){
+    let url = `${this.ip}/web_car/index.php/car/carmanager/search?&group_id=${group_id}&is_deleted=0&car_status=0&page_size=1000`;
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -217,7 +218,7 @@ export class DataServiceService {
     let param,url;
     group_id !==false ? param = `?group_id=${group_id}` : param = '';
     url = `${this.ip}/web_car/index.php/car/caranalysis/carcondition${param}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -227,7 +228,7 @@ export class DataServiceService {
     group_id ? group = `&group_id=${group_id}` : ' ';
     car_id ? car = `&car_id=${car_id}` : ' ';
     url = `${this.ip}/web_car/index.php/car/caranalysis/search?start_time=${start_time}&end_time=${end_time}&page=${page}&page_size=5${group}${car}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }

@@ -40,6 +40,7 @@ export class VehicleEnterComponent implements OnInit {
       // console.log(res);
       if (res.code == 0) {
           this.add_condition = res.data;
+          this.carsform.group_id = res.data.group[0].id;
       }else{
         alert(res.message);
       }
