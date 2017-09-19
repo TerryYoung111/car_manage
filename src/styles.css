@@ -439,6 +439,10 @@ footer{
   text-overflow:ellipsis;
   white-space: nowrap;
 }
+.ui-datatable .ui-datatable-thead>tr>th:last-child,
+.ui-datatable .ui-datatable-data>tr>td:last-child{
+  width: 160px !important;
+}
 .ui-datatable .ui-datatable-thead>tr,
 .ui-datatable tbody.ui-datatable-data>tr{
   border-bottom: 1px solid #e5e5e5 !important;

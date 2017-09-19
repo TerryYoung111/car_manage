@@ -257,6 +257,22 @@ export class FormalPlanComponent implements OnInit {
       alert(errorStr+"不能为空")
     }
   }
+  //删除申请
+  deleteApplication(application_id){
+    this.confirmationService.confirm({
+        message: `确定删除申请单？`,
+        header: '提示',
+        accept: () => {
+          this.dataService.deleteApplication(application_id).then(res => {
+            if (res.code == 0) {
+                this.getApplicationList(this.isActive);
+            }else{
+              alert(res.message)
+            }
+          })
+        }
+    })
+  }
   //收车
   callbackcar(data){
     // console.log(data);

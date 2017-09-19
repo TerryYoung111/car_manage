@@ -11,6 +11,7 @@ export class VehicleanAlysisComponent implements OnInit {
   public cn:any;
   startDate:Date = new Date();
   endDate:Date = new Date();
+
   dateArr:any[];
   analysislist:any[];
   grouplist:any[];
@@ -20,8 +21,15 @@ export class VehicleanAlysisComponent implements OnInit {
   constructor(private dataService :DataServiceService , private tools:Tools) { }
 
   ngOnInit() {
+    this.startDate.setHours(0);
+    this.startDate.setMinutes(0);
+    this.startDate.setSeconds(0);
+    this.endDate.setHours(23);
+    this.endDate.setMinutes(59);
+    this.endDate.setSeconds(59);
     this.cn = this.dataService.dataFormat;
     this.getCondition();
+    this.searchAnalysis();
   }
   //搜索条件
   getCondition(){

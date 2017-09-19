@@ -28,11 +28,34 @@ export class ProductionReviewComponent implements OnInit {
 
   ngOnInit() {
     this.cn = this.dataService.dataFormat;
+    this.getLogininfo();
     this.today = this.tools.getStrDate(false);
     this.getAllCar();
-    // this.getCheckuser();
     this.getCheckList(this.isActive);
 
+  }
+  // 获取登录信息
+  getLogininfo(){
+    this.dataService.getLogininfo().then(res => {
+      console.log("登录信息",res);
+      if (res.code == 0) {
+          this.getPrivilege(res.data.user_id);
+      }else{
+        alert(res.message);
+      }
+    })
+  }
+  check_level_num:number;
+  getPrivilege(user_id){
+    this.dataService.getPrivilege(user_id).then(res => {
+      console.log("权限",res);
+      if (res.code == 0) {
+          // this.privilegeInfo = res.data;
+          this.check_level_num = res.data.audit[0];
+      }else{
+        alert(res.message);
+      }
+    })
   }
 
   toogleStatus(value){
@@ -145,7 +168,24 @@ export class ProductionReviewComponent implements OnInit {
           })
         }
     })
+  }
 
+  //撤销
+  revoke(data){
+    this.confirmationService.confirm({
+        message: `确定撤销派车单？`,
+        header: '提示',
+        accept: () => {
+          this.dataService.checkCancel(data.car_application_id).then(res => {
+            console.log(res);
+            if (res.code == 0) {
+                this.getCheckListNosetoff(1);
+            }else{
+              alert(res.message);
+            }
+          })
+        }
+    })
   }
   //页码生成
   cur_page:number = 1;

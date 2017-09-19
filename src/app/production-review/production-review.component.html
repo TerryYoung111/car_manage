@@ -25,7 +25,7 @@
   <div class="content-taps">
     <ul class="taps-title">
       <li *ngIf="type !=2"><a href="javascript:;" [class.active]="isActive == 0" (click)="toogleStatus(0)">待审核项目</a></li>
-      <li *ngIf="type !=2"><a href="javascript:;" [class.active]="isActive == 2" (click)="toogleStatus(2)">审核完成待出发</a></li>
+      <li *ngIf="type !=2 && check_level_num == 2"><a href="javascript:;" [class.active]="isActive == 2" (click)="toogleStatus(2)">审核完成待出发</a></li>
       <li><a href="javascript:;" [class.active]="isActive == 1" (click)="toogleStatus(1)">审核历史</a></li>
     </ul>
   </div>
@@ -66,22 +66,30 @@
           </ng-template>
         </p-column>
         <p-column field="use_for" header="用车原因"></p-column>
-        <p-column field="check_status_txt" header="状态">
+        <!-- <p-column field="check_status_txt" header="状态">
           <ng-template let-data="rowData" pTemplate="body">
-            <!-- <span *ngIf="data.cur_check_level == 99">{{data.application_status_txt}}</span> -->
             <span >{{data.check_status_txt}}</span>
           </ng-template>
-        </p-column>
+        </p-column> -->
         <ng-container *ngIf="isActive == 0">
+          <p-column field="check_status_txt" header="状态">
+            <ng-template let-data="rowData" pTemplate="body">
+              <span >{{data.check_status_txt}}</span>
+            </ng-template>
+          </p-column>
           <p-column header="操作">
             <ng-template let-data="rowData" pTemplate="body">
               <button type="button" pButton label="详细" (click)="checkDetail(applicationPrint,data)"></button>
               <button type="button" pButton label="审核" (click)="confirmVerify(data)"></button>
-
             </ng-template>
           </p-column>
         </ng-container>
         <ng-container *ngIf="isActive == 1">
+          <p-column field="check_status_txt" header="状态">
+            <ng-template let-data="rowData" pTemplate="body">
+              <span >{{data.application_status_txt}}</span>
+            </ng-template>
+          </p-column>
           <p-column header="操作">
             <ng-template let-data="rowData" pTemplate="body">
               <button type="button" pButton label="详细" (click)="checkDetail(applicationPrint,data)"></button>
@@ -89,9 +97,15 @@
           </p-column>
         </ng-container>
         <ng-container *ngIf="isActive == 2">
+          <p-column field="check_status_txt" header="状态">
+            <ng-template let-data="rowData" pTemplate="body">
+              <span *ngIf="data.cur_check_level == 99">{{data.check_info[2].check_status_txt}}</span>
+            </ng-template>
+          </p-column>
           <p-column header="操作">
             <ng-template let-data="rowData" pTemplate="body">
               <button type="button" pButton label="详细" (click)="checkDetail(applicationPrint,data)"></button>
+              <button *ngIf="check_level_num == 2" type="button" pButton label="撤销" (click)="revoke(data)"></button>
               <button *ngIf="data.cur_check_level == 99 && data.application_status == 1" type="button" pButton label="出发" (click)="setoff(data)"></button>
               <button [disabled]="data.cur_check_level != 99 || data.application_status != 1" *ngIf="data.cur_check_level != 99 || data.application_status != 1" type="button" pButton label="出发"></button>
             </ng-template>

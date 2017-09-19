@@ -105,7 +105,7 @@ export class DataServiceService {
     let group_id,brand,car_status;
     group_id=`&group_id=${obj.group_id}`;
     obj.brand === "null" ? brand="" : brand=`&brand=${obj.brand}`;
-    obj.status == -1 ? car_status="" : car_status=`&status=${obj.status}`;
+    obj.status == -1 ? car_status="" : car_status=`&car_status=${obj.status}`;
 
     let url = `${this.ip}/web_car/index.php/car/carmanager/search?&name=${obj.name}&page_size=${obj.page_size}&page=${obj.page}${group_id}${brand}${car_status}`;
     return this.http.get(url,{withCredentials: true}).toPromise()
@@ -163,6 +163,13 @@ export class DataServiceService {
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
+  //删除申请
+  deleteApplication(id){
+    let url = `${this.ip}/web_car/index.php/car/carapplication/delete?id=${id}`;
+    return this.http.get(url).toPromise()
+    .then(res => <DefaultData> res.json())
+    .then(data => {return data})
+  }
   // 申请列表
   applicationList(type,status,creat_time_st,creat_time_ed,plate_num,cur_page,page_size){
     let param = `type=${type}&status=${status}&page=${cur_page}&page_size=${page_size}&creat_time_st=${creat_time_st}&creat_time_ed=${creat_time_ed}&plate_num=${plate_num}`;
@@ -211,7 +218,13 @@ export class DataServiceService {
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
-
+  //审核撤销
+  checkCancel(id){
+    let url = `${this.ip}/web_car/index.php/car/carapplication/cancel?id=${id}`;
+    return this.http.get(url).toPromise()
+    .then(res => <DefaultData> res.json())
+    .then(data => {return data})
+  }
   //车辆分析筛选条件
   analysisCondition(group_id){
     // console.log(group_id)

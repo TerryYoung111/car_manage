@@ -74,7 +74,15 @@
       </p-column>
       <p-column field="use_for" header="用车原因"></p-column>
       <p-column field="application_status_txt" header="状态"></p-column>
-      <ng-container *ngIf="isActive != 2">
+      <ng-container *ngIf="isActive == 0">
+        <p-column header="评分表">
+          <ng-template let-data="rowData" pTemplate="body">
+              <button type="button" pButton label="删　除" (click)="deleteApplication(data.car_application_id)"></button>
+              <button type="button" pButton label="派车单" (click)="applicationDetail(applicationPrint,data.car_application_id)"></button>
+          </ng-template>
+        </p-column>
+      </ng-container>
+      <ng-container *ngIf="isActive != 2 && isActive != 0">
         <p-column header="评分表">
           <ng-template let-data="rowData" pTemplate="body">
               <button type="button" pButton label="派车单" (click)="applicationDetail(applicationPrint,data.car_application_id)"></button>
