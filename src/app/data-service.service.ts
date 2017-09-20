@@ -4,8 +4,8 @@ import 'rxjs/add/operator/toPromise';
 import { DefaultData } from './data';
 @Injectable()
 export class DataServiceService {
-  ip:string = "http://118.190.35.37";
-  // ip:string = "";
+  // ip:string = "http://118.190.35.37";
+  ip:string = "";
   headers = new Headers({'Content-Type':'application/x-www-form-urlencoded','withCredentials': true});
   public dataFormat:any = {
             firstDayOfWeek: 0,
@@ -195,6 +195,13 @@ export class DataServiceService {
   }
   modifyCarStatus(car_id,status){
     let url = `${this.ip}/web_car/index.php/car/carapplication/modify?id=${car_id}&status=${status}`;
+    return this.http.get(url).toPromise()
+    .then(res => <DefaultData> res.json())
+    .then(data => {return data})
+  }
+  //收车
+  modifyCarStatusCallback(time,car_id,status){
+    let url = `${this.ip}/web_car/index.php/car/carapplication/modify?id=${car_id}&end_time=${time}&status=${status}`;
     return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})

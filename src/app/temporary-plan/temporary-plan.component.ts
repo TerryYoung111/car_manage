@@ -281,21 +281,39 @@ export class TemporaryPlanComponent implements OnInit {
     })
   }
   //收车
+  display:boolean = false;
+  callback_car_application_id:string;
+  callbackTime:Date;
   callbackcar(data){
+    this.display = true;
+    this.callbackTime = new Date();
+    this.callback_car_application_id = data.car_application_id;
     console.log(data);
-    this.confirmationService.confirm({
-        message: `确定${this.tools.getStrDate(false)}收车？`,
-        header: '提示',
-        accept: () => {
-          this.dataService.modifyCarStatus(data.car_application_id,3).then(res => {
-            console.log(res);
-            if (res.code == 0) {
-                this.getApplicationList(this.isActive);
-            }else{
-              alert(res.message);
-            }
-          })
-        }
+    // this.confirmationService.confirm({
+    //     message: `确定${this.tools.getStrDate(false)}收车？`,
+    //     header: '提示',
+    //     accept: () => {
+    //       this.dataService.modifyCarStatus(data.car_application_id,3).then(res => {
+    //         console.log(res);
+    //         if (res.code == 0) {
+    //             this.getApplicationList(this.isActive);
+    //         }else{
+    //           alert(res.message);
+    //         }
+    //       })
+    //     }
+    // })
+  }
+  sureCallback(){
+    let time = this.tools.getStrTime(this.callbackTime);
+    this.dataService.modifyCarStatusCallback(time,this.callback_car_application_id,3).then(res => {
+      // console.log(res);
+      if (res.code == 0) {
+          this.getApplicationList(this.isActive);
+          this.display = false;
+      }else{
+        alert(res.message);
+      }
     })
   }
   buttonSearch(){

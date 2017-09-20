@@ -18,7 +18,7 @@ export class UrgentPlanComponent implements OnInit {
   cn: any;
   addDisplay: boolean = false;
   planDisplay: boolean = false;
-  isActive: number = 0;
+  isActive: number = 3;
   startDate: Date;
   endDate: Date;
   plate_num:string = "";

@@ -223,3 +223,19 @@
 <!-- 计划详情表 -->
 <app-application-detail #applicationPrint [carsCanapply]="carlist"></app-application-detail>
 <p-confirmDialog width="360" [closable]="false" acceptLabel="确定" rejectLabel="取消"></p-confirmDialog>
+
+<p-dialog header="确认收车" [(visible)]="display" modal="modal" width="450" [closable]="true">
+  <form>
+    <div class="input-box">
+      <p style="margin:10px 0;width:100%;text-align:center">
+        <label for="">收车时间</label>
+        <p-calendar [showTime]="true" [(ngModel)]="callbackTime" name="callbackTime" [locale]="cn" [showIcon]="true" placeholder="收车时间"
+        [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
+      </p>
+    </div>
+  </form>
+        <p-footer>
+            <button type="button" pButton (click)="sureCallback()" label="确定"></button>
+            <button type="button" pButton (click)="display = false" label="取消"></button>
+        </p-footer>
+</p-dialog>
