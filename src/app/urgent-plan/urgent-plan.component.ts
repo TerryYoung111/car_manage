@@ -187,6 +187,7 @@ export class UrgentPlanComponent implements OnInit {
     this.dataService.getCarsCanapply(this.group_id).then(res => {
       if (res.code == 0) {
           this.carsCanapply = res.data.car_list;
+          if(res.data.car_list.length>0) this.applyform.car_id = res.data.car_list[0].car_id;
           // console.log('可申请车辆',res.data.car_list);
       }else{
         alert(res.message);

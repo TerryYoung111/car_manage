@@ -4,8 +4,8 @@ import 'rxjs/add/operator/toPromise';
 import { DefaultData } from './data';
 @Injectable()
 export class DataServiceService {
-  // ip:string = "http://118.190.35.37";
-  ip:string = "";
+  ip:string = "http://118.190.35.37";
+  // ip:string = "";
   headers = new Headers({'Content-Type':'application/x-www-form-urlencoded','withCredentials': true});
   public dataFormat:any = {
             firstDayOfWeek: 0,
@@ -48,7 +48,7 @@ export class DataServiceService {
   //获取权限信息
   getPrivilege(user_id){
     let url = `${this.ip}/web_car/index.php/car/user/privilege?user_id=${user_id}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -72,14 +72,14 @@ export class DataServiceService {
   //修改车辆信息
   modifyCar(obj){
     let url = `${this.ip}/web_car/index.php/car/carmanager/modify?car_id=${obj.car_id}&car_status=${obj.car_status}&quality_status=${obj.quality_status}&drive_user_name=${obj.driver}&incharge_user_name=${obj.incharge}&manage_user_name=${obj.manager}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
   //删除车辆
   deleteCar(car_id){
     let url = `${this.ip}/web_car/index.php/car/carmanager/delete?car_id=${car_id}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -87,7 +87,7 @@ export class DataServiceService {
   // 获取车辆详情
   getDetail(car_id){
     let url = `${this.ip}/web_car/index.php/car/carmanager/detail?car_id=${car_id}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -115,7 +115,7 @@ export class DataServiceService {
   //所有车辆
   getAllCar(){
     let url = `${this.ip}/web_car/index.php/car/carmanager/search?page_size=1000&page=1`
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -132,7 +132,7 @@ export class DataServiceService {
   //可申请组接口
   getApplyuserlist(){
     let url = `${this.ip}/web_car/index.php/car/carapplication/applyuserlist`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -146,7 +146,7 @@ export class DataServiceService {
   // 可申请车辆接口
   getCarsCanapply(group_id){
     let url = `${this.ip}/web_car/index.php/car/carmanager/search?&group_id=${group_id}&is_deleted=0&car_status=0&page_size=1000`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -166,7 +166,7 @@ export class DataServiceService {
   //删除申请
   deleteApplication(id){
     let url = `${this.ip}/web_car/index.php/car/carapplication/delete?id=${id}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -189,20 +189,20 @@ export class DataServiceService {
   //申请单详情
   applicationDetail(application_id){
     let url = `${this.ip}/web_car/index.php/car/carapplication/detail?id=${application_id}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data});
   }
   modifyCarStatus(car_id,status){
     let url = `${this.ip}/web_car/index.php/car/carapplication/modify?id=${car_id}&status=${status}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
   //收车
   modifyCarStatusCallback(time,car_id,status){
     let url = `${this.ip}/web_car/index.php/car/carapplication/modify?id=${car_id}&end_time=${time}&status=${status}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -221,14 +221,14 @@ export class DataServiceService {
     }else{
       url = `${this.ip}/web_car/index.php/car/carcheck/modify?id=${id}&status=${status}&check_user_id=0&weather=${weather}`;
     }
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
   //审核撤销
   checkCancel(id){
     let url = `${this.ip}/web_car/index.php/car/carapplication/cancel?id=${id}`;
-    return this.http.get(url).toPromise()
+    return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
