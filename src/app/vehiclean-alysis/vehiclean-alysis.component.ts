@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataServiceService } from '../data-service.service';
 import { Tools } from '../common/common';
+import { OverlayPanel } from 'primeng/primeng';
 @Component({
   selector: 'app-vehiclean-alysis',
   templateUrl: './vehiclean-alysis.component.html',
@@ -131,5 +132,25 @@ export class VehicleanAlysisComponent implements OnInit {
       startTime.setDate(startTime.getDate()+1);
     }
     this.dateArr = dateArr;
+  }
+
+  //用车详情悬浮
+  overlayShowNormal(data,day,event,overlay:OverlayPanel){
+    console.log(data)
+    if (data.value.use_info.normal[day.date]) {
+        overlay.show(event)
+    }
+  }
+  overlayShowTem(data,day,event,overlay:OverlayPanel){
+    console.log(data)
+    if (data.value.use_info.temp[day.date]) {
+        overlay.show(event)
+    }
+  }
+  overlayShowCritical(data,day,event,overlay:OverlayPanel){
+    console.log(data)
+    if (data.value.use_info.critical[day.date]) {
+        overlay.show(event)
+    }
   }
 }

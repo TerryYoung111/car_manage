@@ -102,12 +102,12 @@ export class DataServiceService {
   // 搜索车辆列表
   getCars(obj){
     console.log(obj)
-    let group_id,brand,car_status;
+    let group_id,brand,car_status,is_deleted;
     group_id=`&group_id=${obj.group_id}`;
     obj.brand === "null" ? brand="" : brand=`&brand=${obj.brand}`;
     obj.status == -1 ? car_status="" : car_status=`&car_status=${obj.status}`;
-
-    let url = `${this.ip}/web_car/index.php/car/carmanager/search?&name=${obj.name}&page_size=${obj.page_size}&page=${obj.page}${group_id}${brand}${car_status}`;
+    obj.is_deleted == 0 ? is_deleted = `&is_deleted=${obj.is_deleted}` : "";
+    let url = `${this.ip}/web_car/index.php/car/carmanager/search?&name=${obj.name}&page_size=${obj.page_size}&page=${obj.page}${group_id}${brand}${car_status}${is_deleted}`;
     return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -245,8 +245,8 @@ export class DataServiceService {
   // 车辆使用搜索接口
   analysisSearch(group_id,car_id,start_time,end_time,page){
     let group,car,url;
-    group_id ? group = `&group_id=${group_id}` : ' ';
-    car_id ? car = `&car_id=${car_id}` : ' ';
+    group_id ? group = `&group_id=${group_id}` : '';
+    car_id ? car = `&car_id=${car_id}` : '';
     url = `${this.ip}/web_car/index.php/car/caranalysis/search?start_time=${start_time}&end_time=${end_time}&page=${page}&page_size=5${group}${car}`;
     return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())

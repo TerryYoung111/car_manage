@@ -6,7 +6,7 @@ import { HttpModule} from '@angular/http';
 import { RouterModule,Routes } from '@angular/router';
 import {HashLocationStrategy,LocationStrategy} from '@angular/common';
 
-import {CalendarModule,DataTableModule,SharedModule,DialogModule,ConfirmDialogModule} from 'primeng/primeng';
+import {CalendarModule,DataTableModule,SharedModule,DialogModule,ConfirmDialogModule,OverlayPanelModule} from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -77,6 +77,7 @@ const appRoutes:Routes = [
     SharedModule,
     DialogModule,
     ConfirmDialogModule,
+    OverlayPanelModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [{provide: LocationStrategy,useClass: HashLocationStrategy}],

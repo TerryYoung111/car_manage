@@ -39,7 +39,61 @@
 </div>
 
 <div class="alysis-table">
-
+  <p-overlayPanel #detail [style]="{'padding':'0px'}">
+    <div class="overlay_content">
+      <span class="overlay_content_title">车辆详情</span>
+      <ul>
+        <li class="car_title">
+          川A99999
+        </li>
+        <li>
+          <label>申请人：</label>
+          <span>张三</span>
+        </li>
+        <li>
+          <label>出发时间：</label>
+          <span>2017年9月23日</span>
+        </li>
+        <li>
+          <label>收车时间：</label>
+          <span>2017年9月23日</span>
+        </li>
+        <li>
+          <label>审核人：</label>
+          <span>李四</span>
+        </li>
+        <li>
+          <label>用车原因：</label>
+          <span>发是对方公司的风格是帝国时代根深蒂固多个第三个</span>
+        </li>
+      </ul>
+      <ul>
+        <li class="car_title">
+          川A99999
+        </li>
+        <li>
+          <label>申请人：</label>
+          <span>张三</span>
+        </li>
+        <li>
+          <label>出发时间：</label>
+          <span>2017年9月23日</span>
+        </li>
+        <li>
+          <label>收车时间：</label>
+          <span>2017年9月23日</span>
+        </li>
+        <li>
+          <label>审核人：</label>
+          <span>李四</span>
+        </li>
+        <li>
+          <label>用车原因：</label>
+          <span>发是对方公司的风格是帝国时代根深蒂固多个第三个</span>
+        </li>
+      </ul>
+    </div>
+  </p-overlayPanel>
   <table cellspacing="0" *ngIf="dateArr">
     <thead>
       <tr>
@@ -59,21 +113,21 @@
             <span style="color:#000">{{caruse.value.plate_num}}</span>
           </td>
           <td><span class="formal">正式</span></td>
-          <td *ngFor="let day of dateArr">
+          <td *ngFor="let day of dateArr" (mouseenter)="overlayShowNormal(caruse,day,$event,detail)" (mouseout)="detail.hide()">
             <i *ngIf="caruse.value.use_info.normal[day.date]; else elseContain">{{caruse.value.use_info.normal[day.date]}}</i>
             <ng-template #elseContain></ng-template>
           </td>
         </tr>
         <tr>
           <td><span class="temporary">临时</span></td>
-          <td *ngFor="let day of dateArr">
+          <td *ngFor="let day of dateArr" (mouseenter)="overlayShowTem(caruse,day,$event,detail)" (mouseout)="detail.hide()">
             <i *ngIf="caruse.value.use_info.temp[day.date]; else elseContain">{{caruse.value.use_info.temp[day.date]}}</i>
             <ng-template #elseContain></ng-template>
           </td>
         </tr>
         <tr>
           <td><span class="urgent">紧急</span></td>
-          <td *ngFor="let day of dateArr">
+          <td *ngFor="let day of dateArr" (mouseenter)="overlayShowCritical(caruse,day,$event,detail)" (mouseout)="detail.hide()">
             <i *ngIf="caruse.value.use_info.critical[day.date];else elseContain">{{caruse.value.use_info.critical[day.date]}}</i>
             <ng-template #elseContain></ng-template>
           </td>

@@ -154,7 +154,8 @@ export class CarsManageComponent implements OnInit {
       page:this.cur_page,
       group_id:this.group_id,
       brand:this.select_brand,
-      status:this.selecte_status
+      status:this.selecte_status,
+      is_deleted:0
     };
     console.log(options)
     this.dataService.getCars(options).then(res => {

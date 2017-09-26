@@ -662,3 +662,6 @@ footer{
 .alysis-table{
   margin-top: 70px;
 }
+.alysis-table .ui-overlaypanel-content{
+  padding: 0 !important;
+}
