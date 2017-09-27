@@ -138,19 +138,36 @@ export class VehicleanAlysisComponent implements OnInit {
   overlayShowNormal(data,day,event,overlay:OverlayPanel){
     console.log(data)
     if (data.value.use_info.normal[day.date]) {
-        overlay.show(event)
+        this.applicationDetail(data.value.use_info.normal[day.date]);
+        overlay.show(event);
     }
   }
   overlayShowTem(data,day,event,overlay:OverlayPanel){
     console.log(data)
     if (data.value.use_info.temp[day.date]) {
+      this.applicationDetail(data.value.use_info.temp[day.date]);
         overlay.show(event)
     }
   }
   overlayShowCritical(data,day,event,overlay:OverlayPanel){
     console.log(data)
     if (data.value.use_info.critical[day.date]) {
+      this.applicationDetail(data.value.use_info.critical[day.date]);
         overlay.show(event)
     }
+  }
+  detail_list:any[] = [];
+  applicationDetail(arr){
+    let detail_list = [];
+    arr.map(value => {
+      this.dataService.applicationDetail(value).then(res => {
+        if (res.code == 0) {
+            detail_list.push(res.data);
+            this.detail_list = detail_list;
+        }else{
+          alert(res.message);
+        }
+      });
+    });
   }
 }
