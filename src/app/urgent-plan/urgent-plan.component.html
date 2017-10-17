@@ -76,7 +76,7 @@
       <ng-container *ngIf="isActive != 2">
         <p-column header="评分表">
           <ng-template let-data="rowData" pTemplate="body">
-              <button type="button" pButton label="派车单" (click)="applicationDetail(applicationPrint,data.car_application_id)"></button>
+              <button type="button" pButton label="派车单" (click)="applicationDetail(applicationPrint,data.car_application_id,'派车单')"></button>
           </ng-template>
         </p-column>
       </ng-container>
@@ -215,6 +215,15 @@
         <textarea name="apply_for" [(ngModel)]="applyform.apply_for"></textarea>
       </p>
     </div>
+    <div class="input-box">
+      <p class="multiselect-area">
+        <label for="">安全注意事项</label>
+        <p-multiSelect name="precautions" defaultLabel="--请选择安全注意事项--" maxSelectedLabels=3
+        selectedItemsLabel="已选{0}项" [options]="precautions" [(ngModel)]="selectedPrecautions"
+        appendTo="body"></p-multiSelect>
+      </p>
+    </div>
+
   </form>
         <p-footer>
             <button type="button" pButton (click)="submitApply(addForm)" label="提交"></button>

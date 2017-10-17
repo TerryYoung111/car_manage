@@ -1,6 +1,6 @@
 <!-- 计划详情表 -->
 <div class="plan-detail-dialog">
-  <p-dialog header="派车单" [(visible)]="planDisplay" modal="modal" width="660" height="617" [closable]="false">
+  <p-dialog header="{{title}}" [(visible)]="planDisplay" modal="modal" width="660" height="617" [closable]="false">
     <p-header>
       <div class="plan-detail-dialog-title">
         <button (click)="printDetail()"><a href="javascript:;">打&nbsp;&nbsp;印</a></button>
@@ -67,7 +67,7 @@
           <label for="">人数:</label>
           <span>{{detailform.person_num}}</span>
         </p>
-        <p *ngIf="type != 'urgent'">
+        <p *ngIf="type != 'urgent'" class="check_user">
           <label for="">审核人:</label>
           <span>{{detailform.check_info[1].check_user_name}}</span>
           <span *ngIf="detailform.check_info[2]">、{{detailform.check_info[2].check_user_name}}</span>
@@ -90,6 +90,18 @@
         <p class="text-area">
           <label for="">车辆用途:</label>
           <span  style="display:inline-block;width:80%">{{detailform.use_for}}</span>
+        </p>
+      </div>
+      <div class="input-box">
+        <p class="text-area">
+          <label for="">安全事项:</label>
+          <span  style="display:inline-block;width:80%">{{detailform.safe_tip}}</span>
+        </p>
+      </div>
+      <div class="input-box" *ngIf="title == '用车历史记录'">
+        <p class="text-area">
+          <label for="">备注:</label>
+          <span  style="display:inline-block;width:80%">{{detailform.note}}</span>
         </p>
       </div>
     </form>

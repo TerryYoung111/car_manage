@@ -78,14 +78,29 @@
         <p-column header="评分表">
           <ng-template let-data="rowData" pTemplate="body">
               <button type="button" pButton label="删　除" (click)="deleteApplication(data.car_application_id)"></button>
-              <button type="button" pButton label="派车单" (click)="applicationDetail(applicationPrint,data.car_application_id)"></button>
+              <button type="button" pButton label="派车单" (click)="applicationDetail(applicationPrint,data.car_application_id,'派车单')"></button>
           </ng-template>
         </p-column>
       </ng-container>
-      <ng-container *ngIf="isActive != 2 && isActive != 0">
+      <ng-container *ngIf="isActive == 1">
         <p-column header="评分表">
           <ng-template let-data="rowData" pTemplate="body">
-              <button type="button" pButton label="派车单" (click)="applicationDetail(applicationPrint,data.car_application_id)"></button>
+              <button type="button" pButton label="删　除" (click)="cancelApplication(data.car_application_id)"></button>
+              <button type="button" pButton label="派车单" (click)="applicationDetail(applicationPrint,data.car_application_id,'派车单')"></button>
+          </ng-template>
+        </p-column>
+      </ng-container>
+      <ng-container *ngIf="isActive == -1" >
+        <p-column header="评分表">
+          <ng-template let-data="rowData" pTemplate="body">
+              <button type="button" pButton label="派车单" (click)="applicationDetail(applicationPrint,data.car_application_id,'派车单')"></button>
+          </ng-template>
+        </p-column>
+      </ng-container>
+      <ng-container *ngIf="isActive == 3">
+        <p-column header="评分表">
+          <ng-template let-data="rowData" pTemplate="body">
+              <button type="button" pButton label="历史记录" (click)="applicationDetail(applicationPrint,data.car_application_id,'用车历史记录')"></button>
           </ng-template>
         </p-column>
       </ng-container>
@@ -221,6 +236,14 @@
         <textarea name="apply_for" [(ngModel)]="applyform.apply_for"></textarea>
       </p>
     </div>
+    <div class="input-box">
+      <p class="multiselect-area">
+        <label for="">安全注意事项</label>
+        <p-multiSelect name="precautions" defaultLabel="--请选择安全注意事项--" maxSelectedLabels=3
+        selectedItemsLabel="已选{0}项" [options]="precautions" [(ngModel)]="selectedPrecautions"
+        appendTo="body"></p-multiSelect>
+      </p>
+    </div>
   </form>
         <p-footer>
             <button type="button" pButton (click)="submitApply(addForm)" label="提交"></button>
@@ -317,11 +340,17 @@
 <p-confirmDialog width="360" [closable]="false" acceptLabel="确定" rejectLabel="取消"></p-confirmDialog>
 <p-dialog header="确认收车" [(visible)]="display" modal="modal" width="450" [closable]="true">
   <form>
-    <div class="input-box">
-      <p style="margin:10px 0;width:100%;text-align:center">
+    <div class="input-box callback_car">
+      <p class="text-area" style="width:100%;text-align:center">
         <label for="">收车时间</label>
         <p-calendar [showTime]="true" [(ngModel)]="callbackTime" name="callbackTime" [locale]="cn" [showIcon]="true" placeholder="收车时间"
         [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
+      </p>
+    </div>
+    <div class="input-box callback_car">
+      <p class="text-area" style="width:100%;text-align:center">
+        <label for="">备注</label>
+        <textarea name="note" style="width:180px;" placeholder="请输入油费、过路费等信息" [(ngModel)]="note"></textarea>
       </p>
     </div>
   </form>

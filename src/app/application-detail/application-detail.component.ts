@@ -6,6 +6,7 @@ import { DataServiceService } from '../data-service.service';
   styleUrls: ['./application-detail.component.css']
 })
 export class ApplicationDetailComponent implements OnInit {
+  title:string;
   planDisplay:boolean = false;
   detailform:any;
   @Input() carsCanapply;
@@ -25,7 +26,8 @@ export class ApplicationDetailComponent implements OnInit {
     }
   }
   type:string;
-  dialog(car_application_id,type){
+  dialog(car_application_id,type,title){
+    this.title = title;
     this.type = type;
     this.planDisplay = true;
     this.applicationDetail(car_application_id);
@@ -72,6 +74,9 @@ export class ApplicationDetailComponent implements OnInit {
         div.input-box p span{
           display: inline-block;
           width: 180px;
+        }
+        div.input-box p.check_user span{
+          display: inline;
         }
         div.input-box p.text-area{
           width: 100%;

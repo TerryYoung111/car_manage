@@ -31,6 +31,8 @@ export class UrgentPlanComponent implements OnInit {
   applyform:any;
   minDate:Date;
   maxDate:Date;
+  precautions:any[];
+  selectedPrecautions:any[];
   constructor(private dataService: DataServiceService,private confirmationService:ConfirmationService,
      private http: Http,private tools:Tools,private router:Router) { }
 
@@ -39,6 +41,18 @@ export class UrgentPlanComponent implements OnInit {
     this.minDate = new Date();
     this.maxDate = new Date();
     this.cn = this.dataService.dataFormat;
+    this.precautions = [];
+    this.precautions = [
+      {value:"严禁闯红灯，违章占用应急车道",label:"严禁闯红灯，违章占用应急车道"},
+      {value:"严禁超速，违章占用应急车道",label:"严禁超速，违章占用应急车道"},
+      {value:"注意避让行人和非机动车，严禁乱停乱放",label:"注意避让行人和非机动车，严禁乱停乱放"},
+      {value:"冰雪、泥泞路段注意控制车速",label:"冰雪、泥泞路段注意控制车速"},
+      {value:"严禁酒后驾车，开斗气车，英雄车",label:"严禁酒后驾车，开斗气车，英雄车"},
+      {value:"注意塌方落石，严禁疲劳驾驶",label:"注意塌方落石，严禁疲劳驾驶"},
+      {value:"雨雾天气，严格控制车速",label:"雨雾天气，严格控制车速"},
+      {value:"严禁占用公交车道，非机动车道",label:"严禁占用公交车道，非机动车道"},
+      {value:"严禁故意遮挡号牌",label:"严禁故意遮挡号牌"}
+    ];
     this.add_condition = {
       car_status:[],
       driver:[],
@@ -229,9 +243,13 @@ export class UrgentPlanComponent implements OnInit {
         }
     }
     if (flag) {
-      let startDate,callbackDate;
+      let startDate,callbackDate,safe_tip="";
       startDate = this.tools.getStrTime(this.applyform.startDate);
       callbackDate = this.tools.getStrTime(this.applyform.callbackDate);
+      this.selectedPrecautions.map(value => {
+        safe_tip+=value+","
+      });
+      this.applyform.precautions = safe_tip;
       if (this.applyform.startDate < this.applyform.callbackDate) {
         this.dataService.addApplication(this.applyform,startDate,callbackDate,2).then(res => {
           // console.log(res);
@@ -283,6 +301,16 @@ export class UrgentPlanComponent implements OnInit {
   }
   //获取申请用车计划表
   getApplicationList(status){
+    if (this.startDate) {
+      this.startDate.setHours(0);
+      this.startDate.setMinutes(0);
+      this.startDate.setSeconds(0);
+    }
+    if (this.endDate) {
+      this.endDate.setHours(23);
+      this.endDate.setMinutes(59);
+      this.endDate.setSeconds(59);
+    }
     let creat_time_st = this.tools.getStrTime(this.startDate) ? this.tools.getStrTime(this.startDate) : "";
     let creat_time_ed = this.tools.getStrTime(this.endDate) ? this.tools.getStrTime(this.endDate) : "";
     this.dataService.applicationList(2,status,creat_time_st,creat_time_ed,this.plate_num,this.cur_page,10).then(res => {
@@ -333,7 +361,7 @@ export class UrgentPlanComponent implements OnInit {
     this.getApplicationList(status);
   }
   //获取申请单详细
-  applicationDetail(applicationPrint:ApplicationDetailComponent,car_application_id){
-    applicationPrint.dialog(car_application_id,'urgent');
+  applicationDetail(applicationPrint:ApplicationDetailComponent,car_application_id,title){
+    applicationPrint.dialog(car_application_id,'urgent',title);
   }
 }

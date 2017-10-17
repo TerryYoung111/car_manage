@@ -24,7 +24,8 @@
           <p-calendar [(ngModel)]="endDate" [locale]="cn" [showIcon]="true" placeholder="结束"
           [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" appendTo="body"></p-calendar>
         </li>
-        <li (click)="searchAnalysisButton()"><a href="javascript:;">搜&nbsp;索</a></li>
+        <li class="alysis_button" (click)="searchAnalysisButton()"><a href="javascript:;">搜&nbsp;索</a></li>
+        <li class="alysis_button" (click)="analysisDownload()"><a href="javascript:;">导&nbsp;出</a></li>
       </ul>
     </div>
     <div class="pagination">
@@ -99,21 +100,21 @@
           </td>
           <td><span class="formal">正式</span></td>
           <td *ngFor="let day of dateArr" (mouseenter)="overlayShowNormal(caruse,day,$event,detail)" (mouseout)="detail.hide()">
-            <i *ngIf="caruse.value.use_info.normal[day.date]; else elseContain">{{caruse.value.use_info.normal[day.date].length}}</i>
+            <b *ngIf="caruse.value.use_info.normal[day.date]; else elseContain">{{caruse.value.use_info.normal[day.date].length}}</b>
             <ng-template #elseContain></ng-template>
           </td>
         </tr>
         <tr>
           <td><span class="temporary">临时</span></td>
           <td *ngFor="let day of dateArr" (mouseenter)="overlayShowTem(caruse,day,$event,detail)" (mouseout)="detail.hide()">
-            <i *ngIf="caruse.value.use_info.temp[day.date]; else elseContain">{{caruse.value.use_info.temp[day.date].length}}</i>
+            <b *ngIf="caruse.value.use_info.temp[day.date]; else elseContain">{{caruse.value.use_info.temp[day.date].length}}</b>
             <ng-template #elseContain></ng-template>
           </td>
         </tr>
         <tr>
           <td><span class="urgent">紧急</span></td>
           <td *ngFor="let day of dateArr" (mouseenter)="overlayShowCritical(caruse,day,$event,detail)" (mouseout)="detail.hide()">
-            <i *ngIf="caruse.value.use_info.critical[day.date];else elseContain">{{caruse.value.use_info.critical[day.date].length}}</i>
+            <b *ngIf="caruse.value.use_info.critical[day.date];else elseContain">{{caruse.value.use_info.critical[day.date].length}}</b>
             <ng-template #elseContain></ng-template>
           </td>
         </tr>

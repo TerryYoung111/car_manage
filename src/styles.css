@@ -560,9 +560,15 @@ footer{
   background: inherit;
 }
 .input-box{
-  margin: 25px 0;
+  margin: 15px 0;
   overflow: hidden;
   font-size: 16px;
+}
+.callback_car p.text-area label{
+  width: 113px !important;
+  height: 32px;
+  line-height: 32px;
+  text-align: right;
 }
 .input-box p{
   float: left;
@@ -591,6 +597,32 @@ footer{
 .input-box p.text-area label{
   width: 90px;
   float: left;
+}
+.input-box p.multiselect-area{
+  width: 100%;
+}
+.input-box p.multiselect-area .ui-state-default{
+  background: #f2f2f2;
+  border: 1px solid #cacaca;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 6px #ccc;
+  outline: none;
+}
+.input-box p.multiselect-area .ui-multiselect-label-container label{
+  width: 486px;
+  height: 33px;
+  line-height: 25px;
+  background: #f2f2f2;
+}
+.ui-multiselect-panel{
+  width: 486px;
+  font-size: 14px !important;
+}
+.ui-state-highlight{
+  background: #4253b6 !important;
+}
+.ui-multiselect-header .ui-inputtext{
+  height: inherit;
 }
 .input-box .text-area textarea{
   width: 486px;
@@ -644,7 +676,7 @@ footer{
   background-color: #595853;
   height: 46px;
   line-height: 46px;
-  padding: 0px 25px !important;
+  padding: 0px 20px !important;
   color: #fff !important;
   border-radius: 5px;
 }

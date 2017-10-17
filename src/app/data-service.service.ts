@@ -48,7 +48,7 @@ export class DataServiceService {
   //获取权限信息
   getPrivilege(user_id){
     let url = `${this.ip}/web_car/index.php/car/user/privilege?user_id=${user_id}`;
-    return this.http.get(url,).toPromise()
+    return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
@@ -152,11 +152,12 @@ export class DataServiceService {
   }
   // 车辆申请接口
   addApplication(form,startDate,callbackDate,type){
+    console.log(form)
     let url;
     if (form.check_user_id) {
-        url = `${this.ip}/web_car/index.php/car/carapplication/add?application_user_id=${form.application_user_id}&car_id=${form.car_id}&application_type=${type}&start_time=${startDate}&end_time=${callbackDate}&start_city=${form.start_city}&end_city=${form.end_city}&use_for=${form.apply_for}&check_user_id=${form.check_user_id}&person_num=${form.person_num}&monitor=${form.monitor}&driver_name=${form.driver_name}`;
+        url = `${this.ip}/web_car/index.php/car/carapplication/add?application_user_id=${form.application_user_id}&car_id=${form.car_id}&application_type=${type}&start_time=${startDate}&end_time=${callbackDate}&start_city=${form.start_city}&end_city=${form.end_city}&use_for=${form.apply_for}&check_user_id=${form.check_user_id}&person_num=${form.person_num}&monitor=${form.monitor}&driver_name=${form.driver_name}&safe_tip=${form.precautions}`;
     }else{
-      url = `${this.ip}/web_car/index.php/car/carapplication/add?application_user_id=${form.application_user_id}&car_id=${form.car_id}&application_type=${type}&start_time=${startDate}&end_time=${callbackDate}&start_city=${form.start_city}&end_city=${form.end_city}&use_for=${form.apply_for}&check_user_id=1&person_num=${form.person_num}&monitor=${form.monitor}&driver_name=${form.driver_name}`;
+      url = `${this.ip}/web_car/index.php/car/carapplication/add?application_user_id=${form.application_user_id}&car_id=${form.car_id}&application_type=${type}&start_time=${startDate}&end_time=${callbackDate}&start_city=${form.start_city}&end_city=${form.end_city}&use_for=${form.apply_for}&check_user_id=1&person_num=${form.person_num}&monitor=${form.monitor}&driver_name=${form.driver_name}&safe_tip=${form.precautions}`;
     }
     console.log(url)
     return this.http.get(url,{withCredentials: true}).toPromise()
@@ -200,8 +201,8 @@ export class DataServiceService {
     .then(data => {return data})
   }
   //收车
-  modifyCarStatusCallback(time,car_id,status){
-    let url = `${this.ip}/web_car/index.php/car/carapplication/modify?id=${car_id}&end_time=${time}&status=${status}`;
+  modifyCarStatusCallback(time,car_id,status,note){
+    let url = `${this.ip}/web_car/index.php/car/carapplication/modify?id=${car_id}&end_time=${time}&status=${status}&note=${note}`;
     return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -245,11 +246,12 @@ export class DataServiceService {
   // 车辆使用搜索接口
   analysisSearch(group_id,car_id,start_time,end_time,page){
     let group,car,url;
-    group_id ? group = `&group_id=${group_id}` : '';
-    car_id ? car = `&car_id=${car_id}` : '';
+    group_id !==false ? group = `&group_id=${group_id}` : group = '';
+    car_id !=false ? car = `&car_id=${car_id}` : car = '';
     url = `${this.ip}/web_car/index.php/car/caranalysis/search?start_time=${start_time}&end_time=${end_time}&page=${page}&page_size=5${group}${car}`;
     return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }
+
 }

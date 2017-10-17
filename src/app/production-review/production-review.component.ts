@@ -59,6 +59,7 @@ export class ProductionReviewComponent implements OnInit {
   }
 
   toogleStatus(value){
+    this.cur_page = 1;
     this.isActive = value;
     if (value == 2) {
       this.getCheckListNosetoff(1);
@@ -89,6 +90,7 @@ export class ProductionReviewComponent implements OnInit {
   //   })
   // }
   getCheck(type){
+    this.cur_page = 1;
     this.type = type;
     if (this.isActive == 2) {
         this.getCheckListNosetoff(1);
@@ -106,6 +108,16 @@ export class ProductionReviewComponent implements OnInit {
   }
   //审核完成待出发
   getCheckListNosetoff(status){
+    if (this.startDate) {
+      this.startDate.setHours(0);
+      this.startDate.setMinutes(0);
+      this.startDate.setSeconds(0);
+    }
+    if (this.endDate) {
+      this.endDate.setHours(23);
+      this.endDate.setMinutes(59);
+      this.endDate.setSeconds(59);
+    }
     let creat_time_st = this.tools.getStrTime(this.startDate) ? this.tools.getStrTime(this.startDate) : "";
     let creat_time_ed = this.tools.getStrTime(this.endDate) ? this.tools.getStrTime(this.endDate) : "";
     this.dataService.checkedNosetoff(this.type,status,this.cur_page,10,creat_time_st,creat_time_ed,this.plate_num).then(res =>{
@@ -122,6 +134,16 @@ export class ProductionReviewComponent implements OnInit {
   }
   //待审核和审核历史
   getCheckList(status){
+    if (this.startDate) {
+      this.startDate.setHours(0);
+      this.startDate.setMinutes(0);
+      this.startDate.setSeconds(0);
+    }
+    if (this.endDate) {
+      this.endDate.setHours(23);
+      this.endDate.setMinutes(59);
+      this.endDate.setSeconds(59);
+    }
     let creat_time_st = this.tools.getStrTime(this.startDate) ? this.tools.getStrTime(this.startDate) : "";
     let creat_time_ed = this.tools.getStrTime(this.endDate) ? this.tools.getStrTime(this.endDate) : "";
     this.dataService.getCheckList(this.type,status,creat_time_st,creat_time_ed,this.plate_num,this.cur_page,10).then(res => {
@@ -307,7 +329,7 @@ export class ProductionReviewComponent implements OnInit {
   }
 
   //查看详细
-  checkDetail(applicationPrint:ApplicationDetailComponent,data){
-    applicationPrint.dialog(data.car_application_id,'formal');
+  checkDetail(applicationPrint:ApplicationDetailComponent,data,title){
+    applicationPrint.dialog(data.car_application_id,'formal',title);
   }
 }

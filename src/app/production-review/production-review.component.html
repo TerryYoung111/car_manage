@@ -79,7 +79,7 @@
           </p-column>
           <p-column header="操作">
             <ng-template let-data="rowData" pTemplate="body">
-              <button type="button" pButton label="详细" (click)="checkDetail(applicationPrint,data)"></button>
+              <button type="button" pButton label="详细" (click)="checkDetail(applicationPrint,data,'派车单')"></button>
               <button type="button" pButton label="审核" (click)="confirmVerify(data)"></button>
             </ng-template>
           </p-column>

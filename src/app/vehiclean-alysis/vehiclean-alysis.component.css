@@ -18,18 +18,28 @@
   float: left;
 }
 .alysis-content div.title{
-  width: 20%;
+  width: 15%;
   font-size: 20px;
   color: #7d6605;
 }
 .alysis-content div.search{
-  width: 60%;
+  width: 65%;
 }
 :host/deep/.ui-calendar.ui-calendar-w-btn input{
   padding: 11px 5px;
 }
-.alysis-content ul li{
+.alysis-content div.search ul li{
   float: left;
+  width: 20%;
+}
+.alysis-content div.pagination ul{
+  width: 100%;
+}
+.alysis-content div.pagination ul li{
+  display: inline;
+}
+.alysis-content ul li.alysis_button{
+  width: 10% !important;
 }
 .alysis-content div.pagination{
   width: 20%;
@@ -91,6 +101,7 @@ table tbody tr:nth-child(3n) td{
   border-bottom: 1px solid #979797;
 }
 table tbody tr td{
+  text-align: center;
   padding: 10px 5px;
   border-right: 1px solid #979797;
 }
@@ -110,6 +121,10 @@ table span{
   text-align: center;
   line-height: 30px;
   color: #fff;
+}
+table b{
+  font-family: 'Microsoft YaHei';
+  text-align: center;
 }
 table span.formal{
   background: #8cc152;

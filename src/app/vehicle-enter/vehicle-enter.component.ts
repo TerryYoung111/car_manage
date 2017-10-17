@@ -96,4 +96,16 @@ export class VehicleEnterComponent implements OnInit {
       alert(errorStr+"不能为空！")
     }
   }
+  cancelCars(){
+    this.carsform = {
+      brand:"",
+      plate_num:"",
+      group_id:"",
+      incharge:"",
+      manager:"",
+      driver:'',
+      car_status:"",
+      quality_status:""
+    };
+  }
 }

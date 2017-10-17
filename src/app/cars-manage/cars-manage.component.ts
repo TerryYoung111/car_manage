@@ -68,6 +68,7 @@ export class CarsManageComponent implements OnInit {
   id_card:string;
   privilegeInfo:any;
   group_id:string;
+  department_type:string;
   getUserInfo(user_id){
     this.dataService.getUserInfo(user_id).then(res => {
       console.log('用户信息',res)
@@ -77,6 +78,7 @@ export class CarsManageComponent implements OnInit {
         this.apply_group = res.data.department;
         this.application_user_name = res.data.name;
         this.id_card = res.data.idCard;
+        this.department_type = res.data.department_type;
         console.log(this.group_id);
         this.getCarsList();
       }else{
@@ -220,6 +222,7 @@ export class CarsManageComponent implements OnInit {
     this.dataService.modifyCar(this.editcars).then(res => {
       // console.log("修改结果",res);
       if (res.code == 0) {
+        this.getSearchcondition();
           this.getCarsList();
           // alert('修改成功')
           this.carsDisplay = false;
