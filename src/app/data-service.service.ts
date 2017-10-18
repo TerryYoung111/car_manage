@@ -94,7 +94,13 @@ export class DataServiceService {
 
   //获取搜索级联条件
   getSearchcondition(){
-    let url = `${this.ip}/web_car/index.php/car/carmanager/searchcondition`;
+    let url = `${this.ip}/web_car/index.php/car/carmanager/searchcondition?group_id=0`;
+    return this.http.get(url,{withCredentials: true}).toPromise()
+    .then(res => <DefaultData> res.json())
+    .then(data => {return data})
+  }
+  getSearchconditionPrivate(group_id){
+    let url = `${this.ip}/web_car/index.php/car/carmanager/searchcondition?group_id=${group_id}`;
     return this.http.get(url,{withCredentials: true}).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
@@ -103,12 +109,12 @@ export class DataServiceService {
   getCars(obj){
     console.log(obj)
     let group_id,brand,car_status,is_deleted;
-    group_id=`&group_id=${obj.group_id}`;
+    obj.group_id == "null" ? group_id="" : group_id=`&group_id=${obj.group_id}`;
     obj.brand === "null" ? brand="" : brand=`&brand=${obj.brand}`;
     obj.status == -1 ? car_status="" : car_status=`&car_status=${obj.status}`;
     obj.is_deleted == 0 ? is_deleted = `&is_deleted=${obj.is_deleted}` : "";
     let url = `${this.ip}/web_car/index.php/car/carmanager/search?&name=${obj.name}&page_size=${obj.page_size}&page=${obj.page}${group_id}${brand}${car_status}${is_deleted}`;
-    return this.http.get(url,{withCredentials: true}).toPromise()
+    return this.http.get(url).toPromise()
     .then(res => <DefaultData> res.json())
     .then(data => {return data})
   }

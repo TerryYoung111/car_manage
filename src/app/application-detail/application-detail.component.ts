@@ -32,12 +32,15 @@ export class ApplicationDetailComponent implements OnInit {
     this.planDisplay = true;
     this.applicationDetail(car_application_id);
   }
+  safe_tip:any[];
   applicationDetail(car_application_id){
     this.planDisplay = true;
     this.dataService.applicationDetail(car_application_id).then(res => {
       console.log(res.data);
       if (res.code == 0) {
           this.detailform = res.data;
+          this.safe_tip = res.data.safe_tip.split(",");
+          this.safe_tip.pop();
       }else{
         alert(res.message);
       }

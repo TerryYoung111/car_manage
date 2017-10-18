@@ -47,7 +47,7 @@ export class CarsManageComponent implements OnInit {
     }
     this.getLogininfo();
     this.getAddcondition();
-    this.getSearchcondition();
+    // this.getSearchcondition();
 
   }
   // 获取登录信息
@@ -55,13 +55,34 @@ export class CarsManageComponent implements OnInit {
     this.dataService.getLogininfo().then(res => {
       // console.log("登录信息",res);
       if (res.code == 0) {
-          this.getUserInfo(res.data.user_id);
-          this.getPrivilege(res.data.user_id);
+        this.getPrivilege(res.data.user_id);
+        this.getUserInfo(res.data.user_id);
+
       }else{
         alert(res.message)
       }
     })
   }
+  //权限
+  privilege:number;
+  getPrivilege(user_id){
+    this.dataService.getPrivilege(user_id).then(res => {
+      console.log("权限",res);
+      if (res.code == 0) {
+          this.privilegeInfo = res.data;
+          if (res.data.audit.length>0 && res.data.audit[0] == "2") {
+              this.privilege = 1;
+              console.log("调度员")
+          }else{
+            this.privilege = 0;
+            console.log("非调度员")
+          }
+      }else{
+        alert(res.message);
+      }
+    })
+  }
+  //用户信息
   userInfo:any;
   apply_group:string;
   application_user_name:string;
@@ -79,23 +100,16 @@ export class CarsManageComponent implements OnInit {
         this.application_user_name = res.data.name;
         this.id_card = res.data.idCard;
         this.department_type = res.data.department_type;
-        console.log(this.group_id);
+        this.select_groupid = "null";
+
+        this.getSearchcondition();
         this.getCarsList();
       }else{
         alert(res.message);
       }
     })
   }
-  getPrivilege(user_id){
-    this.dataService.getPrivilege(user_id).then(res => {
-      // console.log("权限",res);
-      if (res.code == 0) {
-          this.privilegeInfo = res.data;
-      }else{
-        alert(res.message);
-      }
-    })
-  }
+
   // 录入车辆筛选条件
   getAddcondition(){
     this.dataService.getAddcondition().then(res => {
@@ -114,23 +128,34 @@ export class CarsManageComponent implements OnInit {
   select_brand:string = "null";
   selecte_status:number = -1;
   getSearchcondition(){
-    this.dataService.getSearchcondition().then(res => {
-      console.log(res);
-      if (res.code == 0) {
-          this.searchcondition = res.data;
-          // this.group = this.tools.mapObj(res.data.group);
-          // this.select_groupid = this.group[0].value.group_id;
+    console.log(this.privilege)
+    if (this.department_type == '领导' || this.privilege == 1 || this.department_type == '科室') {
+      console.log(this.privilege)
+      this.dataService.getSearchcondition().then(res => {
+        console.log("车辆搜索条件",res);
+        if (res.code == 0) {
+            this.searchcondition = res.data;
+            this.select_groupid = "null";
+            this.select_brand = "null";
+            this.selecte_status = -1;
+        }else{
+          alert(res.message);
+        }
+      })
+    }else{
+      this.dataService.getSearchconditionPrivate(this.group_id).then(res => {
+        console.log("车辆搜索条件",res);
+        if (res.code == 0) {
+            this.searchcondition = res.data;
+            this.select_groupid = "null";
+            this.select_brand = "null";
+            this.selecte_status = -1;
+        }else{
+          alert(res.message);
+        }
+      })
+    }
 
-          // this.select_brand = this.searchcondition.brand[0];
-          this.select_brand = "null";
-          // this.selecte_status = this.searchcondition.car_status[0].id;
-          this.selecte_status = -1;
-          // console.log(this.group)
-      }else{
-        alert(res.message);
-      }
-
-    })
   }
   selectGroup(event){
     this.cur_page = 1;
@@ -150,11 +175,17 @@ export class CarsManageComponent implements OnInit {
   }
   // 搜索车辆列表
   getCarsList(){
+    let group_id;
+    if (this.department_type == '段领导' || this.privilege == 1 || this.department_type == '科室') {
+        group_id = this.select_groupid
+    }else{
+      group_id = this.group_id
+    }
     let options = {
       name:this.search_name ? this.search_name : "",
       page_size:5,
       page:this.cur_page,
-      group_id:this.group_id,
+      group_id:group_id,
       brand:this.select_brand,
       status:this.selecte_status,
       is_deleted:0

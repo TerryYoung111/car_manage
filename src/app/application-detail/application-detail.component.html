@@ -95,7 +95,9 @@
       <div class="input-box">
         <p class="text-area">
           <label for="">安全事项:</label>
-          <span  style="display:inline-block;width:80%">{{detailform.safe_tip}}</span>
+          <span style="display:inline-block;width:82%" >
+            <span style="display:inline-block;width:50%;font-size:12px;" *ngFor="let safe of safe_tip;let i = index">{{i+1}}、{{safe}}</span>
+          </span>
         </p>
       </div>
       <div class="input-box" *ngIf="title == '用车历史记录'">

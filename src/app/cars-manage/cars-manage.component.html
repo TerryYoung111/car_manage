@@ -4,9 +4,19 @@
 </p>
 <div class="content-taps search">
   <ul class="taps-title">
-    <li>
-      <input type="text" readonly="readonly" name="" value="{{apply_group}}">
+
+    <li *ngIf="department_type == '领导' || privilege == 1 || department_type == '科室';else elseContain">
+      <select placholder="车间" class="" name="" [(ngModel)]="select_groupid" (ngModelChange)="selectGroup($event)">
+        <option [value]= "null">所有车间</option>
+        <option *ngFor="let group of searchcondition.group" [value]="group.group_id">{{group.group_name}}</option>
+      </select>
     </li>
+    <ng-template #elseContain>
+      <li>
+        <input type="text" readonly="readonly" name="" value="{{apply_group}}">
+      </li>
+    </ng-template>
+
     <li>
       <select placholder="车辆品牌" class="" name="" [(ngModel)]="select_brand" (ngModelChange)="selectCar($event)">
         <option [value]= "null">所有品牌</option>
