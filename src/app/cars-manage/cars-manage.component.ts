@@ -51,12 +51,14 @@ export class CarsManageComponent implements OnInit {
 
   }
   // 获取登录信息
+  user_id:string;
   getLogininfo(){
     this.dataService.getLogininfo().then(res => {
       // console.log("登录信息",res);
       if (res.code == 0) {
+        this.user_id = res.data.user_id;
         this.getPrivilege(res.data.user_id);
-        this.getUserInfo(res.data.user_id);
+        // this.getUserInfo(res.data.user_id);
 
       }else{
         alert(res.message)
@@ -77,6 +79,7 @@ export class CarsManageComponent implements OnInit {
             this.privilege = 0;
             console.log("非调度员")
           }
+          this.getUserInfo(this.user_id);
       }else{
         alert(res.message);
       }
@@ -127,10 +130,17 @@ export class CarsManageComponent implements OnInit {
   select_groupid:string;
   select_brand:string = "null";
   selecte_status:number = -1;
+  allCarmanage:boolean;
   getSearchcondition(){
-    console.log(this.privilege)
-    if (this.department_type == '领导' || this.privilege == 1 || this.department_type == '科室') {
-      console.log(this.privilege)
+    console.log(this.privilege);
+    let flag = false;
+        if (this.department_type == '领导' || this.department_type == '科室' || this.apply_group=='抢修调度车间' || this.privilege == 1) {
+            flag = true;
+        }else{
+          flag = false;
+        }
+    this.allCarmanage = flag;
+    if (flag) {
       this.dataService.getSearchcondition().then(res => {
         console.log("车辆搜索条件",res);
         if (res.code == 0) {
@@ -176,7 +186,7 @@ export class CarsManageComponent implements OnInit {
   // 搜索车辆列表
   getCarsList(){
     let group_id;
-    if (this.department_type == '段领导' || this.privilege == 1 || this.department_type == '科室') {
+    if (this.department_type == '段领导' || this.apply_group=='抢修调度车间' || this.privilege == 1 || this.department_type == '科室') {
         group_id = this.select_groupid
     }else{
       group_id = this.group_id
